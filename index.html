@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quechua en 30 días</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbf6ee;--card:#fff;--ink:#1f2421;--mut:#6b6f6a;--line:#eadfcd;--verde:#0f7b4f;--rojo:#c8372d;--oro:#d99a1e;--b:#b4532a;--az:#185FA5}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+header{height:7px;background:linear-gradient(90deg,#d62828 0 14.3%,#f77f00 14.3% 28.6%,#fcbf49 28.6% 42.9%,#fff 42.9% 57.1%,#2a9d43 57.1% 71.4%,#1d6fb8 71.4% 85.7%,#6a3d9a 85.7%)}
+.wrap{max-width:960px;margin:0 auto;padding:20px 16px 60px}
+h1{font-family:Fraunces,serif;font-size:2rem;margin:10px 0 4px}
+h2{font-family:Fraunces,serif;margin:0 0 6px}
+.sub{color:var(--mut);margin:0 0 16px;line-height:1.5}
+.bar{height:10px;background:var(--line);border-radius:6px;overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--verde);transition:.4s}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--card);padding:9px 14px;border-radius:10px;cursor:pointer;font:inherit;font-weight:500;color:var(--ink)}
+.btn:hover{border-color:var(--ink)}
+.btn.p{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn.g{background:var(--verde);color:#fff;border-color:var(--verde)}
+.btn.sm{padding:5px 9px;font-size:.85rem}
+.tab{padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);cursor:pointer;font:inherit}
+.tab.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.lvl{margin:22px 0 8px;display:flex;align-items:center;gap:8px;font-weight:600}
+.dot{width:12px;height:12px;border-radius:50%}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.day{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;cursor:pointer;position:relative;border-top:4px solid var(--c)}
+.day:hover{transform:translateY(-2px);box-shadow:0 4px 14px #0001}
+.day b{font-family:Fraunces,serif;font-size:1.3rem}
+.day small{display:block;color:var(--mut);margin-top:3px}
+.day .ok{position:absolute;top:8px;right:10px;color:var(--verde);font-weight:700}
+.day.locked{opacity:.55;background:#f4f1ea}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin:12px 0}
+.vocab{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.w{display:flex;justify-content:space-between;align-items:center;gap:6px;border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.w .it{font-weight:600}.w .es{color:var(--mut);font-size:.88rem}
+.spk{border:none;background:#f1ece2;border-radius:8px;cursor:pointer;padding:6px 8px;font-size:1rem}
+.spk:hover{background:#e6dfd0}
+.note{background:#fff8e6;border-left:4px solid var(--oro);padding:10px 12px;border-radius:0;font-size:.95rem;line-height:1.55}
+.cult{background:#f3f8f5;border-left:4px solid var(--verde);padding:10px 12px;border-radius:0;line-height:1.55}
+table{width:100%;border-collapse:collapse}
+td{padding:8px;border-bottom:1px solid var(--line)}
+td:first-child{color:var(--mut);width:120px}
+.big{font-family:Fraunces,serif;font-size:2.1rem;text-align:center;margin:14px 0}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--card);cursor:pointer;font:inherit;text-align:left}
+.opt.ok{background:#e3f4ea;border-color:var(--verde)}.opt.bad{background:#fbe5e2;border-color:var(--rojo)}
+input[type=text],input[type=password]{width:100%;padding:12px;font:inherit;font-size:1.1rem;border:1px solid var(--line);border-radius:10px}
+select{padding:9px;border:1px solid var(--line);border-radius:10px;font:inherit;background:#fff}
+.fb{margin-top:10px;font-weight:500;min-height:1.4em}
+.fb.ok{color:var(--verde)}.fb.bad{color:var(--rojo)}
+.mut{color:var(--mut)}
+.score{font-weight:600}
+.pr{font-family:ui-monospace,Menlo,monospace;font-size:.8rem;color:var(--b);font-weight:400}
+.eyebrow{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--b);font-weight:600;margin:16px 0 0}
+.blk{margin-top:30px;scroll-margin-top:60px}
+.sec{font-family:Fraunces,serif;font-weight:600;font-size:1.4rem;margin:0 0 8px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.sec i{color:var(--b)}
+.sec small{font-family:Inter,sans-serif;font-style:normal;font-size:.7rem;text-transform:uppercase;letter-spacing:.09em;color:var(--mut);margin-left:6px}
+.prose{line-height:1.7;max-width:72ch}.prose p{margin:0 0 12px}
+.tblgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:0 14px}
+.cap{text-align:left;padding:10px 12px 4px;font-size:.74rem;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);font-weight:600}
+.th{text-align:left;padding:8px;color:var(--mut);font-size:.8rem;font-weight:600}
+.m0{color:var(--ink);font-weight:600}.m1{color:#b4532a;font-weight:600}.m2{color:#0f7b4f;font-weight:600}.m3{color:#185FA5;font-weight:600}.md{color:#c4b59c;margin:0 1px;font-weight:400}
+.fab{position:fixed;right:16px;bottom:calc(18px + env(safe-area-inset-bottom,0px));width:50px;height:50px;border-radius:50%;border:none;background:var(--ink);color:#fff;font-size:1.3rem;cursor:pointer;z-index:20;box-shadow:0 3px 10px #0003}
+.idx{position:fixed;right:16px;bottom:calc(78px + env(safe-area-inset-bottom,0px));width:210px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:6px;z-index:20;box-shadow:0 6px 20px #0002;display:flex;flex-direction:column}
+.idx[hidden]{display:none}
+.idx button{border:none;background:none;text-align:left;padding:9px 12px;border-radius:9px;font:inherit;font-size:.92rem;cursor:pointer;color:var(--ink)}
+.idx button.on{background:#e3f4ea;color:var(--verde);font-weight:600}
+.idx .up{border-top:1px solid var(--line);border-radius:0;color:var(--mut)}
+.rule{border-radius:10px;padding:10px 12px;margin:8px 0}
+.rule.v{background:#e3f4ea;color:#0f5c3b}.rule.a{background:#fff3d6;color:#7a5200}
+.rule small{display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+.rule div{font-size:1rem;margin-top:3px}
+.lbl{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);font-weight:600;margin:16px 0 6px}
+.sndt{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.sr{display:grid;grid-template-columns:70px 1fr 44px;gap:6px;align-items:center;padding:8px 10px;border-top:1px solid var(--line)}
+.sr.hd{background:#f1ece2;color:var(--mut);font-size:.8rem;border-top:none}
+.clave{border-radius:10px;padding:10px 12px;margin:8px 0}
+.clave small{display:block;font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;font-weight:600}
+.clave div{margin-top:3px;line-height:1.5}.clave .cx{display:flex;align-items:center;gap:8px;font-style:italic;font-size:.92rem}
+.clave.v{background:#e3f4ea;color:#0f5c3b}.clave.b{background:#e6eef9;color:#1d4a80}.clave.a{background:#fff3d6;color:#7a5200}
+.hint{font-size:.85rem;color:var(--mut);margin:2px 0 10px}
+.ej{display:inline-block;border:1px dashed #9a958a;border-radius:6px;padding:1px 9px;color:var(--ink);background:#faf8f3;font-style:normal}
+body.typing .fab,body.typing .idx{display:none!important}
+.ev{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.ev button{padding:11px 6px;border-radius:10px;font:inherit;font-weight:600;cursor:pointer}
+.ev .ok{background:#e3f4ea;color:#0f5c3b;border:1px solid #9fd3b6}.ev .mid{background:#fff3d6;color:#7a5200;border:1px solid #f0cf86}.ev .bad{background:#fbe5e2;color:#9b2a22;border:1px solid #f0b3ac}
+.hard{display:inline-block;background:#fff3d6;color:#7a5200;border-radius:999px;padding:3px 12px;font-size:.8rem;font-weight:600;margin:6px 0 0}
+.micb{width:100%;height:52px;border:none;border-radius:26px;background:var(--b);color:#fff;font:inherit;font-size:1.05rem;font-weight:600;cursor:pointer;transition:background .2s}
+.micb.on{background:#a32d2d;animation:pr 1.2s infinite}
+@keyframes pr{0%{box-shadow:0 0 0 0 rgba(226,75,74,.55)}100%{box-shadow:0 0 0 14px rgba(226,75,74,0)}}
+.wv{display:inline-flex;align-items:center;height:24px;margin-right:6px;vertical-align:middle}.wv i{display:inline-block;width:4px;margin:0 2px;border-radius:2px;background:#fff;animation:wv .9s ease-in-out infinite}
+.wv i:nth-child(2){animation-delay:.15s}.wv i:nth-child(3){animation-delay:.3s}.wv i:nth-child(4){animation-delay:.45s}@keyframes wv{0%,100%{height:6px}50%{height:22px}}
+.er{display:grid;grid-template-columns:28px 1fr 44px;gap:6px;align-items:center;padding:8px 10px;border-top:1px solid var(--line)}.er:first-child{border-top:none}
+.er small.bad{color:var(--rojo)}
+.chat{display:flex;flex-direction:column;gap:8px;margin:6px 0}
+.bb{max-width:82%;padding:8px 12px;border-radius:14px;line-height:1.4}.bb small{display:block;font-size:.72rem;color:var(--mut);font-weight:600}
+.bb.other{align-self:flex-start;background:#f1ece2;border-bottom-left-radius:4px}
+.bb.me{align-self:flex-end;border-bottom-right-radius:4px}.bb.me.ok{background:#e3f4ea;color:#0f5c3b}.bb.me.bad{background:#fbe5e2;color:#9b2a22}
+.bb.turn{margin:6px 0 10px auto;border:1.5px dashed var(--verde);color:#0f5c3b;max-width:90%}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.chip{padding:5px 10px;border-radius:9px;font-weight:600;font-size:.95rem}.chip.ok{background:#e3f4ea;color:#0f5c3b}.chip.bad{background:#fbe5e2;color:#9b2a22}
+.wres{margin-top:10px;text-align:left}.wres small{font-size:.72rem;letter-spacing:.06em;color:var(--mut);font-weight:600}
+.rd{font-size:1.35rem;font-weight:600;color:var(--ink);margin:4px 0}
+.modal{position:fixed;inset:0;background:#0006;display:flex;align-items:center;justify-content:center;z-index:30;padding:16px}
+.modal .card{max-width:400px;text-align:center}
+@media(max-width:560px){.opts{grid-template-columns:1fr}h1{font-size:1.6rem}}
+</style>
+</head>
+<body>
+<header></header>
+<div class="wrap" id="app"></div>
+<script>
+const PR=r=>[r+"ni",r+"nki",r+"n",r+"nchik",r+"yku",r+"nkichik",r+"nku"];
+const PG=r=>PR(r+"chka");
+const PS=r=>[r+"rqani",r+"rqanki",r+"rqa",r+"rqanchik",r+"rqayku",r+"rqankichik",r+"rqanku"];
+const FU=r=>[r+"saq",r+"nki",r+"nqa",r+"sun",r+"saqku",r+"nkichik",r+"nqaku"];
+const B=[
+{t:"Saludos · Allillanchu?",g:"Saludar con respeto, responder cómo estás y despedirte.",
+w:[["allillanchu?","¿estás bien? (así se saluda)"],["allillanmi","estoy bien"],["qamrí?","¿y tú?"],["sulpayki","gracias"],["arí","sí"],["manam","no"],["yaykumuy","pasa, entra"],["tiyaykuy","siéntate, por favor"],["paqarinkama","hasta mañana"],["tupananchikkama","hasta vernos"],["mamay","señora (lit. mi mamá)"],["taytay","señor (lit. mi papá)"]],
+f:[["Allillanchu, mamay?","¿Está bien, señora? (hola)"],["Allillanmi, sulpayki.","Estoy bien, gracias."],["Imaynallam kachkanki, taytay?","¿Cómo está usted, señor?"],["Ñuqapas allillanmi kachkani.","Yo también estoy bien."],["Yaykumuy, tiyaykuy, mamay.","Pase, siéntese, señora."],["Paqarinkama, tupananchikkama, taytay!","¡Hasta mañana, hasta vernos, señor!"]],
+v:["kay","ser / estar","Presente",PR("ka").map((x,i)=>i===4?"kayku":x)],
+c:[["Allillanchu, Rosa?","¡Hola, Rosa! ¿Estás bien?"],["Allillanmi, sulpayki. Qamrí?","Estoy bien, gracias. ¿Y tú?"],["Ñuqapas allillanmi. Yaykumuy, tiyaykuy.","Yo también estoy bien. Pasa, siéntate."],["Sulpayki, mamay.","Gracias, señora."],["Paqarinkama, Rosa!","¡Hasta mañana, Rosa!"],["Tupananchikkama, mamay!","¡Hasta vernos, señora!"]],
+n:"En quechua no hay un «hola» exacto: se saluda preguntando si la persona está bien: <i>Allillanchu?</i> (¿estás bien?).",
+s:{i:"El quechua se lee casi como el castellano, pero tiene solo 3 vocales escritas: a, i, u.",r:[["Solo 3 vocales","a, i, u. Al lado de la q, la i suena «e» y la u suena «o» (lo verás pronto)","v"],["Acento","Casi siempre en la penúltima sílaba: a-lli-LLAN-chu","a"]],f:[["a","allillanchu"],["i","tiyaykuy"],["u","sulpayki"],["ll","allillanmi"],["y","yaykumuy"],["ch","allillanchu"]]},
+gt:"Los saludos y el verbo kay (ser / estar)",gi:"<p><b>Paso 1 · Saludar es preguntar.</b> El saludo andino es una pregunta: <i>Allillanchu?</i> = ¿estás bien? Se responde <i>Allillanmi</i> = estoy bien.</p><p><b>Paso 2 · Devolver la pregunta.</b> <i>Qam·rí?</i> = ¿y tú? El pedacito <b>-rí</b> significa «¿y…?».</p><p><b>Paso 3 · Respeto.</b> A una persona mayor dile <i>mamay</i> (señora) o <i>taytay</i> (señor). Es como decir «mamita, papito» con cariño y respeto.</p><p><b>Paso 4 · Kay = ser y estar.</b> Igual que en inglés, un solo verbo sirve para los dos: <i>ñuqa kani</i> = yo soy / yo estoy.</p>",
+tb:[{c:"Saludos del día",h:["Quechua","Español","Cuándo"],r:[["Allillanchu?","¿Estás bien? / hola","Al encontrarse"],["Allillanmi.","Estoy bien.","Para responder"],["Qam·rí?","¿Y tú?","Para devolver"],["Sulpayki.","Gracias.","Siempre"],["Paqarin·kama.","Hasta mañana.","Al despedirse"]],k:[0]},{c:"Kay · ser / estar",h:["Quechua","Español"],r:[["ñuqa kani","yo soy / estoy"],["qam kanki","tú eres / estás"],["pay kan","él o ella es / está"]],k:[0]}],
+gn:["<b>-pas</b> = también: <i>ñuqa·pas</i> = yo también.","<b>-kama</b> = hasta: <i>paqarin·kama</i> = hasta mañana."],
+oj:"✗ Decir solo «hola» → ✓ <i>Allillanchu?</i>: en los Andes se saluda preguntando por el bienestar.",
+ej:[["Allillanchu, taytay?","¿Está bien, señor?"],["Ñuqapas allillanmi.","Yo también estoy bien."],["Sulpayki, mamay.","Gracias, señora."]],
+p:[["¿Cómo saludas en quechua?","Allillanchu?"],["Responde: estoy bien.","Allillanmi."],["Di: gracias.","Sulpayki."],["Di: ¿y tú?","Qamrí?"],["Di: hasta mañana.","Paqarinkama."]],
+tk:"Saluda en voz alta a 3 personas imaginarias (una señora, un señor y un amigo): pregunta Allillanchu?, responde, agradece y despídete.",
+cu:"En los Andes saludar es muy importante: se saluda a todos en el camino, aunque no los conozcas. Llamar <i>mamay</i> o <i>taytay</i> a una persona mayor es una muestra de respeto."},
+
+{t:"Presentarse · Ima sutiyki?",g:"Decir tu nombre, preguntar el nombre y conocer los sufijos -qa y -mi.",
+w:[["suti","nombre"],["sutiy","mi nombre"],["sutiyki","tu nombre"],["ima","qué"],["ñuqa","yo"],["qam","tú / usted"],["pay","él / ella"],["kani","soy"],["runa","persona"],["warmi","mujer"],["qari","varón"],["kusikuni","me alegro"]],
+f:[["Ima sutiyki?","¿Cómo te llamas?"],["Sutiymi Daniel.","Me llamo Daniel."],["Ñuqaqa Danielmi kani.","Yo soy Daniel."],["Qamqa Juanchu kanki?","¿Tú eres Juan?"],["Manam, ñuqaqa Carlosmi kani.","No, yo soy Carlos."],["Anchata kusikuni, Rosa.","Mucho gusto, Rosa (me alegro mucho)."]],
+v:["riqsiy","conocer","Presente",PR("riqsi")],
+c:[["Allillanchu! Ima sutiyki?","¡Hola! ¿Cómo te llamas?"],["Sutiymi Daniel. Qampa sutiykiri?","Me llamo Daniel. ¿Y tu nombre?"],["Ñuqaqa Rosam kani.","Yo soy Rosa."],["Anchata kusikuni, Rosa.","Mucho gusto, Rosa."],["Ñuqapas anchata kusikuni.","Yo también me alegro mucho."],["Paqarinkama, Rosa!","¡Hasta mañana, Rosa!"]],
+n:"El nombre se dice con <b>-mi</b>: <i>Sutiymi Daniel</i>. El pedacito -mi significa «esto lo afirmo yo».",
+s:{i:"Conoce la ñ y la q.",r:[["Ñ","Igual que en castellano: ñuqa","v"],["Q","Se dice con la garganta, más atrás que la k, y cambia la vocal vecina: ñuqa suena [ñoka]","a"]],f:[["ñ","ñuqa"],["q","ñuqaqa"],["s","suti"],["r","runa"],["w","warmi"],["q","qari"]]},
+gt:"Los sufijos -qa (de quién hablo) y -mi (lo afirmo)",gi:"<p><b>Paso 1 · El quechua es como un lego.</b> A una palabra se le <b>pegan pedacitos al final</b>. Mira: <i>suti</i> = nombre → <i>suti·y</i> = mi nombre → <i>suti·yki</i> = tu nombre.</p><p><b>Paso 2 · -qa</b> marca de quién o de qué estás hablando: <i>ñuqa·qa</i> = en cuanto a mí, yo.</p><p><b>Paso 3 · -mi</b> afirma: lo dices seguro. Se pega a la palabra más importante: <i>Ñuqa·qa Daniel·mi kani</i>. Después de vocal se acorta a <b>-m</b>: <i>Rosa·m</i>.</p><p><b>Paso 4 · El verbo va al final.</b> En quechua se dice «Yo Daniel soy».</p>",
+tb:[{c:"Pronombres",h:["Quechua","Español"],r:[["ñuqa","yo"],["qam","tú / usted"],["pay","él / ella"]],k:[0]},{c:"Pedacitos de hoy",h:["Pedazo","Qué hace","Ejemplo"],r:[["-qa","marca el tema","ñuqa·qa"],["-mi / -m","afirma","Daniel·mi, Rosa·m"],["-y","mi","suti·y"],["-yki","tu","suti·yki"]],k:[2]}],
+gn:["<b>No hay «el / la»:</b> el quechua no tiene artículos ni masculino o femenino. <i>pay</i> = él o ella.","<b>Qam</b> sirve para «tú» y para «usted»."],
+oj:"✗ Ñuqa kani Daniel → ✓ <i>Ñuqaqa Danielmi kani</i>: el verbo va al final.",
+ej:[["Ñuqaqa Danielmi kani.","Yo soy Daniel."],["Payqa Rosam.","Ella es Rosa."],["Sutiymi Carlos.","Me llamo Carlos."]],
+p:[["Pregunta: ¿Cómo te llamas?","Ima sutiyki?"],["Di: Me llamo Daniel.","Sutiymi Daniel."],["Di: Yo soy Daniel.","Ñuqaqa Danielmi kani."],["¿Qué significa pay?","~Él o ella: no hay diferencia."],["¿Por qué se dice Rosam y no Rosami?","~Después de vocal, -mi se acorta a -m."]],
+tk:"Preséntate en voz alta: saluda, di tu nombre con Sutiymi… y con Ñuqaqa …mi kani, y pregunta el nombre a otra persona.",
+cu:"Muchos apellidos peruanos vienen del quechua: Quispe (<i>qispi</i> = libre), Huamán (<i>waman</i> = halcón), Condori (<i>kuntur</i> = cóndor) y Cori (<i>quri</i> = oro)."},
+
+{t:"¿De dónde eres? · -manta",g:"Decir de dónde eres y dónde vives con -manta (de) y -pi (en).",
+w:[["may","dónde"],["maymanta","de dónde"],["llaqta","pueblo, ciudad"],["tiyani","vivo"],["kunan","ahora, hoy"],["urqu","cerro"],["mayu","río"],["qucha","laguna"],["hatun","grande"],["huchuy","pequeño"],["sumaq","bonito, rico"],["ñuqataq","y yo"]],
+f:[["Maymantam kanki?","¿De dónde eres?"],["Ñuqaqa Ayacuchomantam kani.","Yo soy de Ayacucho."],["Kunanqa Limapim tiyani.","Ahora vivo en Lima."],["Maypim tiyanki?","¿Dónde vives?"],["Chimbote hatun llaqtam.","Chimbote es una ciudad grande."],["Llaqtayqa huchuy, ichaqa sumaqmi.","Mi pueblo es pequeño, pero bonito."]],
+v:["tiyay","vivir / sentarse","Presente",PR("tiya")],
+c:[["Maymantam kanki, Daniel?","¿De dónde eres, Daniel?"],["Chimbotemantam kani. Qamrí?","Soy de Chimbote. ¿Y tú?"],["Ñuqaqa Ayacuchomantam kani.","Yo soy de Ayacucho."],["Ayacuchoqa sumaq llaqtam!","¡Ayacucho es una ciudad bonita!"],["Arí. Kunanqa Limapim tiyani.","Sí. Ahora vivo en Lima."],["Ñuqataq Chimbotepim tiyani.","Y yo vivo en Chimbote."]],
+n:"<b>-manta</b> significa «de, desde»: <i>Ayacucho·manta</i> = de Ayacucho. <b>-pi</b> significa «en»: <i>Lima·pi</i> = en Lima.",
+s:{i:"La ll y la q con u.",r:[["LL","Como la ll de la sierra, con la lengua en el paladar: llaqta","v"],["Q + u","qucha suena [kocha]: la u al lado de la q suena «o»","a"]],f:[["ll","llaqta"],["q","qucha"],["q","urqu"],["y","may"],["m","maymanta"],["ch","huchuy"]]},
+gt:"-manta (de) y -pi (en)",gi:"<p><b>Paso 1 · -manta = de, desde.</b> Se pega al final del lugar: <i>Lima·manta</i> = de Lima.</p><p><b>Paso 2 · -pi = en.</b> <i>Lima·pi tiyani</i> = vivo en Lima.</p><p><b>Paso 3 · Se pueden juntar con -mi:</b> <i>Lima·manta·m kani</i> = soy de Lima (lo afirmo).</p><p><b>Paso 4 · Preguntar:</b> <i>may</i> = dónde. <i>May·manta·m kanki?</i> = ¿de dónde eres? · <i>May·pi·m tiyanki?</i> = ¿dónde vives?</p>",
+tb:[{c:"¿De dónde?",h:["Quechua","Español"],r:[["Lima·manta·m kani","soy de Lima"],["Cusco·manta·m kani","soy de Cusco"],["May·manta·m kanki?","¿de dónde eres?"]],k:[0]},{c:"¿Dónde vives?",h:["Quechua","Español"],r:[["Lima·pi·m tiyani","vivo en Lima"],["May·pi·m tiyanki?","¿dónde vives?"]],k:[0]}],
+gn:["<b>-taq</b> = y (en cambio): <i>ñuqa·taq</i> = y yo.","<b>Ichaqa</b> = pero: <i>huchuy, ichaqa sumaq</i>."],
+oj:"✗ Manta Lima kani → ✓ <i>Limamantam kani</i>: -manta va al final de la palabra.",
+ej:[["Payqa Cuscomantam.","Él es de Cusco."],["Mayu hatunmi.","El río es grande."],["Huancayopim tiyani.","Vivo en Huancayo."]],
+p:[["Pregunta: ¿De dónde eres?","Maymantam kanki?"],["Di: Soy de Chimbote.","Chimbotemantam kani."],["¿Qué significa -manta?","~De o desde."],["Di: Vivo en Lima.","Limapim tiyani."],["¿Qué significa qucha?","~Laguna."]],
+tk:"Di de dónde eres, dónde vives ahora y cómo es tu pueblo (hatun o huchuy, sumaq).",
+cu:"Muchos lugares del Perú tienen nombre quechua: Huancayo, Urubamba, Huascarán y Machu Picchu (<i>machu pikchu</i> = cumbre vieja)."},
+
+{t:"Pronombres · los dos «nosotros»",g:"Usar todos los pronombres, el plural -kuna y el verbo kay completo.",
+w:[["ñuqanchik","nosotros (todos, contigo)"],["ñuqayku","nosotros (sin ti)"],["qamkuna","ustedes"],["paykuna","ellos, ellas"],["yachachiq","profesor(a)"],["yachakuq","alumno(a)"],["ayllu","familia, comunidad"],["kusisqa","feliz"],["saykusqa","cansado"],["ancha","muy"],["allin","bueno, bien"],["kachkani","estoy"]],
+f:[["Ñuqaykuqa yachakuqkunam kayku.","Nosotros (sin ti) somos alumnos."],["Qamkunaqa yachachiqkunachu kankichik?","¿Ustedes son profesores?"],["Paykunaqa kusisqam kachkanku.","Ellos están felices."],["Ñuqaqa saykusqam kachkani.","Yo estoy cansado."],["Ñuqanchikqa ayllum kanchik.","Todos somos familia."],["Payqa yachachiqmi.","Él es profesor."]],
+v:["kay","estar (ahora)","Presente progresivo",PG("ka").map((x,i)=>i===4?"kachkayku":x)],
+c:[["Qamkunaqa yachakuqkunachu kankichik?","¿Ustedes son alumnos?"],["Arí, ñuqaykuqa yachakuqkunam kayku.","Sí, nosotros somos alumnos."],["Paykunarí?","¿Y ellos?"],["Paykunaqa yachachiqkunam.","Ellos son profesores."],["Ñuqapas yachachiqmi kani.","Yo también soy profesor."],["Ancha allin! Ñuqanchikqa ayllum kanchik.","¡Muy bien! Todos somos una familia."]],
+n:"El quechua tiene <b>dos «nosotros»</b>: <i>ñuqanchik</i> (incluye a quien te escucha) y <i>ñuqayku</i> (no lo incluye).",
+s:{i:"Terminaciones -chik y -kuna.",r:[["-chik","ñuqanchik: la ch final se pronuncia clara","v"],["-kuna","plural: paykuna [páykuna]","a"]],f:[["ñ","ñuqanchik"],["q","ñuqayku"],["k","qamkuna"],["y","paykuna"],["ch","yachachiq"],["s","kusisqa"]]},
+gt:"Pronombres y el plural -kuna",gi:"<p><b>Paso 1 · Los pronombres.</b> ñuqa (yo), qam (tú), pay (él / ella). Para el plural se agrega <b>-kuna</b>: <i>qam·kuna</i> = ustedes, <i>pay·kuna</i> = ellos.</p><p><b>Paso 2 · Dos «nosotros».</b> Le hablas a un amigo: «nosotros (tú y yo) somos peruanos» → <i>ñuqanchik</i>. Le hablas a un extraño: «nosotros (mi familia y yo) somos de Ayacucho» → <i>ñuqayku</i>.</p><p><b>Paso 3 · -kuna con cualquier palabra:</b> <i>runa·kuna</i> = personas, <i>wasi·kuna</i> = casas.</p><p><b>Paso 4 · Kay completo:</b> kani, kanki, kan, kanchik, kayku, kankichik, kanku.</p>",
+tb:[{c:"Pronombres",h:["Quechua","Español"],r:[["ñuqa","yo"],["qam","tú"],["pay","él / ella"],["ñuqanchik","nosotros (todos)"],["ñuqayku","nosotros (sin ti)"],["qam·kuna","ustedes"],["pay·kuna","ellos / ellas"]],k:[0]},{c:"Kay · ser",h:["Quechua","Español"],r:[["ñuqa kani","yo soy"],["qam kanki","tú eres"],["pay kan","él es"],["ñuqanchik kanchik","somos (todos)"],["ñuqayku kayku","somos (sin ti)"],["qamkuna kankichik","ustedes son"],["paykuna kanku","ellos son"]],k:[0]}],
+gn:["<b>-sqa</b> forma estados: <i>kusi·sqa</i> = feliz, <i>sayku·sqa</i> = cansado.","<b>Kachkani</b> = estoy (ahora mismo): <i>saykusqam kachkani</i>."],
+oj:"✗ Usar ñuqanchik cuando quien escucha no está incluido → ✓ <i>ñuqayku</i>.",
+ej:[["Ñuqaykuqa Chimbotemantam kayku.","Nosotros (sin ti) somos de Chimbote."],["Ñuqanchikqa ayllum kanchik.","Todos somos familia."],["Paykunaqa yachakuqkunam.","Ellos son alumnos."]],
+p:[["Di: ustedes.","qamkuna"],["Di: ellos.","paykuna"],["¿Cuál es la diferencia entre ñuqanchik y ñuqayku?","~Ñuqanchik incluye a quien escucha; ñuqayku no."],["Plural de runa.","runakuna"],["Di: Estoy cansado.","Saykusqam kachkani."]],
+tk:"Di quién eres tú, quién es una persona de tu familia y quiénes son ustedes, usando ñuqa, pay, ñuqayku y paykuna.",
+cu:"<i>Ayllu</i> significa familia y comunidad. En los Andes la familia es grande: incluye abuelos, tíos, padrinos y vecinos."},
+
+{t:"Preguntas de sí o no · -chu",g:"Preguntar con -chu, responder arí / manam y negar con mana … -chu. Repaso de los días 1-4.",
+w:[["yachani","sé"],["mana yachanichu","no sé"],["kaypi","aquí"],["chaypi","ahí"],["chiqap","verdad"],["riqsinki","conoces"],["allinchu?","¿está bien?"],["mana allinchu","no está bien"],["arí","sí"],["manam","no"],["ichaqa","pero"],["anchata","mucho"]],
+f:[["Qamqa Limamantachu kanki?","¿Tú eres de Lima?"],["Arí, Limamantam kani.","Sí, soy de Lima."],["Manam Limamantachu kani.","No soy de Lima."],["Manam yachanichu.","No sé."],["Rosata riqsinkichu?","¿Conoces a Rosa?"],["Payqa kaypichu kachkan?","¿Él está aquí?"]],
+v:["yachay","saber","Presente",PR("yacha")],
+c:[["Qamqa Danielchu kanki?","¿Tú eres Daniel?"],["Arí, Danielmi kani. Qamqa Rosachu kanki?","Sí, soy Daniel. ¿Tú eres Rosa?"],["Manam Rosachu kani. Anam kani.","No soy Rosa. Soy Ana."],["Anchata kusikuni, Ana. Ayacuchomantachu kanki?","Mucho gusto, Ana. ¿Eres de Ayacucho?"],["Arí, Ayacuchomantam kani.","Sí, soy de Ayacucho."],["Ancha allin! Tupananchikkama.","¡Muy bien! Hasta vernos."]],
+n:"Para negar se usa un <b>sándwich</b>: <i>mana</i> al inicio y <i>-chu</i> en la palabra negada: <i>Manam yachani·chu</i> = No sé.",
+s:{i:"El tono de pregunta.",r:[["-chu","Sube el tono al final, como en castellano: Danielchu?","v"],["Manam","La m final suena suave: [mánam]","a"]],f:[["chu","Danielchu"],["m","manam"],["r","arí"],["ch","chiqap"],["q","chiqap"],["y","yachani"]]},
+gt:"-chu: preguntas de sí o no y negación",gi:"<p><b>Paso 1 · Preguntar:</b> pega <b>-chu</b> a la palabra que preguntas: <i>Lima·manta·chu kanki?</i> = ¿eres de Lima?</p><p><b>Paso 2 · Responder:</b> sí = <i>arí</i> + la frase con -mi. No = <i>manam</i>.</p><p><b>Paso 3 · Negar (el sándwich):</b> <i>mana</i> + palabra con <b>-chu</b>: <i>Manam Lima·manta·chu kani</i> = no soy de Lima.</p><p><b>Paso 4 · Repaso:</b> saludo (Allillanchu?), nombre (Sutiymi…), origen (-manta), lugar (-pi) y pronombres.</p>",
+tb:[{c:"Pregunta y respuesta",h:["Pregunta","Sí","No"],r:[["Daniel·chu kanki?","Arí, Daniel·mi kani.","Manam Daniel·chu kani."],["Yacha·nki·chu?","Arí, yacha·ni·m.","Manam yacha·ni·chu."]],k:[0,1,2]},{c:"Repaso",h:["Tema","Ejemplo"],r:[["saludo","Allillanchu?"],["nombre","Suti·y·mi Daniel."],["de dónde","Lima·manta·m kani."],["dónde vives","Lima·pi·m tiyani."]],k:[1]}],
+gn:["<b>El -chu va en la palabra que niegas:</b> <i>Manam Lima·manta·chu kani</i>.","<b>Manam</b> solo = No."],
+oj:"✗ Mana yachani → ✓ <i>Manam yachanichu</i>: no olvides el -chu.",
+ej:[["Manam yachanichu.","No sé."],["Qamqa yachachiqchu kanki?","¿Eres profesor?"],["Arí, yachachiqmi kani.","Sí, soy profesor."]],
+p:[["Pregunta: ¿Eres de Cusco?","Cuscomantachu kanki?"],["Di: No sé.","Manam yachanichu."],["Di: sí.","Arí."],["¿Qué hace el sufijo -chu?","~Convierte la frase en pregunta de sí o no, y acompaña a mana para negar."],["Niega: Limamantam kani.","Manam Limamantachu kani."]],
+tk:"Repaso: preséntate completo (saludo, nombre, de dónde eres, dónde vives) y hazte 4 preguntas con -chu respondiéndolas con arí o manam.",
+cu:"<i>Ama suwa, ama llulla, ama qilla</i> (no robes, no mientas, no seas ocioso) es un principio andino muy conocido."},
+
+{t:"Números del 1 al 10",g:"Contar del 1 al 10, preguntar cuántos y decir «que tiene» con -yuq.",
+w:[["huk","1, uno"],["iskay","2, dos"],["kimsa","3, tres"],["tawa","4, cuatro"],["pichqa","5, cinco"],["suqta","6, seis"],["qanchis","7, siete"],["pusaq","8, ocho"],["isqun","9, nueve"],["chunka","10, diez"],["hayka","cuánto(s)"],["wasi","casa"]],
+f:[["Haykam kankichik?","¿Cuántos son ustedes?"],["Kimsa wasim kan.","Hay tres casas."],["Iskay allqum kan.","Hay dos perros."],["Pichqa runam hamunku.","Vienen cinco personas."],["Huk, iskay, kimsa!","¡Uno, dos, tres!"],["Chunka watayuqmi kani.","Tengo diez años."]],
+v:["hamuy","venir","Presente",PR("hamu")],
+c:[["Haykam kankichik?","¿Cuántos son ustedes?"],["Pichqam kayku.","Somos cinco."],["Hayka wawayuqmi kanki?","¿Cuántos hijos tienes?"],["Iskay wawayuqmi kani.","Tengo dos hijos."],["Ñuqataq kimsa wawayuqmi kani.","Y yo tengo tres hijos."],["Ancha allin! Hatun ayllum.","¡Muy bien! Es una familia grande."]],
+n:"Después de un número la palabra <b>no lleva plural</b>: <i>kimsa wasi</i> (tres casas), no <i>kimsa wasikuna</i>.",
+s:{i:"La q final y la q del 7 y del 8.",r:[["Q final","pusaq: la q final se dice con la garganta [púsak]","v"],["Qanchis","qa- suena [ka] profundo, desde la garganta","a"]],f:[["k","kimsa"],["w","tawa"],["ch","pichqa"],["q","suqta"],["q","qanchis"],["q","pusaq"]]},
+gt:"Números del 1 al 10 y -yuq (que tiene)",gi:"<p><b>Paso 1 · Los números:</b> huk, iskay, kimsa, tawa, pichqa, suqta, qanchis, pusaq, isqun, chunka. Repítelos como una canción.</p><p><b>Paso 2 · Sin plural:</b> el número ya dice que son varios: <i>iskay allqu</i> = dos perros.</p><p><b>Paso 3 · -yuq = que tiene:</b> <i>wawa·yuq</i> = que tiene hijos · <i>wata·yuq</i> = que tiene años.</p><p><b>Paso 4 · Tu edad:</b> <i>Chunka wata·yuq·mi kani</i> = tengo diez años (soy de diez años).</p>",
+tb:[{c:"Números",h:["Número","Quechua"],r:[["1","huk"],["2","iskay"],["3","kimsa"],["4","tawa"],["5","pichqa"],["6","suqta"],["7","qanchis"],["8","pusaq"],["9","isqun"],["10","chunka"]],k:[1]},{c:"-yuq (que tiene)",h:["Quechua","Español"],r:[["wawa·yuq","que tiene hijos"],["wasi·yuq","que tiene casa"],["chunka wata·yuq","de diez años"]],k:[0]}],
+gn:["<b>Hayka</b> = cuánto(s): <i>Hayka·m?</i> = ¿cuántos?","<b>Wasiyuq</b> = dueño de casa: -yuq también forma nombres."],
+oj:"✗ kimsa wasikuna → ✓ <i>kimsa wasi</i>.",
+ej:[["Tawa allqum kan.","Hay cuatro perros."],["Suqta runam.","Son seis personas."],["Isqun watayuqmi.","Tiene nueve años."]],
+p:[["¿Cómo se dice 3?","kimsa"],["¿Cómo se dice 7?","qanchis"],["¿Cómo se dice 10?","chunka"],["Di: hay dos casas.","Iskay wasim kan."],["Pregunta: ¿Cuántos son ustedes?","Haykam kankichik?"]],
+tk:"Cuenta del 1 al 10 en voz alta tres veces. Luego cuenta cosas de tu casa: iskay punku, kimsa tiyana…",
+cu:"Los incas registraban números con los <i>khipu</i> (quipus): cuerdas con nudos. La posición de cada nudo marcaba unidades, decenas y centenas."},
+
+{t:"Números grandes y la edad",g:"Contar hasta 1000, decir tu edad y la de tu familia.",
+w:[["iskay chunka","20"],["kimsa chunka","30"],["pachak","100"],["waranqa","1000"],["wata","año"],["killa","mes, luna"],["qullqi","dinero, plata"],["hukniyuq","y uno (11, 21…)"],["pichqayuq","y cinco (15, 25…)"],["watayuq","de … años"],["wayna","joven (varón)"],["sipas","joven (mujer)"]],
+f:[["Hayka watayuqmi kanki?","¿Cuántos años tienes?"],["Kimsa chunka pichqayuq watayuqmi kani.","Tengo 35 años."],["Mamayqa suqta chunka watayuqmi.","Mi mamá tiene 60 años."],["Pachak runam hamunku.","Vienen cien personas."],["Chunka iskayniyuq killam kan.","Hay doce meses."],["Iskay waranqa iskay chunka suqtayuq wata.","El año 2026."]],
+v:["yupay","contar (números)","Presente",PR("yupa")],
+c:[["Hayka watayuqmi kanki, Daniel?","¿Cuántos años tienes, Daniel?"],["Kimsa chunka pichqayuq watayuqmi kani. Qamrí?","Tengo 35 años. ¿Y tú?"],["Ñuqaqa iskay chunka isqunniyuq watayuqmi kani.","Yo tengo 29 años."],["Taytaykirí?","¿Y tu papá?"],["Taytayqa pichqa chunka pusaqniyuq watayuqmi.","Mi papá tiene 58 años."],["Ancha allin! Wayna taytam.","¡Muy bien! Es un papá joven."]],
+n:"Para 11-19: <i>chunka</i> + número + <b>-yuq</b> o <b>-niyuq</b>. 25 = <i>iskay chunka pichqayuq</i> (dos dieces y cinco).",
+s:{i:"-yuq y -niyuq.",r:[["-niyuq","Después de consonante: huk·niyuq [júkniyok]","v"],["-yuq","Después de vocal: kimsa·yuq [kímsayok]","a"]],f:[["ch","chunka"],["p","pachak"],["w","waranqa"],["q","waranqa"],["y","watayuq"],["ll","qullqi"]]},
+gt:"Números grandes y la edad",gi:"<p><b>Paso 1 · Las decenas:</b> número + chunka: <i>kimsa chunka</i> = 30 (tres dieces).</p><p><b>Paso 2 · Las unidades:</b> se agregan con <b>-yuq</b> si el número termina en vocal (<i>kimsa·yuq</i>) o <b>-niyuq</b> si termina en consonante (<i>huk·niyuq</i>, <i>iskay·niyuq</i>).</p><p><b>Paso 3 · Cientos y miles:</b> <i>pachak</i> = 100, <i>waranqa</i> = 1000.</p><p><b>Paso 4 · La edad:</b> <i>Hayka wata·yuq·mi kanki?</i> → <i>Kimsa chunka wata·yuq·mi kani</i>.</p>",
+tb:[{c:"Números grandes",h:["Número","Quechua"],r:[["11","chunka huk·niyuq"],["12","chunka iskay·niyuq"],["15","chunka pichqa·yuq"],["20","iskay chunka"],["35","kimsa chunka pichqa·yuq"],["100","pachak"],["1000","waranqa"]],k:[1]}],
+gn:["<b>Vocal o consonante:</b> kimsa (vocal) → -yuq; huk (consonante) → -niyuq.","<b>Qullqi</b> = plata, dinero."],
+oj:"✗ chunka huk (para 11) → ✓ <i>chunka hukniyuq</i>: falta -niyuq.",
+ej:[["Iskay chunka runam.","Son veinte personas."],["Pachak solesmi.","Son cien soles."],["Chunka pichqayuq watayuqmi.","Tiene quince años."]],
+p:[["¿Cómo se dice 20?","iskay chunka"],["¿Cómo se dice 100?","pachak"],["¿Cómo se dice 12?","chunka iskayniyuq"],["Pregunta la edad.","Hayka watayuqmi kanki?"],["Di que tienes 30 años.","Kimsa chunka watayuqmi kani."]],
+tk:"Di tu edad y la de 4 personas de tu familia. Luego di el año actual en quechua.",
+cu:"El calendario andino sigue a la luna (<i>killa</i>) y al sol (<i>inti</i>). Por eso <i>killa</i> significa a la vez luna y mes."},
+
+{t:"La familia · mi, tu, su",g:"Hablar de tu familia con los posesivos -y (mi), -yki (tu), -n (su).",
+w:[["ayllu","familia"],["tayta","papá"],["mama","mamá"],["wawa","hijo(a), bebé"],["warmi","esposa, mujer"],["qusa","esposo"],["wawqi","hermano (de un varón)"],["pana","hermana (de un varón)"],["turi","hermano (de una mujer)"],["ñaña","hermana (de una mujer)"],["hatun mama","abuela"],["hatun tayta","abuelo"]],
+f:[["Kaymi aylluy.","Esta es mi familia."],["Taytaypa sutinmi Juan.","Mi papá se llama Juan."],["Iskay wawqiymi kan.","Tengo dos hermanos."],["Warmiyqa Rosam.","Mi esposa es Rosa."],["Mamaykiqa maypim tiyan?","¿Dónde vive tu mamá?"],["Anchatam mamayta kuyani.","Quiero mucho a mi mamá."]],
+v:["kuyay","querer, amar","Presente",PR("kuya")],
+c:[["Hatunchu aylluyki?","¿Tu familia es grande?"],["Arí. Kimsa wawqiymi kan.","Sí. Tengo tres hermanos."],["Wawaykikunarí?","¿Y tus hijos?"],["Iskay wawaymi kan: huk qari, huk warmi.","Tengo dos hijos: un varón y una mujer."],["Taytaykiqa maypim tiyan?","¿Dónde vive tu papá?"],["Ayacuchopim tiyan. Anchatam kuyani.","Vive en Ayacucho. Lo quiero mucho."]],
+n:"Hermano y hermana dependen de <b>quién habla</b>: un varón dice <i>wawqi</i> y <i>pana</i>; una mujer dice <i>turi</i> y <i>ñaña</i>.",
+s:{i:"La w y la ñ.",r:[["W","wawa [uáua]: la w suena como una u rápida","v"],["Ñ","ñaña: dos ñ seguidas","a"]],f:[["w","wawa"],["w","wawqi"],["ñ","ñaña"],["ll","ayllu"],["q","qusa"],["t","turi"]]},
+gt:"Los posesivos: -y (mi), -yki (tu), -n (su)",gi:"<p><b>Paso 1 · El posesivo va al final:</b> <i>tayta·y</i> = mi papá, <i>mama·yki</i> = tu mamá, <i>wasi·n</i> = su casa.</p><p><b>Paso 2 · Todas las personas</b> están en la tabla. Fíjate que se parecen a las terminaciones de los pronombres.</p><p><b>Paso 3 · Después de consonante</b> se agrega <b>-ni-</b>: <i>yachachiq·ni·y</i> = mi profesor.</p><p><b>Paso 4 · «De alguien»:</b> <b>-pa</b> + posesivo: <i>tayta·y·pa suti·n</i> = el nombre de mi papá (de mi papá, su nombre).</p>",
+tb:[{c:"Posesivos (wasi = casa)",h:["Quechua","Español"],r:[["wasi·y","mi casa"],["wasi·yki","tu casa"],["wasi·n","su casa (de él o ella)"],["wasi·nchik","nuestra casa (todos)"],["wasi·yku","nuestra casa (sin ti)"],["wasi·ykichik","su casa (de ustedes)"],["wasi·nku","su casa (de ellos)"]],k:[0]},{c:"Hermanos",h:["Habla un varón","Habla una mujer","Español"],r:[["wawqi","turi","hermano"],["pana","ñaña","hermana"]],k:[0,1]}],
+gn:["<b>-pa</b> = de: <i>Rosa·pa wasi·n</i> = la casa de Rosa.","<b>Kuyay</b> = querer: <i>mama·y·ta kuya·ni</i> = quiero a mi mamá."],
+oj:"✗ Mi tayta → ✓ <i>taytay</i>: el posesivo va pegado al final.",
+ej:[["Mamayqa yachachiqmi.","Mi mamá es profesora."],["Rosapa wasinmi.","Es la casa de Rosa."],["Ñañaykim kani.","Soy tu hermana (habla una mujer)."]],
+p:[["Di: mi papá.","taytay"],["Di: tu mamá.","mamayki"],["Di: su casa (de él).","wasin"],["Un varón, ¿cómo dice «mi hermana»?","panay"],["Di: el nombre de mi papá.","taytaypa sutin"]],
+tk:"Describe tu familia: el nombre de tu papá, de tu mamá, tus hermanos y tus hijos, usando -y (mi) y -pa … -n.",
+cu:"El padrino y la madrina (compadre, comadre) son muy importantes en el ayllu: son la familia que uno elige y ayudan en las fiestas y en el trabajo."},
+
+{t:"Esto y eso · kay, chay, haqay",g:"Señalar cosas cerca y lejos, decir qué hay y qué no hay.",
+w:[["kay","este, esta"],["chay","ese, esa"],["haqay","aquel, aquella"],["kaypi","aquí"],["haqaypi","allá"],["imataq?","¿qué es?"],["punku","puerta"],["tiyana","asiento"],["puñuna","cama"],["mikuna","comida"],["kan","hay"],["manam kanchu","no hay"]],
+f:[["Imataq kayqa?","¿Qué es esto?"],["Kayqa wasiymi.","Esta es mi casa."],["Haqaypim urqu kan.","Allá hay un cerro."],["Kaypichu mikuna kan?","¿Aquí hay comida?"],["Kaypi iskay puñunam kan.","Aquí hay dos camas."],["Chaypiqa manam tiyana kanchu.","Ahí no hay asiento."]],
+v:["rikuy","ver","Presente",PR("riku")],
+c:[["Imataq kayqa?","¿Qué es esto?"],["Kayqa wasiymi. Yaykumuy!","Esta es mi casa. ¡Pasa!"],["Sumaq wasim! Haqaypiqa imataq kan?","¡Qué casa bonita! ¿Qué hay allá?"],["Haqaypiqa mayum kan.","Allá hay un río."],["Rikunim! Hatun mayum.","¡Lo veo! Es un río grande."],["Arí. Chay mayupim challwa kan.","Sí. En ese río hay peces."]],
+n:"<b>kay</b> = este (cerca de mí), <b>chay</b> = ese (cerca de ti), <b>haqay</b> = aquel (lejos). Con -pi: <i>kaypi</i> (aquí), <i>chaypi</i> (ahí), <i>haqaypi</i> (allá).",
+s:{i:"La h suave y la ñ.",r:[["H","haqay [jákay]: la h suena como una j suave","v"],["Kay","kay rima con «hay»","a"]],f:[["h","haqay"],["k","kaypi"],["ch","chaypi"],["ñ","puñuna"],["p","punku"],["t","tiyana"]]},
+gt:"Kay, chay, haqay · kan (hay) · -na",gi:"<p><b>Paso 1 · Cerca o lejos:</b> kay (este), chay (ese), haqay (aquel).</p><p><b>Paso 2 · Preguntar qué es:</b> <i>Ima·taq kay·qa?</i> = ¿qué es esto?</p><p><b>Paso 3 · Hay / no hay:</b> <i>kan</i> = hay; <i>Manam … kan·chu</i> = no hay.</p><p><b>Paso 4 · Truco -na (para hacer algo):</b> verbo sin -y + <b>na</b>: <i>tiya·na</i> (para sentarse = asiento), <i>puñu·na</i> (para dormir = cama), <i>miku·na</i> (para comer = comida).</p>",
+tb:[{c:"Cerca o lejos",h:["Quechua","Español","Lugar"],r:[["kay","este / esta","kay·pi = aquí"],["chay","ese / esa","chay·pi = ahí"],["haqay","aquel / aquella","haqay·pi = allá"]],k:[0]},{c:"-na: para hacer algo",h:["Verbo","+ na","Español"],r:[["tiyay (sentarse)","tiya·na","asiento"],["puñuy (dormir)","puñu·na","cama"],["mikuy (comer)","miku·na","comida"]],k:[1]}],
+gn:["<b>Kay</b> también es el verbo ser o estar; el contexto lo aclara.","<b>-taq</b> en preguntas: <i>Ima·taq?</i> = ¿qué es?"],
+oj:"✗ Kanchu (para decir «no hay») → ✓ <i>Manam kanchu</i>.",
+ej:[["Kaypim tiyani.","Aquí vivo."],["Chay allqu hatunmi.","Ese perro es grande."],["Haqaypim qucha kan.","Allá hay una laguna."]],
+p:[["Pregunta: ¿Qué es esto?","Imataq kayqa?"],["Di: aquí.","kaypi"],["Di: allá.","haqaypi"],["Di: no hay.","Manam kanchu."],["¿Qué significa puñuna?","~Cama: de puñuy (dormir) + -na."]],
+tk:"Recorre tu casa y nombra 6 cosas con kay, chay y haqay. Di qué hay y qué no hay.",
+cu:"En el campo andino la casa tradicional es de adobe con techo de paja (<i>ichu</i>). Afuera suele haber un patio donde se trabaja y se comparte."},
+
+{t:"Repaso: ¿en qué trabajas?",g:"Hablar de tu trabajo y presentarte completo. Repaso de los días 6-9.",
+w:[["llamkay","trabajo, trabajar"],["llamkani","trabajo"],["chakra","chacra"],["qatu","mercado"],["hampiq","médico, curandero"],["rantikuq","vendedor(a)"],["challwakuq","pescador"],["yachachiq","profesor(a)"],["tarpuy","sembrar"],["papa","papa"],["imapim?","¿en qué?"],["wasipi","en casa"]],
+f:[["Imapim llamkanki?","¿En qué trabajas?"],["Ñuqaqa yachachiqmi kani.","Soy profesor."],["Chakrapim llamkani.","Trabajo en la chacra."],["Taytayqa challwakuqmi.","Mi papá es pescador."],["Mamayqa qatupim rantikun.","Mi mamá vende en el mercado."],["Ñuqaqa Chimbotepim llamkani.","Yo trabajo en Chimbote."]],
+v:["llamkay","trabajar","Presente",PR("llamka")],
+c:[["Allillanchu! Imapim llamkanki?","¡Hola! ¿En qué trabajas?"],["Ñuqaqa yachachiqmi kani. Qamrí?","Soy profesor. ¿Y tú?"],["Chakrapim llamkani. Papata tarpuni.","Trabajo en la chacra. Siembro papa."],["Ancha allin! Aylluykirí?","¡Muy bien! ¿Y tu familia?"],["Warmiy, kimsa wawaymi kan.","Tengo esposa y tres hijos."],["Hatun ayllum! Tupananchikkama.","¡Qué familia grande! Hasta vernos."]],
+n:"Muchas profesiones se forman con <b>-q</b> (el que hace): <i>yachachiy</i> (enseñar) → <i>yachachiq</i> (el que enseña = profesor).",
+s:{i:"La q al final de las profesiones.",r:[["-q final","yachachiq, challwakuq: la q final suave, desde la garganta","v"],["Repaso","a, i, u; y la q cambia la i a «e» y la u a «o»","a"]],f:[["q","yachachiq"],["ll","llamkay"],["ch","chakra"],["q","qatu"],["k","rantikuq"],["w","challwakuq"]]},
+gt:"-q: el que hace · repaso",gi:"<p><b>Paso 1 · -q = el que hace.</b> Quita la -y del verbo y pon <b>-q</b>: <i>yachachi·q</i> = el que enseña.</p><p><b>Paso 2 · Ejemplos:</b> <i>hampi·q</i> (el que cura), <i>rantiku·q</i> (el que vende), <i>challwaku·q</i> (el que pesca).</p><p><b>Paso 3 · Preguntar el trabajo:</b> <i>Ima·pi·m llamka·nki?</i> = ¿en qué trabajas?</p><p><b>Paso 4 · Repaso:</b> números, edad (-yuq), familia (-y, -yki, -n), kay / chay / haqay y kan.</p>",
+tb:[{c:"-q: el que hace",h:["Verbo","Persona","Español"],r:[["yachachiy","yachachi·q","profesor"],["hampiy","hampi·q","médico, curandero"],["rantikuy","rantiku·q","vendedor"],["challwakuy","challwaku·q","pescador"]],k:[1]},{c:"Repaso del bloque",h:["Tema","Ejemplo"],r:[["números","kimsa chunka"],["edad","Hayka wata·yuq·mi kanki?"],["familia","tayta·y, mama·yki"],["hay","Iskay wasi·m kan."]],k:[1]}],
+gn:["<b>Tarpuy</b> = sembrar: <i>papa·ta tarpu·ni</i> = siembro papa.","<b>-ta</b> marca lo que recibe la acción (lo verás en el Día 13)."],
+oj:"✗ Ñuqa yachachiq → ✓ <i>Ñuqaqa yachachiqmi kani</i>: usa -qa, -mi y kani.",
+ej:[["Payqa hampiqmi.","Él es médico."],["Qatupim rantikuni.","Vendo en el mercado."],["Rosaqa yachakuqmi.","Rosa es alumna."]],
+p:[["Pregunta: ¿En qué trabajas?","Imapim llamkanki?"],["Di: Soy profesor.","Ñuqaqa yachachiqmi kani."],["¿Qué significa yachachiq?","~Profesor: el que enseña."],["Di: Trabajo en la chacra.","Chakrapim llamkani."],["Di: Mi papá es pescador.","Taytayqa challwakuqmi."]],
+tk:"Repaso: preséntate en 1 minuto: saludo, nombre, edad, de dónde eres, tu familia y tu trabajo.",
+cu:"La <i>minka</i> es el trabajo comunal: toda la comunidad trabaja junta en una obra (un canal, un camino) y al final se comparte la comida."},
+{t:"¿A dónde vas? · -pi, -man, -manta",g:"Decir dónde estás, a dónde vas y de dónde vienes.",
+w:[["riy","ir"],["hamuy","venir"],["mayman?","¿a dónde?"],["maypi?","¿dónde?"],["qatu","mercado"],["yachaywasi","escuela, colegio"],["hampina wasi","posta, hospital"],["chakra","chacra"],["ñan","camino"],["pampa","llanura, plaza"],["wasiyman","a mi casa"],["kutimuy","volver"]],
+f:[["Mayman rinki, Rosa?","¿A dónde vas, Rosa?"],["Qatuman rini.","Voy al mercado."],["Wasiymanta hamuni.","Vengo de mi casa."],["Yachaywasipim kachkani.","Estoy en el colegio."],["Paqarin chakraman rinchik.","Mañana vamos a la chacra."],["Hampina wasiman riy!","¡Ve a la posta!"]],
+v:["riy","ir","Presente",PR("ri")],
+c:[["Mayman rinki, Daniel?","¿A dónde vas, Daniel?"],["Qatuman rini. Qamrí?","Voy al mercado. ¿Y tú?"],["Ñuqaqa yachaywasimanta hamuni.","Yo vengo del colegio."],["Yachaywasipichu llamkanki?","¿Trabajas en el colegio?"],["Arí, yachachiqmi kani.","Sí, soy profesor."],["Ancha allin! Tupananchikkama.","¡Muy bien! Hasta vernos."]],
+n:"Tres pedacitos de lugar: <b>-pi</b> (en), <b>-man</b> (a, hacia) y <b>-manta</b> (de, desde). Se pegan al final del lugar.",
+s:{i:"La r suave y la ñ.",r:[["R","riy: la r suave de «pero», nunca fuerte","v"],["Ñan","ñan = camino, empieza con ñ","a"]],f:[["r","rini"],["m","qatuman"],["p","wasipi"],["ñ","ñan"],["h","hamuni"],["ch","yachaywasi"]]},
+gt:"Los sufijos de lugar -pi, -man, -manta",gi:"<p><b>Paso 1 · -pi = en:</b> <i>wasi·pi</i> = en la casa.</p><p><b>Paso 2 · -man = a, hacia:</b> <i>wasi·man</i> = a la casa. <i>Qatu·man ri·ni</i> = voy al mercado.</p><p><b>Paso 3 · -manta = de, desde:</b> <i>wasi·manta</i> = desde la casa.</p><p><b>Paso 4 · Con «mi»:</b> el orden es palabra + posesivo + lugar: <i>wasi·y·pi</i> = en mi casa, <i>wasi·yki·man</i> = a tu casa.</p>",
+tb:[{c:"Lugar (wasi = casa)",h:["Quechua","Español"],r:[["wasi·pi","en la casa"],["wasi·man","a la casa"],["wasi·manta","de la casa"],["wasi·y·pi","en mi casa"],["wasi·yki·man","a tu casa"]],k:[0]},{c:"Preguntas",h:["Quechua","Español"],r:[["May·pi?","¿dónde?"],["May·man?","¿a dónde?"],["May·manta?","¿de dónde?"]],k:[0]}],
+gn:["<b>Yachaywasi</b> = casa del saber: escuela.","<b>Kutimuy</b> = volver (hacia aquí)."],
+oj:"✗ Man qatu rini → ✓ <i>Qatuman rini</i>: -man va al final.",
+ej:[["Limaman rini.","Voy a Lima."],["Chakramanta hamunku.","Vienen de la chacra."],["Wasiykipim kachkani.","Estoy en tu casa."]],
+p:[["Pregunta: ¿A dónde vas?","Mayman rinki?"],["Di: Voy al mercado.","Qatuman rini."],["Di: en mi casa.","wasiypi"],["¿Qué significa -manta?","~De o desde."],["Di: Vengo de Lima.","Limamanta hamuni."]],
+tk:"Di 5 lugares a los que vas en la semana con -man y de dónde vienes con -manta.",
+cu:"El <i>Qhapaq Ñan</i> (camino principal) era la red de caminos incas: unía Cusco con lo que hoy es Ecuador, Bolivia, Chile y Argentina."},
+
+{t:"Los verbos en presente",g:"Conjugar cualquier verbo en presente para las 7 personas.",
+w:[["rimay","hablar"],["mikuy","comer"],["upyay","beber, tomar"],["puñuy","dormir"],["puriy","caminar"],["qillqay","escribir"],["ñawinchay","leer"],["uyariy","escuchar"],["tusuy","bailar"],["takiy","cantar"],["pukllay","jugar"],["runa simi","idioma quechua"]],
+f:[["Runa simita rimani.","Hablo quechua."],["Imatam mikunki?","¿Qué comes?"],["Payqa yakuta upyan.","Él toma agua."],["Ñuqaykuqa sapa punchaw puriyku.","Nosotros caminamos cada día."],["Paykunaqa sumaqta takinku.","Ellos cantan bonito."],["Qamkunaqa allintam qillqankichik.","Ustedes escriben bien."]],
+v:["rimay","hablar","Presente",PR("rima")],
+c:[["Runa simita rimankichu?","¿Hablas quechua?"],["Arí, pisillatam rimani.","Sí, hablo un poquito."],["Ancha allin! Imatam ruranki?","¡Muy bien! ¿Qué haces?"],["Ñawinchani, qillqani, uyarini.","Leo, escribo, escucho."],["Ñuqapas yachakuchkanim.","Yo también estoy aprendiendo."],["Kuska rimasun!","¡Hablemos juntos!"]],
+n:"El verbo quechua es como un tren: la <b>raíz</b> (rima-) + el <b>vagón de la persona</b>: -ni (yo), -nki (tú), -n (él o ella).",
+s:{i:"La y final de los verbos.",r:[["-y final","rimay, mikuy: la y final suena como una «i» corta","v"],["Ñ","ñawinchay [ñáuinchay]","a"]],f:[["r","rimay"],["k","mikuy"],["p","upyay"],["ñ","puñuy"],["q","qillqay"],["ñ","ñawinchay"]]},
+gt:"El presente: -ni, -nki, -n…",gi:"<p><b>Paso 1 · El verbo «en diccionario» termina en -y:</b> <i>rima·y</i> = hablar, <i>miku·y</i> = comer.</p><p><b>Paso 2 · Quita la -y y pega la persona:</b> <i>rima·ni</i> = hablo, <i>rima·nki</i> = hablas, <i>rima·n</i> = habla.</p><p><b>Paso 3 · Las 7 personas</b> están en la tabla. ¡Sirven para TODOS los verbos!</p><p><b>Paso 4 · Un solo presente:</b> <i>rimani</i> puede ser «hablo» o «estoy hablando», según el contexto.</p>",
+tb:[{c:"Rimay (hablar)",h:["Quechua","Español"],r:[["ñuqa rima·ni","yo hablo"],["qam rima·nki","tú hablas"],["pay rima·n","él / ella habla"],["ñuqanchik rima·nchik","hablamos (todos)"],["ñuqayku rima·yku","hablamos (sin ti)"],["qamkuna rima·nkichik","ustedes hablan"],["paykuna rima·nku","ellos hablan"]],k:[0]}],
+gn:["<b>Runa simi</b> = el idioma de la gente: así se llama el quechua en quechua.","<b>Sin pronombre:</b> como en castellano, basta <i>rimani</i> (hablo)."],
+oj:"✗ Ñuqa rimay → ✓ <i>Ñuqa rimani</i>: cambia la -y por la terminación de la persona.",
+ej:[["Mikuni.","Como."],["Paykuna puñunku.","Ellos duermen."],["Qam takinki.","Tú cantas."]],
+p:[["Conjuga rimay para «yo».","rimani"],["Conjuga mikuy para «tú».","mikunki"],["Conjuga upyay para «él».","upyan"],["Conjuga takiy para «ellos».","takinku"],["¿Cómo se llama el quechua en quechua?","~Runa simi: el idioma de la gente."]],
+tk:"Di 7 frases, una por persona, con verbos distintos: ñuqa rimani, qam mikunki, pay puñun…",
+cu:"<i>Runa simi</i> fue la lengua general del Tawantinsuyu, el imperio de los incas, y se habla hoy en Perú, Bolivia, Ecuador, Argentina, Colombia y Chile."},
+
+{t:"Qué y con quién · -ta y -wan",g:"Decir qué cosa comes o compras (-ta) y con quién (-wan).",
+w:[["yaku","agua"],["tanta","pan"],["aycha","carne"],["papa","papa"],["sara","maíz"],["rantiy","comprar"],["apay","llevar"],["masi","compañero(a)"],["kuska","juntos"],["piwan?","¿con quién?"],["mamaywan","con mi mamá"],["sapa punchaw","cada día"]],
+f:[["Tantata mikuni.","Como pan."],["Yakuta upyani.","Tomo agua."],["Mamaywan qatuman rini.","Voy al mercado con mi mamá."],["Rosaqa papata rantin.","Rosa compra papa."],["Masiywan llamkani.","Trabajo con mi compañero."],["Aychata wasiman apani.","Llevo carne a la casa."]],
+v:["rantiy","comprar","Presente",PR("ranti")],
+c:[["Imatam rantinki?","¿Qué compras?"],["Papata, sarata, aychata rantini.","Compro papa, maíz y carne."],["Piwan qatuman rinki?","¿Con quién vas al mercado?"],["Mamaywan rini.","Voy con mi mamá."],["Ñuqapas tantata rantisaq.","Yo también compraré pan."],["Kuska risun!","¡Vamos juntos!"]],
+n:"<b>-ta</b> marca qué cosa recibe la acción: <i>tanta·ta mikuni</i> = como pan. <b>-wan</b> = con: <i>mama·y·wan</i> = con mi mamá.",
+s:{i:"Muchas ta seguidas.",r:[["-ta","tantata: tres sílabas «ta», dilas claras y parejas","v"],["Aycha","[áycha]: la y une la a con la ch","a"]],f:[["t","tantata"],["w","mamaywan"],["y","yaku"],["ch","aycha"],["s","sara"],["k","kuska"]]},
+gt:"-ta (qué cosa) y -wan (con)",gi:"<p><b>Paso 1 · El orden:</b> quién + qué cosa + verbo: <i>Ñuqa tanta·ta miku·ni</i> (yo pan como).</p><p><b>Paso 2 · -ta</b> se pega a la cosa: <i>yaku·ta</i>, <i>papa·ta</i>. Es como una etiqueta que dice «esto es lo que como, compro, llevo».</p><p><b>Paso 3 · -wan = con:</b> <i>masi·y·wan</i> = con mi compañero.</p><p><b>Paso 4 · Preguntar:</b> <i>Ima·ta·m?</i> = ¿qué cosa? · <i>Pi·wan?</i> = ¿con quién?</p>",
+tb:[{c:"Frase completa",h:["Quién","Qué (-ta)","Verbo"],r:[["ñuqa","tanta·ta","miku·ni"],["pay","yaku·ta","upya·n"],["paykuna","sara·ta","ranti·nku"]],k:[0,1,2]},{c:"-wan (con)",h:["Quechua","Español"],r:[["mama·y·wan","con mi mamá"],["masi·y·wan","con mi compañero"],["Pi·wan?","¿con quién?"]],k:[0]}],
+gn:["<b>Kuska</b> = juntos: <i>kuska ri·sun</i> = vamos juntos.","<b>Apay</b> = llevar; <b>apamuy</b> = traer (hacia aquí)."],
+oj:"✗ Mikuni tanta → ✓ <i>Tantata mikuni</i>: la cosa lleva -ta y va antes del verbo.",
+ej:[["Yakuta apani.","Llevo agua."],["Taytaywan llamkani.","Trabajo con mi papá."],["Aychata mikunku.","Comen carne."]],
+p:[["Di: Como pan.","Tantata mikuni."],["Di: con mi mamá.","mamaywan"],["Pregunta: ¿Con quién?","Piwan?"],["¿Qué marca -ta?","~La cosa que recibe la acción."],["Di: Tomo agua.","Yakuta upyani."]],
+tk:"Di 6 cosas que comes, tomas o compras con -ta, y con quién lo haces con -wan.",
+cu:"Compartir la comida es sagrado en los Andes. En la <i>pachamanca</i> (olla de tierra) se cocinan papas, carne y habas bajo tierra con piedras calientes."},
+
+{t:"Preguntas · ima, pi, may, hayka",g:"Hacer todo tipo de preguntas: qué, quién, dónde, cuánto, cómo y por qué.",
+w:[["ima","qué"],["pi","quién"],["may","dónde"],["hayka","cuánto"],["imayna","cómo"],["imarayku","por qué"],["haykapi","cuándo"],["mayqin","cuál"],["ruray","hacer"],["chay qari","ese varón"],["chay warmi","esa mujer"],["hampiq","médico"]],
+f:[["Pitaq chay warmiqa?","¿Quién es esa mujer?"],["Imatataq ruranki?","¿Qué haces?"],["Maypitaq qam tiyanki?","¿Dónde vives tú?"],["Haykataq kay tantaqa?","¿Cuánto cuesta este pan?"],["Imaynataq kachkanki?","¿Cómo estás?"],["Imaraykutaq mana hamunkichu?","¿Por qué no vienes?"]],
+v:["ruray","hacer","Presente",PR("rura")],
+c:[["Pitaq chay qariqa?","¿Quién es ese varón?"],["Payqa wawqiymi. Sutinmi Juan.","Es mi hermano. Se llama Juan."],["Maypitaq tiyan?","¿Dónde vive?"],["Huamangapim tiyan.","Vive en Huamanga."],["Imatataq ruran?","¿Qué hace?"],["Hampiqmi. Hampina wasipim llamkan.","Es médico. Trabaja en el hospital."]],
+n:"Las palabras de pregunta van <b>al inicio</b> y suelen llevar <b>-taq</b>: <i>Pi·taq?</i> (¿quién?), <i>Ima·ta·taq?</i> (¿qué cosa?).",
+s:{i:"El -taq de las preguntas.",r:[["-taq","Da tono de pregunta: [tak], con k desde la garganta","v"],["Imarayku","i-ma-RAY-ku: la fuerza va en «ray»","a"]],f:[["p","pitaq"],["m","maypitaq"],["h","haykataq"],["y","imaynataq"],["r","imarayku"],["q","mayqin"]]},
+gt:"Las palabras para preguntar",gi:"<p><b>Paso 1 · Las palabras:</b> ima (qué), pi (quién), may (dónde), hayka (cuánto), imayna (cómo), imarayku (por qué), haykapi (cuándo), mayqin (cuál).</p><p><b>Paso 2 · -taq:</b> se pega a la palabra de pregunta: <i>May·pi·taq?</i></p><p><b>Paso 3 · Se combinan con lo que ya sabes:</b> <i>may·pi</i> (dónde), <i>may·man</i> (a dónde), <i>pi·wan</i> (con quién), <i>ima·ta</i> (qué cosa).</p><p><b>Paso 4 · Responde con -mi:</b> <i>Pi·taq pay? — Wawqi·y·mi.</i></p>",
+tb:[{c:"Preguntas",h:["Quechua","Español","Ejemplo"],r:[["ima","qué","Ima·taq kay?"],["pi","quién","Pi·taq pay?"],["may·pi","dónde","May·pi·taq tiyanki?"],["hayka","cuánto","Hayka·taq?"],["imayna","cómo","Imayna·taq kachkanki?"],["ima·rayku","por qué","Ima·rayku·taq?"],["mayqin","cuál","Mayqin·taq?"]],k:[0,2]}],
+gn:["<b>Ima·ta:</b> cuando «qué» es la cosa: <i>Ima·ta·taq miku·nki?</i> = ¿qué comes?","<b>Huamanga</b> es el nombre antiguo de la ciudad de Ayacucho."],
+oj:"✗ Tiyanki maypi? → ✓ <i>Maypitaq tiyanki?</i>: la pregunta va al inicio.",
+ej:[["Pitaq yachachiqniyki?","¿Quién es tu profesor?"],["Haykataq papa?","¿Cuánto cuesta la papa?"],["Mayqintaq wasiyki?","¿Cuál es tu casa?"]],
+p:[["Pregunta: ¿Quién es él?","Pitaq payqa?"],["Pregunta: ¿Dónde vives?","Maypitaq tiyanki?"],["Pregunta: ¿Cuánto cuesta?","Haykataq?"],["Pregunta: ¿Qué haces?","Imatataq ruranki?"],["¿Qué significa imarayku?","~¿Por qué?"]],
+tk:"Hazle 8 preguntas a un amigo imaginario con ima, pi, maypi, hayka, imayna e imarayku, y respóndelas.",
+cu:"Al preguntar con cariño se usa -lla: <i>Imaynallataq kachkanki?</i> = ¿cómo estás, pues? El -lla da ternura."},
+
+{t:"Repaso · cariño con -cha y -lla",g:"Usar -cha (diminutivo) y -lla (cariño, nomás). Repaso de los días 11-14.",
+w:[["wasicha","casita"],["wawacha","bebito"],["urpi","paloma"],["urpichay","palomita mía (cariño)"],["allinlla","bien nomás"],["papalla","solo papa"],["punchaw","día"],["kunan punchaw","hoy"],["sapa","cada"],["kusikuy","alegrarse"],["wawallay","hijito mío"],["sumaqlla","bonito nomás"]],
+f:[["Allinllam kachkani.","Estoy bien nomás."],["Huk tantallata quway.","Dame un pancito nomás."],["Wasichaypim tiyani.","Vivo en mi casita."],["Urpichay, maymantaq hamunki?","Palomita, ¿de dónde vienes?"],["Kunan punchawqa sumaqmi.","Hoy está bonito."],["Sapa punchaw qatuman rini.","Cada día voy al mercado."]],
+v:["kusikuy","alegrarse","Presente",PR("kusiku")],
+c:[["Imaynallataq kachkanki, mamay?","¿Cómo está usted, señora?"],["Allinllam, wawallay. Qamrí?","Bien nomás, hijito. ¿Y tú?"],["Ñuqapas allinllam. Mayman rinki?","Yo también bien nomás. ¿A dónde va?"],["Qatuman rini. Papallatam rantini.","Voy al mercado. Solo compro papa."],["Kuska risun, mamay.","Vamos juntos, señora."],["Arí, kusikunim!","¡Sí, me alegro!"]],
+n:"<b>-lla</b> da cariño o significa «nomás»: <i>allin·lla</i> = bien nomás. <b>-cha</b> achica: <i>wasi·cha</i> = casita. ¡En el castellano andino usamos mucho estos dos!",
+s:{i:"El acento cambia de lugar.",r:[["-cha","wasi → wasicha: la fuerza siempre en la penúltima: wa-SI-cha","v"],["-lla","allinlla [allínlla]","a"]],f:[["ll","allinlla"],["ch","wasicha"],["rp","urpi"],["s","sumaq"],["k","kusikuy"],["p","punchaw"]]},
+gt:"Cariño y tamaño · repaso",gi:"<p><b>Paso 1 · -cha</b> hace las cosas pequeñas o queridas: <i>wasi·cha</i> (casita), <i>wawa·cha</i> (bebito).</p><p><b>Paso 2 · -lla</b> da cariño o significa «solo, nomás»: <i>allin·lla</i> (bien nomás), <i>papa·lla·ta</i> (solo papa).</p><p><b>Paso 3 · El acento sigue la regla:</b> siempre en la penúltima sílaba, aunque crezca la palabra.</p><p><b>Paso 4 · Repaso:</b> lugar (-pi, -man, -manta), presente (-ni, -nki, -n), cosa (-ta), con (-wan) y preguntas.</p>",
+tb:[{c:"Cariño y tamaño",h:["Quechua","Español"],r:[["wasi·cha","casita"],["wawa·cha","bebito"],["allin·lla","bien nomás"],["urpi·cha·y","palomita mía"],["papa·lla·ta","solo papa"]],k:[0]},{c:"Repaso del bloque",h:["Tema","Ejemplo"],r:[["lugar","qatu·man ri·ni"],["presente","rima·ni, rima·nki"],["cosa / con","tanta·ta, mama·y·wan"],["preguntas","May·pi·taq?"]],k:[1]}],
+gn:["<b>Urpichay</b> (mi palomita) es un cariño muy usado en canciones y para agradecer.","<b>Sapa</b> = cada: <i>sapa punchaw</i> = cada día."],
+oj:"✗ Usar -cha en situaciones muy formales → úsalo con familia, amigos y personas queridas.",
+ej:[["Wawachayqa puñuchkan.","Mi bebito está durmiendo."],["Allinllam, sulpayki.","Bien nomás, gracias."],["Sapa punchaw llamkani.","Trabajo cada día."]],
+p:[["Di: casita.","wasicha"],["Di: bien nomás.","allinlla"],["¿Qué significa urpichay?","~Mi palomita: una forma de cariño."],["Di: cada día.","sapa punchaw"],["Di: Voy al mercado.","Qatuman rini."]],
+tk:"Repaso: cuenta en 1 minuto qué haces en un día normal: a dónde vas, con quién, qué comes y qué compras.",
+cu:"Muchas palabras quechuas viven en el castellano peruano: cancha, choclo (<i>chuqllu</i>), cuy (<i>quwi</i>), puna, pampa, chacra, llama y huayno."},
+
+{t:"La comida · mikuna",g:"Nombrar comidas, ofrecer y pedir comida con amabilidad.",
+w:[["mikuna","comida"],["chuqllu","choclo"],["challwa","pescado"],["runtu","huevo"],["kachi","sal"],["uchu","ají"],["lichi","leche"],["quwi","cuy"],["kinwa","quinua"],["sumaq","rico, delicioso"],["yanuy","cocinar"],["mikuykuy","coma, por favor"]],
+f:[["Papata uchuwan mikuni.","Como papa con ají."],["Kay mikunaqa ancha sumaqmi.","Esta comida es muy rica."],["Kachita quykuway.","Deme la sal, por favor."],["Challwatachu munanki?","¿Quieres pescado?"],["Sapa paqarin lichita upyani.","Cada mañana tomo leche."],["Mamay kinwata yanun.","Mi mamá cocina quinua."]],
+v:["mikuy","comer","Presente",PR("miku")],
+c:[["Imatataq mikunki?","¿Qué comes?"],["Papata uchuwan mikuni. Qamrí?","Como papa con ají. ¿Y tú?"],["Ñuqaqa quwita mikuni.","Yo como cuy."],["Sumaqchu?","¿Es rico?"],["Arí, ancha sumaqmi! Mikuykuy.","¡Sí, muy rico! Come, por favor."],["Sulpayki, mamay. Ancha sumaqmi.","Gracias, señora. Está muy rico."]],
+n:"<b>Sumaq</b> = rico, lindo, delicioso. <i>Ancha sumaq</i> = muy rico.",
+s:{i:"De aquí vienen palabras del castellano.",r:[["Chuqllu","[chókllu]: la u al lado de la q suena «o». De aquí viene «choclo»","v"],["Quwi","[kóui]: de aquí viene «cuy»","a"]],f:[["ch","chuqllu"],["q","quwi"],["k","kachi"],["ch","uchu"],["ll","challwa"],["k","kinwa"]]},
+gt:"Pedir y ofrecer comida",gi:"<p><b>Paso 1 · Ordenar (imperativo):</b> el verbo con -y: <i>miku·y!</i> = ¡come!</p><p><b>Paso 2 · Con amabilidad:</b> agrega <b>-yku-</b>: <i>miku·yku·y</i> = come, por favor.</p><p><b>Paso 3 · «A mí»:</b> <b>-wa-</b>: <i>qu·wa·y</i> = dame; <i>qu·yku·wa·y</i> = deme, por favor.</p><p><b>Paso 4 · Querer:</b> <i>aycha·ta muna·ni</i> = quiero carne.</p>",
+tb:[{c:"Pedidos en la mesa",h:["Quechua","Español"],r:[["Miku·y!","¡Come!"],["Miku·yku·y.","Come, por favor."],["Upya·yku·y.","Toma, por favor."],["Qu·yku·wa·y.","Deme, por favor."]],k:[0]},{c:"Comida",h:["Quechua","Español"],r:[["papa","papa"],["sara","maíz"],["chuqllu","choclo"],["challwa","pescado"],["runtu","huevo"],["uchu","ají"]],k:[0]}],
+gn:["<b>Quy</b> = dar: <i>qu·wa·y</i> = dame.","<b>Yanuy</b> = cocinar (en Ayacucho)."],
+oj:"✗ Quy kachi → ✓ <i>Kachita quykuway</i>: la cosa con -ta y el pedido amable.",
+ej:[["Runtuta mikuni.","Como huevo."],["Kinwata yanuni.","Cocino quinua."],["Mikuykuy, taytay.","Coma, por favor, señor."]],
+p:[["Di: Como papa.","Papata mikuni."],["Di: Deme la sal, por favor.","Kachita quykuway."],["¿Qué significa sumaq?","~Rico, lindo, delicioso."],["Di: pescado.","challwa"],["Ofrece comida con amabilidad.","Mikuykuy."]],
+tk:"Di qué comes en el desayuno, el almuerzo y la cena. Luego ofrece comida a un invitado con amabilidad.",
+cu:"El Perú tiene miles de variedades de papa, muchas domesticadas por los pueblos andinos hace miles de años. Por eso la papa tiene tantos nombres en quechua."},
+
+{t:"En el mercado · comprar y vender",g:"Preguntar precios, regatear y pagar en el mercado.",
+w:[["qatu","mercado"],["rantikuy","vender"],["qullqi","dinero"],["hayka?","¿cuánto?"],["achka","mucho"],["pisi","poco"],["kuskan","mitad, medio"],["kilo","kilo"],["sol","sol (moneda)"],["pisiyachiy","rebajar"],["chaskiy","recibir"],["kaypim","aquí está"]],
+f:[["Haykataq kay papa?","¿Cuánto cuesta esta papa?"],["Huk kilo iskay solesmi.","Un kilo cuesta dos soles."],["Ancha achkam!","¡Es mucho!"],["Pisiyachiykuway, mamay.","Rebájeme, por favor, señora."],["Iskay kilota quykuway.","Deme dos kilos, por favor."],["Kaypim qullqiyki.","Aquí está su dinero."]],
+v:["rantikuy","vender","Presente",PR("rantiku")],
+c:[["Allillanchu, mamay! Haykataq kay papa?","¡Hola, señora! ¿Cuánto cuesta esta papa?"],["Huk kilo iskay solesmi.","El kilo cuesta dos soles."],["Ancha achkam! Pisiyachiykuway.","¡Es mucho! Rebájeme, por favor."],["Allinmi, huk sol kuskanmi.","Está bien, un sol y medio."],["Iskay kilota quykuway.","Deme dos kilos, por favor."],["Kaypim. Sulpayki, wawallay.","Aquí tiene. Gracias, hijito."]],
+n:"Regatear es normal en el mercado: <i>Pisiyachiykuway</i> = rebájeme, por favor.",
+s:{i:"Palabras del mercado.",r:[["Rantikuy","ran-TI-kuy: fuerza en la penúltima","v"],["Qullqi","[kóllke]: la q cambia la u a «o» y la i a «e»","a"]],f:[["r","rantikuy"],["q","qullqi"],["ch","achka"],["s","pisi"],["h","hayka"],["q","qatu"]]},
+gt:"Comprar y vender · -ku- y -chi-",gi:"<p><b>Paso 1 · Un pedacito cambia el sentido:</b> <i>ranti·y</i> = comprar → <i>ranti·ku·y</i> = vender.</p><p><b>Paso 2 · El precio:</b> <i>Hayka·taq?</i> = ¿cuánto cuesta? → <i>Iskay soles·mi</i> = son dos soles.</p><p><b>Paso 3 · Pedir cantidad:</b> <i>Huk kilo·ta qu·yku·wa·y</i> = deme un kilo, por favor.</p><p><b>Paso 4 · -chi- = hacer que:</b> <i>pisi</i> (poco) → <i>pisi·ya·chi·y</i> (hacer que sea poco = rebajar).</p>",
+tb:[{c:"En el mercado",h:["Quechua","Español"],r:[["Hayka·taq?","¿Cuánto cuesta?"],["Iskay soles·mi.","Son dos soles."],["Ancha achka·m!","¡Es mucho!"],["Pisiyachi·yku·wa·y.","Rebájeme, por favor."],["Huk kilo·ta qu·yku·wa·y.","Deme un kilo, por favor."]],k:[0]}],
+gn:["<b>Achka</b> = mucho; <b>pisi</b> = poco.","<b>Kuskan</b> = mitad: <i>huk sol kuskan</i> = un sol y medio."],
+oj:"✗ Rantiy (para decir vender) → ✓ <i>rantikuy</i> = vender.",
+ej:[["Mamayqa sarata rantikun.","Mi mamá vende maíz."],["Achka qullqiyuqmi.","Tiene mucho dinero."],["Pisi papam kan.","Hay poca papa."]],
+p:[["Pregunta: ¿Cuánto cuesta?","Haykataq?"],["¿Qué significa rantikuy?","~Vender."],["Di: Rebájeme, por favor.","Pisiyachiykuway."],["Di: mucho.","achka"],["Di: Deme un kilo, por favor.","Huk kilota quykuway."]],
+tk:"Simula una compra en el mercado: saluda, pregunta el precio de 3 productos, regatea y paga.",
+cu:"En muchas comunidades todavía se practica el trueque: cambiar papa por maíz, o lana por sal, sin usar dinero."},
+
+{t:"Querer y poder · munay, atiy",g:"Decir lo que quieres hacer y lo que puedes o no puedes hacer.",
+w:[["munay","querer"],["munani","quiero"],["atiy","poder"],["atini","puedo"],["yachakuy","aprender"],["samay","descansar"],["pukllay","jugar"],["mikuyta","comer (después de querer)"],["riyta","ir (después de querer)"],["paqarin","mañana"],["ichaqa","pero"],["ñuqawan","conmigo"]],
+f:[["Runa simita yachakuyta munani.","Quiero aprender quechua."],["Kunan samayta munani.","Ahora quiero descansar."],["Ñuqawan pukllayta munankichu?","¿Quieres jugar conmigo?"],["Manam riyta atinichu.","No puedo ir."],["Paqarin Limaman riyta munani.","Mañana quiero ir a Lima."],["Imatataq mikuyta munanki?","¿Qué quieres comer?"]],
+v:["munay","querer","Presente",PR("muna")],
+c:[["Imatataq ruranki paqarin?","¿Qué haces mañana?"],["Chakraman riyta munani.","Quiero ir a la chacra."],["Ñuqawan pukllayta munankichu?","¿Quieres jugar conmigo?"],["Munanim, ichaqa manam atinichu.","Quiero, pero no puedo."],["Imaraykutaq?","¿Por qué?"],["Achka llamkaymi kan.","Hay mucho trabajo."]],
+n:"Querer hacer algo = verbo con <b>-y·ta</b> + <i>munani</i>: <i>miku·y·ta munani</i> = quiero comer.",
+s:{i:"La terminación -yta.",r:[["-yta","mikuyta [mikúyta]: la fuerza en la penúltima","v"],["Ichaqa","[íchaka] = pero","a"]],f:[["m","munani"],["y","yachakuyta"],["s","samay"],["p","pukllay"],["t","atiy"],["ch","ichaqa"]]},
+gt:"Querer y poder: munay, atiy",gi:"<p><b>Paso 1 · El verbo que quieres hacer</b> queda en -y y recibe <b>-ta</b>: <i>miku·y·ta</i>.</p><p><b>Paso 2 · Luego munay conjugado:</b> <i>miku·y·ta muna·ni</i> = quiero comer.</p><p><b>Paso 3 · Atiy (poder)</b> funciona igual: <i>ri·y·ta ati·ni</i> = puedo ir.</p><p><b>Paso 4 · Negar:</b> el -chu va en el verbo conjugado: <i>Manam ri·y·ta ati·ni·chu</i> = no puedo ir.</p>",
+tb:[{c:"Quiero / puedo…",h:["Quechua","Español"],r:[["miku·y·ta muna·ni","quiero comer"],["puñu·y·ta muna·nki","quieres dormir"],["ri·y·ta muna·n","quiere ir"],["llamka·y·ta ati·ni","puedo trabajar"],["Manam ri·y·ta ati·ni·chu.","No puedo ir."]],k:[0]}],
+gn:["<b>Ichaqa</b> = pero.","<b>Munay</b> también significa cariño, voluntad."],
+oj:"✗ Munani mikuy → ✓ <i>Mikuyta munani</i>: el verbo con -yta va primero.",
+ej:[["Puñuyta munani.","Quiero dormir."],["Takiyta atinki.","Puedes cantar."],["Manam llamkayta munanchu.","Él no quiere trabajar."]],
+p:[["Di: Quiero comer.","Mikuyta munani."],["Di: No puedo ir.","Manam riyta atinichu."],["Pregunta: ¿Quieres jugar?","Pukllayta munankichu?"],["¿Qué significa ichaqa?","~Pero."],["Di: Quiero aprender quechua.","Runa simita yachakuyta munani."]],
+tk:"Di 5 cosas que quieres hacer este mes y 3 que no puedes hacer, con munani y atini.",
+cu:"En los Andes se agradece a la Pachamama (madre tierra) antes de comer o beber: se ofrece un poquito de chicha al suelo."},
+
+{t:"Colores y adjetivos",g:"Describir cosas con colores, tamaño y cualidades.",
+w:[["puka","rojo"],["yuraq","blanco"],["yana","negro"],["qillu","amarillo"],["qumir","verde"],["anqas","azul"],["uqi","gris"],["llimpi","color"],["musuq","nuevo"],["machu","viejo"],["hatun","grande"],["huchuy","pequeño"]],
+f:[["Puka wasipim tiyani.","Vivo en una casa roja."],["Yana allqum kan.","Hay un perro negro."],["Yuraq urpi pawan.","La paloma blanca vuela."],["Hatun qumir urqum.","Es un cerro grande y verde."],["Ima llimpitaq?","¿De qué color es?"],["Musuq wasim.","Es una casa nueva."]],
+v:["llimpiy","pintar, colorear","Presente",PR("llimpi")],
+c:[["Ima llimpitaq wasiyki?","¿De qué color es tu casa?"],["Wasiyqa pukam, yuraq punkuyuq.","Mi casa es roja, con puerta blanca."],["Sumaqmi! Ñuqapa wasiyqa qillum.","¡Qué bonita! Mi casa es amarilla."],["Hatunchu?","¿Es grande?"],["Manam, huchuymi, ichaqa musuqmi.","No, es pequeña, pero es nueva."],["Ancha allin!","¡Muy bien!"]],
+n:"El adjetivo va <b>antes</b> de la palabra: <i>puka wasi</i> = casa roja (como en inglés).",
+s:{i:"La q cambia las vocales.",r:[["Qillu","[kéllu]: amarillo","v"],["Qumir","[kómer]: verde","a"]],f:[["p","puka"],["y","yuraq"],["q","qillu"],["q","qumir"],["s","anqas"],["q","uqi"]]},
+gt:"Adjetivos y colores",gi:"<p><b>Paso 1 · El adjetivo va primero:</b> <i>puka wasi</i> (casa roja), <i>hatun urqu</i> (cerro grande).</p><p><b>Paso 2 · Sin plural ni género:</b> el adjetivo no cambia: <i>yana allqu·kuna</i> = perros negros.</p><p><b>Paso 3 · Como respuesta:</b> con -mi: <i>Wasi·y·qa puka·m</i> = mi casa es roja.</p><p><b>Paso 4 · Con -yuq:</b> <i>yuraq punku·yuq</i> = que tiene puerta blanca.</p>",
+tb:[{c:"Colores",h:["Quechua","Español"],r:[["puka","rojo"],["yuraq","blanco"],["yana","negro"],["qillu","amarillo"],["qumir","verde"],["anqas","azul"],["uqi","gris"]],k:[0]},{c:"Orden",h:["Quechua","Español"],r:[["puka wasi","casa roja"],["hatun urqu","cerro grande"],["yana allqu·kuna","perros negros"]],k:[0]}],
+gn:["<b>Plural solo en la palabra:</b> <i>yana allqukuna</i>, no «yanakuna allqukuna».","<b>Llimpi</b> = color."],
+oj:"✗ wasi puka → ✓ <i>puka wasi</i>: el adjetivo va primero.",
+ej:[["Qumir pampam.","Es una pampa verde."],["Anqas qucha.","Laguna azul."],["Machu wasim.","Es una casa vieja."]],
+p:[["Di: rojo.","puka"],["Di: casa blanca.","yuraq wasi"],["¿Dónde va el adjetivo?","~Antes de la palabra: puka wasi."],["Di: amarillo.","qillu"],["Pregunta: ¿De qué color es?","Ima llimpitaq?"]],
+tk:"Describe 6 cosas de tu casa con su color y tamaño: hatun yana tiyana, huchuy puka punku…",
+cu:"La <i>wiphala</i>, bandera de muchos pueblos andinos, tiene 7 colores. Los tejidos andinos usan colores naturales de plantas e insectos como la cochinilla."},
+
+{t:"Repaso · estoy haciendo (-chka-)",g:"Decir lo que estás haciendo ahora mismo con -chka-. Repaso de los días 16-19.",
+w:[["mikuchkani","estoy comiendo"],["llamkachkani","estoy trabajando"],["rurachkanki","estás haciendo"],["yanuy","cocinar"],["maskay","buscar"],["tariy","encontrar"],["suyay","esperar"],["paray","llover"],["paramuchkan","está lloviendo"],["kunan","ahora"],["puñuchkan","está durmiendo"],["pukllachkanku","están jugando"]],
+f:[["Imatataq kunan rurachkanki?","¿Qué estás haciendo ahora?"],["Mikuchkanim.","Estoy comiendo."],["Mamayqa yanuchkan.","Mi mamá está cocinando."],["Rosata maskachkani.","Estoy buscando a Rosa."],["Paykunaqa qatupi rantichkanku.","Ellos están comprando en el mercado."],["Kunan punchaw manam llamkachkanichu.","Hoy no estoy trabajando."]],
+v:["maskay","buscar","Presente progresivo",PG("maska")],
+c:[["Allillanchu, Rosa! Imatataq rurachkanki?","¡Hola, Rosa! ¿Qué estás haciendo?"],["Qatupi papata rantichkani.","Estoy comprando papa en el mercado."],["Taytaykirí?","¿Y tu papá?"],["Payqa chakrapi llamkachkan.","Él está trabajando en la chacra."],["Wawaykikunarí?","¿Y tus hijos?"],["Wasipi pukllachkanku.","Están jugando en casa."]],
+n:"<b>-chka-</b> = estar …ando: <i>miku·chka·ni</i> = estoy comiendo. Va entre la raíz y la persona.",
+s:{i:"La ch y la k juntas.",r:[["-chka-","mikuchkani [mikuchkáni]: la fuerza sigue en la penúltima","v"],["Repaso","comida, mercado, colores","a"]],f:[["chk","mikuchkani"],["chk","rurachkanki"],["s","suyay"],["m","maskay"],["t","tariy"],["y","yanuy"]]},
+gt:"-chka-: estar haciendo algo",gi:"<p><b>Paso 1 · La fórmula:</b> raíz + <b>chka</b> + persona: <i>miku·chka·ni</i>.</p><p><b>Paso 2 · Todas las personas</b> usan las mismas terminaciones del presente (-ni, -nki, -n…).</p><p><b>Paso 3 · Negar:</b> <i>Manam miku·chka·ni·chu</i> = no estoy comiendo.</p><p><b>Paso 4 · Repaso del bloque:</b> comida, mercado (hayka, -ku-), querer (-yta munani) y colores.</p>",
+tb:[{c:"Mikuy · ahora mismo",h:["Quechua","Español"],r:[["miku·chka·ni","estoy comiendo"],["miku·chka·nki","estás comiendo"],["miku·chka·n","está comiendo"],["miku·chka·nchik","estamos comiendo"],["miku·chka·nku","están comiendo"]],k:[0]},{c:"Repaso del bloque",h:["Tema","Ejemplo"],r:[["comida","papa, sara, uchu"],["mercado","Hayka·taq?"],["querer","miku·y·ta muna·ni"],["colores","puka wasi"]],k:[1]}],
+gn:["<b>Kachkani</b> = estoy: es ka·chka·ni (kay + chka).","<b>Paramuchkan</b> = está lloviendo (para = lluvia)."],
+oj:"✗ Mikuni (para «en este momento estoy comiendo») → ✓ <i>mikuchkani</i>.",
+ej:[["Wawa puñuchkan.","El bebé está durmiendo."],["Paramuchkan.","Está lloviendo."],["Suyachkayku.","Estamos esperando."]],
+p:[["Di: estoy comiendo.","mikuchkani"],["Pregunta: ¿Qué estás haciendo?","Imatataq rurachkanki?"],["Di: ella está cocinando.","yanuchkan"],["¿Dónde va -chka-?","~Entre la raíz del verbo y la persona: miku·chka·ni."],["Niega: estoy trabajando.","Manam llamkachkanichu."]],
+tk:"Repaso: di qué está haciendo cada persona de tu casa ahora mismo con -chka-, y qué quieres comer hoy.",
+cu:"Los mercados andinos son lugares de encuentro: allí se habla quechua, se comparten noticias y se come junto."},
+{t:"El cuerpo · ¿qué te duele?",g:"Nombrar partes del cuerpo y decir qué te duele.",
+w:[["uma","cabeza"],["ñawi","ojo"],["rinri","oreja"],["simi","boca, idioma"],["sinqa","nariz"],["kiru","diente, muela"],["maki","mano"],["chaki","pie"],["wiksa","barriga"],["sunqu","corazón"],["nanay","doler, dolor"],["hampi","remedio"]],
+f:[["Umaymi nanan.","Me duele la cabeza."],["Kunan punchaw wiksaymi nanachkan.","Hoy me está doliendo la barriga."],["Unquchkanim.","Estoy enfermo."],["Kay hampita kimsa kutita upyay.","Toma este remedio tres veces."],["Imaykitaq nanan?","¿Qué te duele?"],["Hampina wasiman riy.","Ve a la posta."]],
+v:["hampiy","curar","Presente",PR("hampi")],
+c:[["Imaynataq kachkanki, taytay?","¿Cómo está, señor?"],["Mana allinchu. Umaymi nanan.","No muy bien. Me duele la cabeza."],["Wiksaykipas nananchu?","¿También le duele la barriga?"],["Manam, umallaymi.","No, solo la cabeza."],["Kay hampita upyay, hinaspa samay.","Tome este remedio y luego descanse."],["Sulpayki, hampiq.","Gracias, doctor."]],
+n:"«Me duele» = parte del cuerpo + <b>-y</b> (mi) + <b>-mi</b> + <i>nanan</i>: <i>uma·y·mi nanan</i> (mi cabeza duele).",
+s:{i:"Partes del cuerpo.",r:[["Ñawi","[ñáui]: ojo","v"],["Sinqa","[sénka]: la q cambia la i a «e»","a"]],f:[["ñ","ñawi"],["r","rinri"],["q","sinqa"],["k","kiru"],["ch","chaki"],["q","sunqu"]]},
+gt:"El cuerpo y cómo decir que algo duele",gi:"<p><b>Paso 1 · Las partes del cuerpo</b> están en el vocabulario. Señálalas mientras las dices.</p><p><b>Paso 2 · Me duele:</b> <i>uma·y·mi nanan</i> = me duele la cabeza (lit. mi cabeza duele).</p><p><b>Paso 3 · A otra persona:</b> <i>uma·yki</i> (tu cabeza), <i>uma·n</i> (su cabeza): <i>Uma·yki·chu nanan?</i> = ¿te duele la cabeza?</p><p><b>Paso 4 · Dos palabras útiles:</b> <i>kuti</i> = vez (<i>kimsa kuti</i> = tres veces) y <i>hinaspa</i> = y luego.</p>",
+tb:[{c:"Me duele…",h:["Quechua","Español"],r:[["uma·y·mi nanan","me duele la cabeza"],["wiksa·y·mi nanan","me duele la barriga"],["kiru·y·mi nanan","me duele la muela"],["chaki·y·mi nanan","me duele el pie"],["Uma·yki·chu nanan?","¿te duele la cabeza?"]],k:[0]},{c:"El cuerpo",h:["Quechua","Español"],r:[["uma","cabeza"],["ñawi","ojo"],["simi","boca"],["maki","mano"],["chaki","pie"],["sunqu","corazón"]],k:[0]}],
+gn:["<b>Simi</b> = boca y también idioma: <i>runa simi</i>.","<b>Sunqu</b> = corazón; <i>sunquy</i> (mi corazón) se usa como cariño."],
+oj:"✗ Nanan uma → ✓ <i>Umaymi nanan</i>: la parte del cuerpo va primero, con su posesivo.",
+ej:[["Makiymi nanan.","Me duele la mano."],["Ñawinmi nanan.","Le duele el ojo."],["Hampiq hamuchkan.","El médico está viniendo."]],
+p:[["Di: Me duele la cabeza.","Umaymi nanan."],["Di: mano.","maki"],["Di: pie.","chaki"],["Pregunta: ¿Te duele la barriga?","Wiksaykichu nanan?"],["¿Qué significa simi?","~Boca, y también idioma."]],
+tk:"Señala 10 partes de tu cuerpo diciendo su nombre. Luego simula que vas al médico y explica qué te duele.",
+cu:"La medicina tradicional andina usa plantas como la muña y el eucalipto. El <i>hampiq</i> (curandero) es muy respetado en la comunidad."},
+
+{t:"El tiempo · hoy, ayer, mañana",g:"Decir cuándo pasan las cosas: hoy, ayer, mañana, de día y de noche.",
+w:[["punchaw","día"],["tuta","noche"],["kunan","hoy, ahora"],["qayna punchaw","ayer"],["paqarin","mañana"],["tutamanta","temprano, de madrugada"],["chawpi punchaw","mediodía"],["killa","mes, luna"],["wata","año"],["inti","sol"],["haykapi?","¿cuándo?"],["sapa tuta","cada noche"]],
+f:[["Paqarin tutamanta hamusaq.","Mañana vendré temprano."],["Kunan punchawqa rupaymi.","Hoy hace calor."],["Qayna punchaw Limapim karqani.","Ayer estuve en Lima."],["Chawpi punchawpim mikunchik.","Comemos al mediodía."],["Tutapim puñuni.","Duermo en la noche."],["Haykapitaq hamunki?","¿Cuándo vienes?"]],
+v:["puñuy","dormir","Presente",PR("puñu")],
+c:[["Haykapitaq Limaman rinki?","¿Cuándo vas a Lima?"],["Paqarin tutamanta rini.","Voy mañana temprano."],["Haykapitaq kutimunki?","¿Cuándo vuelves?"],["Huk killamanta kutimusaq.","Volveré dentro de un mes."],["Allinmi. Tutapichu rinki?","Está bien. ¿Vas de noche?"],["Manam, tutamanta rini.","No, voy de madrugada."]],
+n:"Para el tiempo también se usan <b>-pi</b> y <b>-manta</b>: <i>tuta·pi</i> = en la noche; <i>huk killa·manta</i> = dentro de un mes.",
+s:{i:"Palabras del tiempo.",r:[["Inti","[ínti]: sol, también el dios sol de los incas","v"],["Paqarin","[pakárin]: mañana (el día siguiente)","a"]],f:[["p","punchaw"],["t","tuta"],["q","paqarin"],["q","qayna"],["ll","killa"],["ch","chawpi"]]},
+gt:"Hablar del tiempo: hoy, ayer, mañana",gi:"<p><b>Paso 1 · Los días:</b> <i>kunan</i> (hoy, ahora), <i>qayna punchaw</i> (ayer), <i>paqarin</i> (mañana).</p><p><b>Paso 2 · Partes del día:</b> <i>tutamanta</i> (temprano), <i>chawpi punchaw</i> (mediodía), <i>tuta</i> (noche).</p><p><b>Paso 3 · -pi para decir cuándo:</b> <i>tuta·pi</i> = en la noche, <i>chawpi punchaw·pi</i> = al mediodía.</p><p><b>Paso 4 · Los días de la semana</b> en el campo se dicen en castellano (lunes, martes…). También existen nombres nuevos en quechua, como <i>Intichaw</i> (domingo, día del sol).</p>",
+tb:[{c:"¿Cuándo?",h:["Quechua","Español"],r:[["kunan","hoy / ahora"],["qayna punchaw","ayer"],["paqarin","mañana"],["tutamanta","temprano"],["chawpi punchaw","mediodía"],["tuta·pi","en la noche"]],k:[0]},{c:"Medidas de tiempo",h:["Quechua","Español"],r:[["punchaw","día"],["killa","mes / luna"],["wata","año"]],k:[0]}],
+gn:["<b>Paqarin</b> = mañana (el día siguiente). «En la mañana» temprano se dice <i>tutamanta</i>.","<b>Haykapi·taq?</b> = ¿cuándo?"],
+oj:"✗ Paqarin (para decir «hoy en la mañana») → ✓ <i>tutamanta</i>.",
+ej:[["Sapa tuta puñuni.","Duermo cada noche."],["Paqarin llamkasaq.","Mañana trabajaré."],["Kunan wata.","Este año."]],
+p:[["Di: hoy.","kunan"],["Di: ayer.","qayna punchaw"],["Di: mañana.","paqarin"],["Pregunta: ¿Cuándo vienes?","Haykapitaq hamunki?"],["¿Qué significa killa?","~Luna, y también mes."]],
+tk:"Cuenta qué haces temprano, al mediodía, en la tarde y en la noche usando -pi.",
+cu:"El <i>Inti Raymi</i> (fiesta del sol) se celebra cada 24 de junio en Cusco, en el solsticio de invierno: el inicio de un nuevo ciclo del sol."},
+
+{t:"El pasado · -rqa-",g:"Contar lo que hiciste ayer con el pasado -rqa-.",
+w:[["rirqani","fui"],["mikurqani","comí"],["rikurqani","vi"],["karqani","estuve, fui"],["qayna wata","el año pasado"],["qayna killa","el mes pasado"],["ñawpaq","antes"],["hinaspa","y luego"],["kuti","vez"],["kutimurqani","volví"],["tuta","noche"],["willay","contar, avisar"]],
+f:[["Qayna punchaw qatuman rirqani.","Ayer fui al mercado."],["Imatataq mikurqanki?","¿Qué comiste?"],["Papata, aychata mikurqani.","Comí papa y carne."],["Qayna wata Cuscopim karqani.","El año pasado estuve en Cusco."],["Paykunaqa manam hamurqankuchu.","Ellos no vinieron."],["Hinaspa wasiman kutimurqani.","Y luego volví a casa."]],
+v:["riy","ir","Pasado",PS("ri")],
+c:[["Qayna punchaw imatataq rurarqanki?","¿Qué hiciste ayer?"],["Chakrapim llamkarqani.","Trabajé en la chacra."],["Hinaspa?","¿Y luego?"],["Hinaspa mamaywan mikurqani.","Y luego comí con mi mamá."],["Imatataq mikurqankichik?","¿Qué comieron ustedes?"],["Quwita mikurqayku! Ancha sumaqmi karqa.","¡Comimos cuy! Estuvo muy rico."]],
+n:"Para el pasado se mete <b>-rqa-</b> entre la raíz y la persona: <i>ri·rqa·ni</i> = fui. Con pay se quita la n final: <i>ri·rqa</i> = fue.",
+s:{i:"La r y la q juntas.",r:[["-rqa-","rirqani [rirkáni]: la r suave y luego la q","v"],["Pay","él fue = rirqa, sin -n al final","a"]],f:[["rq","rirqani"],["rq","mikurqani"],["ñ","ñawpaq"],["h","hinaspa"],["k","kuti"],["w","willay"]]},
+gt:"El pasado con -rqa-",gi:"<p><b>Paso 1 · La fórmula:</b> raíz + <b>rqa</b> + persona: <i>ri·rqa·ni</i> = fui, <i>miku·rqa·nki</i> = comiste.</p><p><b>Paso 2 · Ojo con pay:</b> no lleva -n: <i>ri·rqa</i> = él fue.</p><p><b>Paso 3 · Negar:</b> mana + -chu en el verbo: <i>Manam ri·rqa·ni·chu</i> = no fui.</p><p><b>Paso 4 · Contar una historia:</b> une frases con <i>hinaspa</i> (y luego).</p>",
+tb:[{c:"Riy (ir) en pasado",h:["Quechua","Español"],r:[["ri·rqa·ni","fui"],["ri·rqa·nki","fuiste"],["ri·rqa","fue"],["ri·rqa·nchik","fuimos (todos)"],["ri·rqa·yku","fuimos (sin ti)"],["ri·rqa·nkichik","ustedes fueron"],["ri·rqa·nku","ellos fueron"]],k:[0]}],
+gn:["<b>Karqani</b> = estuve, fui (de kay).","<b>Hinaspa</b> = y luego: sirve para contar historias."],
+oj:"✗ Rinirqa → ✓ <i>Rirqani</i>: -rqa- va antes de la persona.",
+ej:[["Qayna tuta puñurqani.","Anoche dormí."],["Payqa Limaman rirqa.","Él fue a Lima."],["Manam mikurqanichu.","No comí."]],
+p:[["Di: fui.","rirqani"],["Di: comiste.","mikurqanki"],["Di: él fue.","rirqa"],["Niega: fui.","Manam rirqanichu."],["Pregunta: ¿Qué hiciste ayer?","Qayna punchaw imatataq rurarqanki?"]],
+tk:"Cuenta qué hiciste ayer en 6 frases con -rqa-: a dónde fuiste, qué comiste y con quién estuviste.",
+cu:"Los cuentos antiguos empiezan con «Unay pachas…» (dicen que hace mucho tiempo…). Es como nuestro «había una vez»."},
+
+{t:"Los animales · tener",g:"Nombrar animales y decir lo que tienes con -yuq y kan.",
+w:[["allqu","perro"],["misi","gato"],["wallpa","gallina"],["waka","vaca"],["uwiha","oveja"],["kuchi","cerdo"],["llama","llama"],["paqu","alpaca"],["kuntur","cóndor"],["atuq","zorro"],["pisqu","pájaro"],["uywa","animal criado"]],
+f:[["Huk allquyuqmi kani.","Tengo un perro."],["Misiyqa yanam.","Mi gato es negro."],["Kunturqa hatun urqupim tiyan.","El cóndor vive en el cerro alto."],["Wallpa runtuta churan.","La gallina pone huevos."],["Llamakunaqa urqupim mikunku.","Las llamas comen en el cerro."],["Taytayqa achka uwihayuqmi.","Mi papá tiene muchas ovejas."]],
+v:["michiy","pastorear","Presente",PR("michi")],
+c:[["Uywaykikunachu kan?","¿Tienes animales?"],["Arí. Iskay wakam, achka uwiham kan.","Sí. Tengo dos vacas y muchas ovejas."],["Allquykipas kanchu?","¿También tienes perro?"],["Arí, huk yana allqum. Sutinmi Puka.","Sí, un perro negro. Se llama Puka."],["Pitaq uwihakunata michin?","¿Quién pastorea las ovejas?"],["Churiymi michin.","Mi hijo las pastorea."]],
+n:"<b>Uywa</b> = animal que se cría en casa. <i>Uywayuq</i> = que tiene animales.",
+s:{i:"Palabras que dieron nombres en castellano.",r:[["Kuntur","[kúntur]: de aquí viene «cóndor»","v"],["Paqu","[páko]: alpaca","a"]],f:[["ll","allqu"],["w","wallpa"],["w","uwiha"],["ch","kuchi"],["k","kuntur"],["q","atuq"]]},
+gt:"Tener: -yuq kani y … kan",gi:"<p><b>Paso 1 · Dos formas de «tener».</b> Forma A: <i>allqu·yuq·mi kani</i> = soy dueño de perro. Forma B: <i>allqu·y·mi kan</i> = hay mi perro.</p><p><b>Paso 2 · Preguntar:</b> <i>Allqu·yki·chu kan?</i> = ¿tienes perro?</p><p><b>Paso 3 · Decir que no:</b> <i>Manam allqu·y kan·chu</i> = no tengo perro.</p><p><b>Paso 4 · Muchos:</b> <i>achka uwiha·yuq</i> = que tiene muchas ovejas.</p>",
+tb:[{c:"Tener",h:["Quechua","Español"],r:[["allqu·yuq·mi kani","tengo perro"],["allqu·y·mi kan","tengo perro (hay mi perro)"],["Allqu·yki·chu kan?","¿tienes perro?"],["Manam allqu·y kan·chu.","No tengo perro."]],k:[0]},{c:"Animales",h:["Quechua","Español"],r:[["allqu","perro"],["misi","gato"],["wallpa","gallina"],["llama","llama"],["paqu","alpaca"],["kuntur","cóndor"]],k:[0]}],
+gn:["<b>Uyway</b> = criar; <b>uywa</b> = animal criado.","<b>Michiy</b> = pastorear."],
+oj:"✗ Ñuqa kani allqu → ✓ <i>Allquyuqmi kani</i>: «tener» se dice con -yuq o con kan.",
+ej:[["Misiyuqmi kani.","Tengo un gato."],["Waka achka lichita qun.","La vaca da mucha leche."],["Atuq tutapi purin.","El zorro camina de noche."]],
+p:[["Di: perro.","allqu"],["Di: Tengo un gato.","Misiyuqmi kani."],["Pregunta: ¿Tienes perro?","Allquykichu kan?"],["Di: No tengo perro.","Manam allquy kanchu."],["¿Qué significa uywa?","~Animal criado en casa."]],
+tk:"Di qué animales tienes o tenía tu familia, cuántos son y de qué color, usando -yuq y kan.",
+cu:"La llama y la alpaca fueron domesticadas en los Andes hace miles de años. De la alpaca se obtiene una de las fibras más finas del mundo."},
+
+{t:"Repaso · el clima y -si (dicen que)",g:"Hablar del clima y decir cómo sabes algo: -mi (lo sé) o -si (dicen que). Repaso de los días 21-24.",
+w:[["para","lluvia"],["wayra","viento"],["puyu","nube"],["rupay","calor, sol fuerte"],["chiri","frío"],["kuychi","arcoíris"],["illapa","rayo"],["pacha","tierra, tiempo, mundo"],["pachamama","madre tierra"],["kutimuy","volver"],["chirim","hace frío"],["paqarinsi","dicen que mañana"]],
+f:[["Kunanqa paramuchkanmi.","Ahora está lloviendo."],["Urqupiqa ancha chirim.","En el cerro hace mucho frío."],["Kunan punchawqa rupaymi.","Hoy hace calor."],["Kuychita rikunkichu?","¿Ves el arcoíris?"],["Paqarinsi paranqa.","Dicen que mañana lloverá."],["Kunan punchawqa ancha wayram.","Hoy hay mucho viento."]],
+v:["kutimuy","volver","Presente",PR("kutimu")],
+c:[["Imaynataq pacha kachkan?","¿Cómo está el tiempo?"],["Paramuchkanmi, ancha chirim.","Está lloviendo y hace mucho frío."],["Paqarinrí?","¿Y mañana?"],["Paqarinsi rupay kanqa.","Dicen que mañana hará calor."],["Allinmi! Chakraman kutimusaq.","¡Qué bien! Volveré a la chacra."],["Ñuqapas. Kuska risun.","Yo también. Vamos juntos."]],
+n:"<b>-si / -s</b> = dicen que (no lo viste tú). <b>-mi / -m</b> = lo sé yo. ¡El quechua siempre marca cómo sabes lo que dices!",
+s:{i:"Palabras del clima.",r:[["Chiri","[chíri]: frío","v"],["Pacha","pacha = tiempo, tierra y mundo a la vez","a"]],f:[["p","para"],["w","wayra"],["p","puyu"],["ch","chiri"],["k","kuychi"],["ll","illapa"]]},
+gt:"-mi (lo sé) y -si (dicen que) · repaso",gi:"<p><b>Paso 1 · -mi:</b> lo viste o lo sabes tú: <i>Para·mu·chka·n·mi</i> = está lloviendo (lo veo).</p><p><b>Paso 2 · -si:</b> te lo contaron: <i>Para·mu·chka·n·si</i> = dicen que está lloviendo.</p><p><b>Paso 3 · Futuro con pay:</b> <i>-nqa</i>: <i>para·nqa</i> = lloverá (lo verás en el día 26).</p><p><b>Paso 4 · Repaso del bloque:</b> cuerpo (uma·y·mi nanan), tiempo (paqarin), pasado (-rqa-) y tener (-yuq).</p>",
+tb:[{c:"¿Cómo lo sabes?",h:["Quechua","Español"],r:[["Para·mu·chka·n·mi.","Está lloviendo (lo veo)."],["Para·mu·chka·n·si.","Dicen que está lloviendo."],["Paqarin·si para·nqa.","Dicen que mañana lloverá."]],k:[0]},{c:"Repaso del bloque",h:["Tema","Ejemplo"],r:[["dolor","uma·y·mi nanan"],["cuándo","paqarin, qayna punchaw"],["pasado","ri·rqa·ni"],["tener","allqu·yuq·mi kani"]],k:[1]}],
+gn:["<b>-si</b> se usa mucho en los cuentos y las noticias.","<b>Pachamama</b> = madre tierra, el mundo que nos alimenta."],
+oj:"✗ Usar -mi para algo que solo te contaron → ✓ usa <i>-si</i>.",
+ej:[["Payqa Limapisi.","Dicen que él está en Lima."],["Kunanqa chirim.","Ahora hace frío (lo siento)."],["Kuychi rikurimun.","Apareció el arcoíris."]],
+p:[["Di: lluvia.","para"],["Di: hace frío.","Chirim."],["¿Qué significa -si?","~Dicen que: lo sabes porque te lo contaron."],["Di: viento.","wayra"],["¿Qué significa pachamama?","~Madre tierra."]],
+tk:"Repaso: describe el clima de hoy y de ayer, y cuenta una noticia que te contaron usando -si.",
+cu:"La Pachamama es la madre tierra en la visión andina. En agosto se le hace el «pago a la tierra» para agradecer y pedir buenas cosechas."},
+
+{t:"La chacra y el futuro · ayni",g:"Hablar del trabajo en la chacra y de lo que harás con el futuro -saq.",
+w:[["chakra","chacra"],["tarpuy","sembrar"],["allay","cosechar (papa)"],["qarpay","regar"],["lampa","lampa"],["muhu","semilla"],["yanapay","ayudar"],["ayni","ayuda mutua"],["minka","trabajo comunal"],["tarpusaq","sembraré"],["risun","vamos, iremos"],["kuskam","juntos"]],
+f:[["Kunan papata tarpusun.","Hoy sembremos papa."],["Qayna wata achka sarata allarqayku.","El año pasado cosechamos mucho maíz."],["Paqarin chakrata qarpasaq.","Mañana regaré la chacra."],["Aynipim yanapanakunchik.","En el ayni nos ayudamos."],["Lampata apamuy.","Trae la lampa."],["Kuskam llamkanchik.","Trabajamos juntos."]],
+v:["tarpuy","sembrar","Futuro",FU("tarpu")],
+c:[["Paqarin chakrapi yanapawankichu?","¿Mañana me ayudarás en la chacra?"],["Arí, yanapasqayki.","Sí, te ayudaré."],["Sulpayki! Papata tarpusun.","¡Gracias! Sembraremos papa."],["Ñuqataq lampata apamusaq.","Y yo traeré la lampa."],["Qam yanapawanki, ñuqapas yanapasqayki.","Tú me ayudas, yo también te ayudaré."],["Chaymi ayni!","¡Eso es el ayni!"]],
+n:"<b>Ayni:</b> hoy te ayudo, mañana tú me ayudas. Es una de las costumbres más importantes de los Andes.",
+s:{i:"Verbos de la chacra.",r:[["Tarpuy","[tárpuy]: sembrar","v"],["Qarpay","[kárpay]: regar","a"]],f:[["ch","chakra"],["t","tarpuy"],["q","qarpay"],["y","ayni"],["m","minka"],["h","muhu"]]},
+gt:"El futuro: -saq (yo), -nki, -nqa…",gi:"<p><b>Paso 1 · Yo haré:</b> raíz + <b>saq</b>: <i>tarpu·saq</i> = sembraré.</p><p><b>Paso 2 · Las demás personas</b> están en la tabla. Para «tú», el futuro es igual al presente: <i>tarpu·nki</i>.</p><p><b>Paso 3 · -sun = haremos / hagamos (todos):</b> <i>tarpu·sun</i> = sembremos. También sirve para invitar: <i>Ri·sun!</i> = ¡vamos!</p><p><b>Paso 4 · Yo a ti:</b> <i>yanapa·sqayki</i> = te ayudaré.</p>",
+tb:[{c:"Tarpuy (sembrar) · futuro",h:["Quechua","Español"],r:[["tarpu·saq","sembraré"],["tarpu·nki","sembrarás"],["tarpu·nqa","sembrará"],["tarpu·sun","sembraremos / sembremos"],["tarpu·saqku","sembraremos (sin ti)"],["tarpu·nkichik","ustedes sembrarán"],["tarpu·nqaku","ellos sembrarán"]],k:[0]}],
+gn:["<b>-naku-</b> = unos a otros: <i>yanapa·naku·nchik</i> = nos ayudamos.","<b>Allay</b> = cosechar papa (escarbando la tierra)."],
+oj:"✗ Tarpuni paqarin (para un futuro claro) → ✓ <i>Paqarin tarpusaq</i>.",
+ej:[["Paqarin qarpasaq.","Mañana regaré."],["Payqa sarata tarpunqa.","Él sembrará maíz."],["Mikusun!","¡Comamos!"]],
+p:[["Di: sembraré.","tarpusaq"],["Di: ¡Vamos!","Risun!"],["Di: él trabajará.","llamkanqa"],["¿Qué es el ayni?","~Ayuda mutua: hoy te ayudo y mañana tú me ayudas."],["Di: Mañana regaré la chacra.","Paqarin chakrata qarpasaq."]],
+tk:"Cuenta tus planes para la próxima semana con -saq, e invita a alguien a hacer 3 cosas juntos con -sun.",
+cu:"El ayni y la minka siguen vivos: en muchas comunidades se construyen casas, canales y caminos con trabajo compartido."},
+
+{t:"Pedidos amables · -wa- y -yku-",g:"Pedir favores con respeto y decir «no hagas…» con ama.",
+w:[["yanapaway","ayúdame"],["quykuway","deme, por favor"],["suyaykuway","espéreme, por favor"],["willaykuway","dígame, por favor"],["uyariykuway","escúcheme, por favor"],["apamuy","trae"],["ama","no (para prohibir)"],["waqay","llorar"],["manchakuy","tener miedo"],["huk ratu","un rato"],["waqtan","su costado, al lado"],["ñan","camino"]],
+f:[["Yanapaykuway, mamay.","Ayúdeme, por favor, señora."],["Yakuta quykuway.","Deme agua, por favor."],["Suyaykuway huk ratu.","Espéreme un rato, por favor."],["Willaykuway sutiykita.","Dígame su nombre, por favor."],["Ama chaypi tiyaychu.","No te sientes ahí."],["Kay qullqita apaykuy, taytay.","Lleve este dinero, por favor, señor."]],
+v:["quy","dar","Presente",PR("qu")],
+c:[["Yaykumuy, taytay. Tiyaykuy.","Pase, señor. Siéntese, por favor."],["Sulpayki, mamay. Yakuta quykuwankichu?","Gracias, señora. ¿Me daría agua?"],["Arí, kaypim. Imaynataq yanapayki?","Sí, aquí tiene. ¿Cómo lo ayudo?"],["Hampina wasita maskachkani. Willaykuway.","Estoy buscando la posta. Dígame, por favor."],["Chay ñanta riy. Qatu waqtanpim.","Vaya por ese camino. Está al lado del mercado."],["Sulpayki, mamay! Tupananchikkama.","¡Gracias, señora! Hasta vernos."]],
+n:"<b>-wa-</b> = a mí: <i>qu·wa·y</i> = dame, <i>yanapa·wa·y</i> = ayúdame. Con <b>-yku-</b> suena amable: <i>yanapa·yku·wa·y</i>.",
+s:{i:"Pedidos largos y suaves.",r:[["-ykuway","yanapaykuway [yanapaykúuay]: dilo despacio y con cariño","v"],["Ama","ama + verbo con -y + -chu = no hagas…","a"]],f:[["w","quykuway"],["y","yanapaykuway"],["s","suyaykuway"],["w","willaykuway"],["m","ama"],["ch","manchakuy"]]},
+gt:"Pedir con amabilidad · -wa- y -yku-",gi:"<p><b>Paso 1 · Ordenar:</b> verbo con -y: <i>yanapa·y!</i> = ¡ayuda!</p><p><b>Paso 2 · A mí:</b> agrega <b>-wa-</b>: <i>yanapa·wa·y</i> = ayúdame.</p><p><b>Paso 3 · Con respeto:</b> agrega <b>-yku-</b>: <i>yanapa·yku·wa·y</i> = ayúdeme, por favor.</p><p><b>Paso 4 · Prohibir:</b> <i>ama</i> + verbo con -y + <b>-chu</b>: <i>Ama waqa·y·chu</i> = no llores.</p>",
+tb:[{c:"Pedidos",h:["Quechua","Español"],r:[["yanapa·y","¡ayuda!"],["yanapa·wa·y","¡ayúdame!"],["yanapa·yku·wa·y","ayúdeme, por favor"],["qu·yku·wa·y","deme, por favor"],["suya·yku·wa·y","espéreme, por favor"]],k:[0]},{c:"No hagas…",h:["Quechua","Español"],r:[["Ama waqa·y·chu.","No llores."],["Ama ri·y·chu.","No vayas."],["Ama manchaku·y·chu.","No tengas miedo."]],k:[0]}],
+gn:["<b>A varias personas:</b> se agrega -chik: <i>yanapa·yku·wa·y·chik</i>.","<b>Mana y ama:</b> mana niega (no es); ama prohíbe (no hagas)."],
+oj:"✗ Mana waqaychu → ✓ <i>Ama waqaychu</i>: para prohibir se usa ama, no mana.",
+ej:[["Uyariykuway.","Escúcheme, por favor."],["Ama puñuychu!","¡No duermas!"],["Yakuta apamuy.","Trae agua."]],
+p:[["Di: ayúdame.","Yanapaway."],["Di: deme agua, por favor.","Yakuta quykuway."],["Di: no llores.","Ama waqaychu."],["¿Qué significa -wa-?","~A mí."],["¿Cuál es la diferencia entre mana y ama?","~Mana niega (no es); ama prohíbe (no hagas)."]],
+tk:"Pide 5 favores con -ykuway y da 3 prohibiciones con ama … -chu.",
+cu:"En los Andes, pedir con cariño y respeto es muy importante: por eso se usan tanto -yku-, -lla y palabras como mamay, taytay y urpichay."},
+
+{t:"Una visita · vengo a…",g:"Visitar a una familia: llegar, saludar, comer y despedirte.",
+w:[["watukuy","visitar"],["chayamuy","llegar (aquí)"],["yaykuy","entrar"],["lluqsiy","salir"],["kusisqa","feliz"],["hina","como (igual que)"],["yapamanta","otra vez"],["mikunayki","tu comida"],["watukuq","a visitar"],["apamurqani","traje"],["kuyayki","te quiero"],["kawsay","vida, vivir"]],
+f:[["Qamta watukuq hamuni.","Vengo a visitarte."],["Ancha kusisqam kachkani.","Estoy muy feliz."],["Yaykumuy, aylluyki hina kanki.","Pasa, eres como de tu familia."],["Kay tantata apamurqani.","Traje este pan."],["Ancha sumaqmi mikunayki, mamay.","Su comida es muy rica, señora."],["Yapamanta hamunki, urpichay.","Vuelve otra vez, palomita."]],
+v:["watukuy","visitar","Presente",PR("watuku")],
+c:[["Allillanchu, mamay! Qamta watukuq hamuni.","¡Hola, señora! Vengo a visitarla."],["Yaykumuy, wawallay! Ancha kusisqam kachkani.","¡Pasa, hijito! Estoy muy feliz."],["Kay tantata apamurqani.","Traje este pan."],["Sulpayki! Tiyaykuy, mikuykuy.","¡Gracias! Siéntate y come, por favor."],["Ancha sumaqmi mikunayki, mamay.","Su comida es muy rica, señora."],["Yapamanta hamunki, urpichay.","Vuelve otra vez, palomita."]],
+n:"Para decir «vengo a…» se usa verbo + <b>-q</b> + <i>hamuni</i>: <i>watuku·q hamuni</i> = vengo a visitar.",
+s:{i:"Palabras de la visita.",r:[["Watukuy","[uatúkuy]: visitar","v"],["Yapamanta","[yapamánta]: otra vez","a"]],f:[["w","watukuy"],["ch","chayamuy"],["ll","lluqsiy"],["k","kusisqa"],["h","hina"],["y","yapamanta"]]},
+gt:"-q + venir / ir (a hacer algo) · hina (como)",gi:"<p><b>Paso 1 · Voy / vengo a hacer algo:</b> verbo sin -y + <b>q</b>, luego riy o hamuy: <i>miku·q ri·ni</i> = voy a comer.</p><p><b>Paso 2 · Hina = como:</b> <i>ayllu hina</i> = como familia, <i>inti hina</i> = como el sol.</p><p><b>Paso 3 · Cortesía en la visita:</b> <i>Yaykumuy</i> (pasa), <i>Tiyaykuy</i> (siéntate), <i>Mikuykuy</i> (come), <i>Sulpayki</i> (gracias).</p><p><b>Paso 4 · Yo a ti:</b> <i>kuya·yki</i> = te quiero, <i>riqsi·yki</i> = te conozco.</p>",
+tb:[{c:"Voy / vengo a…",h:["Quechua","Español"],r:[["watuku·q hamu·ni","vengo a visitar"],["miku·q ri·ni","voy a comer"],["llamka·q ri·n","va a trabajar"]],k:[0]},{c:"Hina (como)",h:["Quechua","Español"],r:[["ayllu hina","como familia"],["inti hina","como el sol"],["urpi hina","como una paloma"]],k:[0]}],
+gn:["<b>Chayamuy</b> = llegar (aquí); <b>lluqsiy</b> = salir.","<b>Yapamanta</b> = otra vez, de nuevo."],
+oj:"✗ Hamuni watukuy → ✓ <i>Watukuq hamuni</i>.",
+ej:[["Mikuq rinchik.","Vamos a comer."],["Wasiyta watukuq hamunki.","Vendrás a visitar mi casa."],["Sunquy hina kuyayki.","Te quiero como a mi corazón."]],
+p:[["Di: Vengo a visitarte.","Qamta watukuq hamuni."],["Di: Pasa.","Yaykumuy."],["¿Qué significa hina?","~Como (para comparar)."],["Di: otra vez.","yapamanta"],["Di: Te quiero.","Kuyayki."]],
+tk:"Simula una visita completa: saludo, llevar un regalo, sentarte, comer, agradecer y despedirte.",
+cu:"Al visitar una casa andina se suele llevar algo (pan, fruta) y es descortés rechazar la comida que te ofrecen."},
+
+{t:"Los sentimientos · te quiero",g:"Decir cómo te sientes y hablarle a otra persona con -yki (yo a ti).",
+w:[["kusisqa","feliz"],["llakisqa","triste"],["piñasqa","enojado"],["manchasqa","asustado"],["saykusqa","cansado"],["kuyayki","te quiero"],["riqsiyki","te conozco"],["asiy","reír"],["waqay","llorar"],["llakikuy","entristecerse"],["asispa","riendo"],["sunquy","mi corazón"]],
+f:[["Kunan punchawqa kusisqam kachkani.","Hoy estoy feliz."],["Imaraykutaq llakisqa kachkanki?","¿Por qué estás triste?"],["Saykusqam kachkani, puñuyta munani.","Estoy cansado, quiero dormir."],["Anchatam kuyayki.","Te quiero mucho."],["Ama piñakuychu.","No te enojes."],["Asispa kawsay.","Vive riendo."]],
+v:["asiy","reír","Presente",PR("asi")],
+c:[["Imaynataq kachkanki, Rosa?","¿Cómo estás, Rosa?"],["Llakisqam kachkani.","Estoy triste."],["Imaraykutaq?","¿Por qué?"],["Mamay unquchkan.","Mi mamá está enferma."],["Ama llakikuychu. Yanapasqayki.","No te pongas triste. Te ayudaré."],["Sulpayki, urpichay.","Gracias, palomita."]],
+n:"«Te quiero» = <i>kuya·yki</i>. Aquí <b>-yki</b> significa «yo a ti». ¡Una sola palabra!",
+s:{i:"Palabras de sentimientos.",r:[["Kusisqa","[kusíska]: feliz","v"],["Piñasqa","[piñáska]: enojado","a"]],f:[["k","kusisqa"],["ll","llakisqa"],["ñ","piñasqa"],["m","manchasqa"],["y","kuyayki"],["s","asiy"]]},
+gt:"Cómo te sientes · -sqa, -yki y -spa",gi:"<p><b>Paso 1 · -sqa forma estados:</b> <i>kusi·sqa</i> (feliz), <i>llaki·sqa</i> (triste), <i>sayku·sqa</i> (cansado).</p><p><b>Paso 2 · Con kachkani:</b> <i>kusi·sqa·m kachkani</i> = estoy feliz.</p><p><b>Paso 3 · -yki = yo a ti:</b> <i>kuya·yki</i> (te quiero), <i>riqsi·yki</i> (te conozco), <i>riku·yki</i> (te veo).</p><p><b>Paso 4 · -spa = -ando:</b> <i>asi·spa</i> = riendo, <i>taki·spa</i> = cantando.</p>",
+tb:[{c:"¿Cómo estás?",h:["Quechua","Español"],r:[["kusi·sqa·m kachkani","estoy feliz"],["llaki·sqa·m kachkani","estoy triste"],["sayku·sqa·m kachkani","estoy cansado"],["piña·sqa·m kachkani","estoy enojado"],["mancha·sqa·m kachkani","estoy asustado"]],k:[0]},{c:"Yo a ti (-yki)",h:["Quechua","Español"],r:[["kuya·yki","te quiero"],["riqsi·yki","te conozco"],["riku·yki","te veo"]],k:[0]}],
+gn:["<b>-spa</b> = -ando / -iendo: <i>asi·spa</i> = riendo.","<b>Llakikuy</b> = entristecerse: <i>Ama llakikuychu</i> = no te pongas triste."],
+oj:"✗ Ñuqa kuyay qam → ✓ <i>Kuyayki</i>: una sola palabra dice «yo te quiero».",
+ej:[["Riqsiykim.","Te conozco."],["Takispa llamkanku.","Trabajan cantando."],["Kusisqam kachkanku.","Están felices."]],
+p:[["Di: estoy feliz.","Kusisqam kachkani."],["Di: te quiero.","Kuyayki."],["Pregunta: ¿Por qué estás triste?","Imaraykutaq llakisqa kachkanki?"],["Di: no te enojes.","Ama piñakuychu."],["¿Qué significa -spa?","~-ando / -iendo: asispa = riendo."]],
+tk:"Di cómo te sientes hoy y por qué. Luego dile a 3 personas que las quieres o que las conoces, usando -yki.",
+cu:"Las canciones andinas (huaynos y harawis) hablan mucho del amor y la tristeza: <i>urpichay</i>, <i>sunquy</i> y <i>llakiy</i> aparecen en muchísimas."},
+
+{t:"Prueba final del Básico",g:"Repasar todo el nivel: saludos, sufijos, presente, pasado, futuro, lugar y pedidos.",
+w:[["yachay","saber, conocimiento"],["yachakuy","aprender"],["kallpa","fuerza"],["kallpanchakuy","esfuérzate, ánimo"],["allinta","bien (adverbio)"],["qallariy","empezar"],["tukuy","terminar"],["saqiy","dejar"],["pisilla","un poquito"],["runa simi","quechua"],["sumaq simi","idioma hermoso"],["yachachiqniy","mi profesor(a)"]],
+f:[["Runa simita yachakuchkani.","Estoy aprendiendo quechua."],["Pisillatam rimani, ichaqa yachakusaqmi.","Hablo un poco, pero aprenderé."],["Kimsa chunka punchawta tukurqani.","Terminé los treinta días."],["Kallpanchakuy, ama saqiychu!","¡Ánimo, no lo dejes!"],["Runa simiqa sumaq simim.","El quechua es un idioma hermoso."],["Sulpayki, yachachiqniy.","Gracias, mi profesora."]],
+v:["yachakuy","aprender","Presente",PR("yachaku")],
+c:[["Allillanchu! Runa simita rimankichu?","¡Hola! ¿Hablas quechua?"],["Arí, pisillatam rimani. Yachakuchkanim.","Sí, hablo un poquito. Estoy aprendiendo."],["Ancha allin! Haykapitaq qallarirqanki?","¡Muy bien! ¿Cuándo empezaste?"],["Huk killa ñawpaqtam qallarirqani.","Empecé hace un mes."],["Kallpanchakuy! Allintam rimanki.","¡Ánimo! Hablas bien."],["Sulpayki! Yachakuspa kusisqam kachkani.","¡Gracias! Estoy feliz aprendiendo."]],
+n:"¡Terminaste el Básico! Ya puedes saludar, presentarte, contar, hablar de tu familia, comprar, decir qué te duele y contar lo que hiciste.",
+s:{i:"Repaso de los sonidos del nivel.",r:[["La q","cambia las vocales: qillu [kéllu], urqu [órko]","v"],["El ritmo","los sufijos se dicen pegados, sin pausas: wasiykipi","a"]],f:[["q","runa simiqa"],["ll","kallpa"],["ch","kallpanchakuy"],["q","qallariy"],["k","tukuy"],["s","sulpayki"]]},
+gt:"Repaso general del Básico",gi:"<p><b>Paso 1 · El orden:</b> quién + qué (-ta) + verbo al final.</p><p><b>Paso 2 · Pedacitos de sentido:</b> -qa (tema), -mi (lo sé), -si (dicen que), -chu (pregunta y negación), -pas (también).</p><p><b>Paso 3 · El verbo:</b> -ni, -nki, -n… · ahora -chka- · pasado -rqa- · futuro -saq.</p><p><b>Paso 4 · Lugar y personas:</b> -pi, -man, -manta, -wan · posesivos -y, -yki, -n · pedidos -yku-, -wa-.</p>",
+tb:[{c:"Resumen del nivel",h:["Tema","Ejemplo"],r:[["saludo","Allillanchu?"],["presentarse","Ñuqa·qa Daniel·mi kani."],["presente","rima·ni"],["ahora","rima·chka·ni"],["pasado","rima·rqa·ni"],["futuro","rima·saq"],["lugar","wasi·y·pi"],["con","mama·y·wan"],["pedido","yanapa·yku·wa·y"]],k:[1]}],
+gn:["<b>Errores típicos:</b> poner el verbo al inicio, olvidar el -chu al negar y confundir mana con ama.","<b>Sigue practicando:</b> escucha radio y música en quechua, y habla con personas mayores: ¡les encantará!"],
+oj:"✗ Mana rimani → ✓ <i>Manam rimanichu</i>.",
+ej:[["Allintam yachakurqani.","Aprendí bien."],["Paqarinpas yachakusaq.","Mañana también aprenderé."],["Runa simita kuyani.","Amo el quechua."]],
+p:[["Traduce: Yo soy Daniel.","Ñuqaqa Danielmi kani."],["Traduce: Voy al mercado.","Qatuman rini."],["Traduce: Ayer comí papa.","Qayna punchaw papata mikurqani."],["Traduce: Me duele la cabeza.","Umaymi nanan."],["Traduce: Te quiero.","Kuyayki."]],
+tk:"Prueba final oral: habla 2 minutos: preséntate, tu familia, tu trabajo, qué hiciste ayer, qué harás mañana y cómo te sientes.",
+cu:"Hablar quechua es mantener viva una lengua milenaria. <i>Rimay, ama manchakuychu!</i> (¡Habla, no tengas miedo!)"}
+];
+const P=["ñuqa","qam","pay","ñuqanchik","ñuqayku","qamkuna","paykuna"];
+const PE=["yo","tú","él / ella","nosotros (todos)","nosotros (sin ti)","ustedes","ellos / ellas"];
+const D=B,ND=B.length;
+const LV=[["Básico · Qallariy","var(--b)",0,30]];
+const lvlOf=i=>LV.find(l=>i>=l[2]&&i<l[3])||LV[0];
+
+// ---------- pronunciación aproximada (para leer con voz en castellano) ----------
+const SKIP=new Set(["daniel","rosa","juan","carlos","ana","lima","cusco","ayacucho","chimbote","huamanga","huancayo","perú","peru","kilo","soles","sol","puka"]);
+const ACC={a:"á",e:"é",i:"í",o:"ó",u:"ú"};
+function qword(w){if(SKIP.has(w))return w;let s=w;
+  s=s.replace(/q([iu])/g,(m,v)=>"q"+(v==="i"?"e":"o")).replace(/[iu](?=(?:ll|ch|[^aeiouq])?q)/g,v=>v==="i"?"e":"o");
+  const ix=[];for(let i=0;i<s.length;i++)if("aeiou".includes(s[i]))ix.push(i);
+  if(ix.length>1&&!"aeiouns".includes(s[s.length-1])&&!/[áéíóú]/.test(s)){const k=ix[ix.length-2];s=s.slice(0,k)+ACC[s[k]]+s.slice(k+1)}
+  return s.replace(/q/g,"k").replace(/(^|[^c])h/g,"$1j").replace(/w/g,"u")}
+const qpron=t=>String(t).replace(/·/g,"").replace(/[a-zA-ZñÑáéíóúÁÉÍÓÚ]+/g,w=>{const l=w.toLowerCase(),r=qword(l);return w[0]!==l[0]?r[0].toUpperCase()+r.slice(1):r});
+const cz=s=>String(s).replace(/[A-Za-zñÑáéíóúÁÉÍÓÚ¡¿?!.\-]*·[A-Za-zñÑáéíóúÁÉÍÓÚ·?!.\-]*/g,w=>w.split("·").map((p,i)=>`<span class="m${i?Math.min(i,3):0}">${p}</span>`).join('<span class="md">·</span>'));
+
+// ---------- voz de mujer ----------
+let done={},USER=null,TOKEN=null;
+let rate=(()=>{try{return Math.min(1,Math.max(0.5,+localStorage.getItem("qu30rate")||0.8))}catch(e){return 0.8}})();
+let voice=null,VOICES=[];
+const FEM=/paulina|m[oó]nica|helena|elvira|dalia|camila|sabina|laura|paloma|lupe|elena|marisol|valentina|ximena|catalina|salom|luc[ií]a|carmen|isabel|estrella|francisca|renata|google espa/i;
+const MAS=/jorge|pablo|diego|ra[uú]l|[aá]lvaro|carlos|enrique|juan|andr[eé]s|gonzalo|tom[aá]s|jos[eé]|alex|mateo|federico|gerardo|male/i;
+function vScore(v){let s=0;if(FEM.test(v.name))s+=50;if(MAS.test(v.name))s-=60;if(/natural|online/i.test(v.name))s+=20;if(/google/i.test(v.name))s+=10;if(/es[-_](pe|us|mx|419|co)/i.test(v.lang))s+=5;return s}
+function pickVoice(){try{VOICES=speechSynthesis.getVoices().filter(v=>v.lang&&/^es/i.test(v.lang)).sort((a,b)=>vScore(b)-vScore(a));let sv=null;try{sv=localStorage.getItem("qu30voice")}catch(e){}
+  voice=VOICES.find(v=>v.name===sv)||VOICES[0]||null;const s=document.getElementById("vsel");if(s)s.innerHTML=vOpts()}catch(e){}}
+const vOpts=()=>VOICES.map((v,i)=>`<option value="${i}"${v===voice?" selected":""}>${v.name}${i===0?" · recomendada":""}</option>`).join("")||"<option>Voz del sistema</option>";
+try{pickVoice();speechSynthesis.onvoiceschanged=pickVoice}catch(e){}
+function setVoice(i){voice=VOICES[+i]||null;try{localStorage.setItem("qu30voice",voice?voice.name:"")}catch(e){}say("Allillanchu! Rimaykullayki.")}
+function setRate(v){rate=+v;try{localStorage.setItem("qu30rate",rate)}catch(e){}const o=document.getElementById("rout");if(o)o.textContent=rate.toFixed(2)}
+function utt(t,r){const u=new SpeechSynthesisUtterance(t);u.lang=voice?voice.lang:"es-PE";if(voice)u.voice=voice;u.rate=r;u.pitch=voice&&FEM.test(voice.name)?1:1.15;return u}
+function speak(t,r){try{speechSynthesis.cancel();speechSynthesis.speak(utt(t,r))}catch(e){toast("Tu navegador no permite audio aquí.")}}
+function say(t,slow){speak(qpron(t),slow?0.55:rate)}
+function sayEs(t){speak(t,0.95)}
+function chain(list,slow,cb){let k=0;try{speechSynthesis.cancel()}catch(e){}
+  const nx=()=>{if(cb)cb(k);if(k>=list.length)return;const u=utt(qpron(list[k]),slow?0.55:rate);u.onend=()=>setTimeout(nx,700);k++;try{speechSynthesis.speak(u)}catch(e){}};nx()}
+const esc=s=>String(s).replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/"/g,"&quot;");
+const spk=(t,ic="🔊")=>`<button class="spk" title="Escuchar" onclick="say('${esc(String(t).replace(/<[^>]+>/g,""))}')">${ic}</button>`;
+const spkS=t=>`<button class="spk" title="Lento" onclick="say('${esc(t)}',1)">🐢</button>`;
+const shuf=a=>a.map(x=>[Math.random(),x]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+function toast(m){const d=document.createElement("div");d.className="modal";d.innerHTML=`<div class="card"><p>${m}</p><button class="btn p" onclick="this.closest('.modal').remove()">OK</button></div>`;document.body.append(d)}
+const app=document.getElementById("app");
+const sec=id=>document.getElementById(id);
+let cur=0,view="home",q=null;
+
+// ---------- comparar respuestas ----------
+const norm=s=>String(s).toLowerCase().replace(/ñ/g,"\u0001").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/\u0001/g,"ñ").replace(/·/g,"").replace(/[^a-zñ' ]/g," ").replace(/\s+/g," ").trim();
+function lev(a,b){const m=a.length,n=b.length,d=Array.from({length:m+1},(_,i)=>[i]);for(let j=1;j<=n;j++)d[0][j]=j;
+  for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[m][n]}
+const wsim=(a,b)=>!a||!b?0:1-lev(a,b)/Math.max(a.length,b.length);
+const wds=s=>norm(s).split(" ").filter(Boolean);
+const WT=0.85;
+function wordChips(heard,target){const H=wds(heard),ws=target.split(/\s+/).filter(w=>norm(w));let n=0;
+  const ch=ws.map(w=>{const ok=wds(w).every(p=>H.some(h=>wsim(h,p)>=WT));if(ok)n++;return `<span class="chip ${ok?"ok":"bad"}">${w.replace(/[.,!?;:¿¡]/g,"")} ${ok?"✓":"✗"}</span>`}).join("");
+  return {n,t:ws.length,html:`<div class="wres"><small>TU RESPUESTA, PALABRA POR PALABRA · ${n} de ${ws.length} bien</small><div class="chips">${ch}</div></div>`}}
+
+// ---------- grábate y compara ----------
+let MR=null,MYURL=null,RC=null;
+const canRec=()=>!!(window.MediaRecorder&&navigator.mediaDevices&&navigator.mediaDevices.getUserMedia);
+function recBox(id,text,cb){RC={text,cb};const b=sec(id);if(!b)return;
+  b.innerHTML=canRec()?`<button class="micb" id="rb" onclick="recToggle()">🎙️ Grábate diciéndolo</button><div id="rr" style="margin-top:10px"></div>`:`<p class="hint" style="text-align:center">Dilo en voz alta 3 veces, igual que el modelo 🔊, y califícate:</p><div id="rr"></div>`;
+  if(!canRec())rateUI()}
+async function recToggle(){if(MR&&MR.state==="recording"){MR.stop();return}
+  let st;try{st=await navigator.mediaDevices.getUserMedia({audio:true})}catch(e){toast("No pude usar el micrófono. Revisa el permiso del navegador (el candado junto a la dirección de la página).");return}
+  try{speechSynthesis.cancel()}catch(e){}
+  const ch=[],rec=new MediaRecorder(st);MR=rec;rec.ondataavailable=e=>{if(e.data&&e.data.size)ch.push(e.data)};
+  rec.onstop=()=>{st.getTracks().forEach(t=>t.stop());if(MYURL)URL.revokeObjectURL(MYURL);MYURL=URL.createObjectURL(new Blob(ch,{type:rec.mimeType||"audio/webm"}));MR=null;
+    const b=sec("rb");if(b){b.className="micb";b.textContent="🎙️ Grabarme otra vez"}rateUI();playMine()};
+  rec.start();const b=sec("rb");if(b){b.className="micb on";b.innerHTML='<span class="wv"><i></i><i></i><i></i><i></i></span> Grabando… toca para terminar'}
+  setTimeout(()=>{if(rec.state==="recording")rec.stop()},10000)}
+function playMine(){if(MYURL)try{new Audio(MYURL).play()}catch(e){}}
+function rateUI(){const r=sec("rr");if(!r||!RC)return;
+  r.innerHTML=`${canRec()?`<div class="row" style="justify-content:center"><button class="btn" onclick="playMine()">▶ Mi voz</button><button class="btn" onclick="say(RC.text)">🔊 Modelo</button><button class="btn" onclick="say(RC.text,1)">🐢 Lento</button></div>`:`<div class="row" style="justify-content:center"><button class="btn" onclick="say(RC.text)">🔊 Modelo</button><button class="btn" onclick="say(RC.text,1)">🐢 Lento</button></div>`}
+  <p class="hint" style="text-align:center;margin:10px 0 6px">Compara tu voz con el modelo. ¿Cómo te salió?</p><div class="ev"><button class="ok" onclick="rateIt(1)">✓ Igual</button><button class="mid" onclick="rateIt(0.5)">≈ Casi</button><button class="bad" onclick="rateIt(0)">✗ Repetir</button></div>`}
+function rateIt(v){if(RC&&RC.cb)RC.cb(v)}
+
+// ---------- inicio ----------
+const nom=()=>USER&&USER.n&&!/^\d+$/.test(USER.n)?USER.n.split(" ")[0]:"";
+const nextDay=()=>{for(let i=0;i<ND;i++)if(!done[i])return i;return ND-1};
+let MAXD=30;
+function home(){view="home";const n=Object.keys(done).length;
+  let h=`<div class="row" style="justify-content:space-between"><span class="mut">Allillanchu, <b style="color:var(--ink)">${nom()||(USER?USER.n:"")}</b>! 👋</span><button class="btn sm" onclick="logout()">⎋ Cerrar sesión</button></div>
+  <h1>🏔️ Quechua en 30 días</h1><p class="sub">Runa simi desde cero: quechua sureño (Chanka, Ayacucho), explicado paso a paso en castellano, con audio, ejercicios y práctica de pronunciación.</p>
+  <div class="card"><div class="row" style="justify-content:space-between"><span class="score">Progreso: ${n}/${ND} días</span><span class="mut">🗣️ Voz de la profesora</span></div>
+  <div class="bar" style="margin-top:10px"><i style="width:${n/ND*100}%"></i></div>
+  <div class="row" style="margin-top:12px"><select id="vsel" onchange="setVoice(this.value)" style="flex:1;min-width:180px">${vOpts()}</select><button class="btn sm" onclick="say('Allillanchu! Rimaykullayki.')">🔊 Probar</button></div>
+  <div class="row" style="margin-top:8px"><label class="mut">Velocidad</label><input type="range" min="0.5" max="1" step="0.05" value="${rate}" oninput="setRate(this.value)" style="flex:1"><b id="rout">${rate.toFixed(2)}</b></div>
+  <div class="row" style="margin-top:12px"><button class="btn p" onclick="openDay(${nextDay()})">▶ Continuar: Día ${nextDay()+1}</button><button class="btn" onclick="dic()">📚 Diccionario</button><button class="btn" onclick="repaso()">🧠 Repaso</button><button class="btn" onclick="tips()">🌄 Cultura y trucos</button></div></div>
+  <div class="card" style="border:2px solid #f0cf86;background:#fff8e6;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><div><b>🧭 Día 0 · Antes de empezar</b><div class="mut">Cómo suena el quechua y cómo se arman las palabras: 12 claves</div></div><button class="btn p" onclick="intro()">Ver introducción →</button></div>`;
+  LV.forEach(([nm,c,a,b])=>{h+=`<div class="lvl"><span class="dot" style="background:${c}"></span>${nm} · Días ${a+1}-${b}</div><div class="grid">`;
+    for(let i=a;i<Math.min(b,ND);i++)h+=`<div class="day${i+1>MAXD?" locked":""}" style="--c:${c}" onclick="openDay(${i})">${done[i]?'<span class="ok">✓</span>':i+1>MAXD?'<span class="ok">🔒</span>':""}<b>Día ${i+1}</b><small>${D[i].t}</small><small>🔤 ${D[i].v[0]}</small></div>`;
+    h+=`</div>`});
+  h+=`<details class="card" style="margin-top:22px" ${n?"":"open"}><summary style="cursor:pointer;font-weight:600">🧭 Cómo estudiar cada día (45 a 60 minutos)</summary>
+  <ol style="line-height:1.7">
+  <li><b>🔉 Sonido (5 min):</b> escucha los ejemplos y repítelos 3 veces, primero en 🐢 lento.</li>
+  <li><b>📖 Palabras (10 min):</b> escucha, mira el <span class="pr">[así se lee]</span> y repite. Repasa las de los dos días anteriores.</li>
+  <li><b>📘 Gramática (15 min):</b> lee los pasos con calma. Los colores te muestran los pedacitos que se pegan a cada palabra.</li>
+  <li><b>🔤 Verbo del día (5 min):</b> recita las 7 personas en voz alta.</li>
+  <li><b>💬 Diálogo (10 min):</b> escúchalo, repítelo y luego haz el juego de roles grabándote.</li>
+  <li><b>🎧 ✍️ 🎙️ Ejercicios (10 min):</b> Escuchar, Escribir y Pronunciar.</li>
+  <li><b>🏁 Ejercicio final:</b> con 70% o más el día queda aprobado.</li></ol>
+  <p class="mut" style="margin-bottom:0">La voz lee el quechua con una pronunciación aproximada en castellano. Fíjate siempre en el <span class="pr">[así se lee]</span> y en las notas de sonido de cada día.</p></details>`;
+  app.innerHTML=h;scrollTo(0,0)}
+function lockMsg(i){const d=document.createElement("div");d.className="modal";d.innerHTML=`<div class="card" style="text-align:center"><div style="font-size:2.2rem">🔒</div><h2 style="margin:6px 0">No tienes acceso al Día ${i+1}</h2><p class="mut">Comunícate con el administrador para que habilite la siguiente clase.</p><button class="btn p" style="width:100%" onclick="this.closest('.modal').remove()">Entendido</button></div>`;document.body.append(d)}
+
+// ---------- día ----------
+const SECS=[["s-sonido","Uyariy","Sonido del día",()=>sonido()],["s-aprender","Simikuna","Palabras",()=>aprender()],["s-gram","Yachay","Gramática",()=>gramatica()],["s-verbo","Ruray","Verbo del día",()=>verbo()],["s-conv","Rimanakuy","Diálogo",()=>conversacion()],["s-prac","Yachakuy","Práctica",()=>practica()]];
+const EXS=[["escuchar","🎧 Escuchar"],["escribir","✍️ Escribir"],["pronunciar","🎙️ Pronunciar"],["final","🏁 Ejercicio final"]];
+const goTo=id=>{const el=sec(id);if(el&&el.scrollIntoView)el.scrollIntoView({behavior:"smooth",block:"start"})};
+function openDay(i,m){if(i+1>MAXD){lockMsg(i);return}const same=view==="day"&&cur===i;cur=i;view="day";if(!same)renderDay();
+  const ex={escuchar,escribir,pronunciar,final}[m];
+  if(ex){ex();document.querySelectorAll("[data-ex]").forEach(b=>b.classList.toggle("on",b.dataset.ex===m));goTo("s-ex")}
+  else if(m){const id={sonido:"s-sonido",aprender:"s-aprender",gramatica:"s-gram",verbo:"s-verbo",conversacion:"s-conv",practica:"s-prac"}[m];if(id)goTo(id)}
+  else scrollTo(0,0)}
+function idxToggle(f){const m=sec("idx"),b=sec("fab");if(!m)return;const open=f===undefined?m.hidden:f;m.hidden=!open;b.textContent=open?"✕":"☰"}
+function idxGo(id){idxToggle(false);if(id)goTo(id);else scrollTo({top:0,behavior:"smooth"})}
+function renderDay(){const d=D[cur],L=lvlOf(cur);
+  app.innerHTML=`<div class="row" style="justify-content:space-between"><button class="btn sm" onclick="home()">← Plan</button>
+   <span class="row">${cur>0?`<button class="btn sm" onclick="openDay(${cur-1})">‹ Día ${cur}</button>`:""}${cur<ND-1?`<button class="btn sm" onclick="openDay(${cur+1})">Día ${cur+2} ›</button>`:""}</span></div>
+   <p class="eyebrow"><span class="dot" style="display:inline-block;background:${L[1]}"></span> Día ${cur+1} de ${ND} · ${L[0]}</p>
+   <h1 style="margin-top:4px">${d.t}</h1><p class="sub">🎯 <b>Objetivo:</b> ${d.g}</p>
+   <div id="idx" class="idx" hidden>${SECS.map((s,i)=>`<button onclick="idxGo('${s[0]}')">${i+1} · ${s[2]}</button>`).join("")}<button onclick="idxGo('s-ex')">7 · Ejercicios</button><button class="up" onclick="idxGo()">↑ Volver arriba</button></div>
+   <button id="fab" class="fab" aria-label="Índice" onclick="idxToggle()">☰</button>
+   ${SECS.map((s,i)=>`<section class="blk"><h3 class="sec">${i+1} · <i>${s[1]}</i> <small>${s[2]}</small></h3><div id="${s[0]}"></div></section>`).join("")}
+   <section class="blk" id="s-ex"><h3 class="sec">7 · <i>Kallpachakuy</i> <small>Ejercicios con nota</small></h3>
+   <p class="mut" style="margin-top:0">Elige un ejercicio: se abre aquí mismo. Con 70% o más en el <b>Ejercicio final</b> el día queda aprobado.</p>
+   <div class="row">${EXS.map(([k,l])=>`<button class="tab" data-ex="${k}" onclick="openDay(${cur},'${k}')">${l}</button>`).join("")}</div>
+   <div id="pane" style="margin-top:10px"></div></section>
+   <div class="card row" style="justify-content:space-between;margin-top:20px"><span>${done[cur]?"✅ Día aprobado con "+done[cur]+"%":"Aprueba el ejercicio final (70% o más) para completar el día."}</span>
+   ${done[cur]?"":`<button class="btn g" onclick="openDay(${cur},'final')">🏁 Ir al ejercicio final</button>`}</div>
+   <div class="row" style="justify-content:space-between">${cur>0?`<button class="btn" onclick="openDay(${cur-1})">← Día ${cur}</button>`:"<span></span>"}${cur<ND-1?`<button class="btn p" onclick="openDay(${cur+1})">Día ${cur+2} →</button>`:""}</div>`;
+  SECS.forEach(s=>s[3]())}
+const pane=()=>sec("pane");
+function sonido(){const s=D[cur].s;let prev=null;
+  sec("s-sonido").innerHTML=`<div class="card"><p class="mut" style="margin-top:0">${s.i}</p>
+  ${s.r.map(([t,x,c])=>`<div class="rule ${c}"><small>${t}</small><div>${x}</div></div>`).join("")}
+  <p class="lbl">Así suena</p><div class="sndt"><div class="sr hd"><span>Sonido</span><span>Ejemplo · así se lee</span><span></span></div>
+  ${s.f.map(([w,ex])=>{const lab=w===prev?"":w;prev=w;return `<div class="sr"><b>${lab}</b><span>${ex} <span class="pr">[${qpron(ex)}]</span></span><span>${spk(ex)}</span></div>`}).join("")}</div>
+  <div class="row" style="margin-top:12px"><button class="btn sm" onclick="chain(D[cur].s.f.map(x=>x[1]),1)">🐢 Escuchar todos lento</button><button class="btn sm" onclick="chain(D[cur].s.f.map(x=>x[1]))">▶ Normal</button></div></div>
+  <div class="card note">Escucha cada ejemplo y <b>repítelo 3 veces en voz alta</b>, primero en lento.</div>`}
+function aprender(){const d=D[cur];
+  sec("s-aprender").innerHTML=`<div class="card"><h2>Palabras (${d.w.length})</h2><p class="mut" style="margin-top:0">🔊 normal · 🐢 lento · <span class="pr">[así se lee]</span></p><div class="vocab">${d.w.map(([it,es])=>`<div class="w"><div><div class="it">${it} <span class="pr">[${qpron(it)}]</span></div><div class="es">${es}</div></div><span style="white-space:nowrap">${spk(it)} ${spkS(it)}</span></div>`).join("")}</div>
+  <button class="btn" style="margin-top:12px" onclick="chain(D[cur].w.map(x=>x[0]))">▶ Escuchar todas</button></div>
+  <div class="card"><h2>Frases útiles (${d.f.length})</h2>${d.f.map(([it,es])=>`<div class="w" style="margin:6px 0"><div><div class="it">${it}</div><div class="es">${es}</div></div><span style="white-space:nowrap">${spk(it)} ${spkS(it)}</span></div>`).join("")}</div>
+  <div class="card note">💡 ${cz(d.n)}</div>${d.cu?`<div class="card cult">🌄 <b>Cultura andina:</b> ${d.cu}</div>`:""}`}
+function tbl(t){return `<div class="card" style="padding:0;overflow-x:auto"><table><caption class="cap">${t.c}</caption><tr><th></th>${t.h.map(x=>`<th class="th">${x}</th>`).join("")}</tr>${t.r.map(r=>{const s=t.k.map(j=>r[j]).join(". ").replace(/(\S)·(?=\S)/g,"$1").replace(/[→—·\/]/g,",");return `<tr><td style="width:40px">${spk(s)}</td>${r.map((c,j)=>`<td style="width:auto;${t.k.includes(j)?"color:var(--ink)":"color:var(--mut)"}">${cz(c)}</td>`).join("")}</tr>`}).join("")}</table></div>`}
+function claves(ns,oj){const ex=t=>{const m=t.match(/<i>(.*?)<\/i>/);return m?m[1].replace(/<[^>]+>/g,"").replace(/·/g,""):""};
+  const card=(cls,title,txt)=>{const e=ex(txt);return `<div class="clave ${cls}"><small>${title}</small><div>${cz(txt)}</div>${e?`<div class="cx">${spk(e)} <span>${e}</span></div>`:""}</div>`};
+  return `<p class="lbl">🔑 Claves del día</p>${ns.map((n,i)=>{const m=n.match(/^<b>([^<]+):<\/b>\s*/);return card(i?"b":"v","🔑 Clave"+(m?": "+m[1]:""),m?n.slice(m[0].length):n)}).join("")}${card("a","⚠️ Ojo: error típico",oj)}`}
+function gramatica(){const d=D[cur];
+  sec("s-gram").innerHTML=`<h2 style="margin:6px 0 8px">📘 ${d.gt}</h2><div class="prose">${cz(d.gi)}</div>
+  <p class="hint">Los <span class="m1">colores</span> separan los <span class="m2">pedacitos</span> que se pegan a cada palabra.</p>
+  <div class="tblgrid">${d.tb.map(tbl).join("")}</div>${claves(d.gn,d.oj)}
+  <div class="card"><h2>Ejemplos</h2>${d.ej.map(([it,es])=>`<div class="w" style="margin:6px 0"><div><div class="it">${it}</div><div class="es">${es}</div></div><span style="white-space:nowrap">${spk(it)} ${spkS(it)}</span></div>`).join("")}</div>`}
+function conjTable(v){return `<table>${v[3].map((f,i)=>`<tr><td>${PE[i]}</td><td class="mut" style="width:auto">${P[i]}</td><td style="width:auto"><b>${f}</b></td><td style="text-align:right">${spk(P[i]+" "+f)}</td></tr>`).join("")}</table>`}
+function verbo(){const v=D[cur].v;
+  sec("s-verbo").innerHTML=`<div class="card"><h2>${v[0]} <span class="mut" style="font-size:1rem">(${v[1]})</span> ${spk(v[0])}</h2><p class="mut" style="margin-top:0">Tiempo: <b>${v[2]}</b> · <span class="pr">[${qpron(v[0])}]</span></p>${conjTable(v)}
+  <button class="btn" style="margin-top:10px" onclick="chain(D[cur].v[3].map((f,i)=>P[i]+' '+f))">▶ Escuchar las 7 personas</button></div>
+  <div class="card"><h2>Practica</h2><div id="vq"></div></div>`;vq()}
+function exVerb(v,i){const j=(i+3)%7;return `<p class="hint">Ejemplo: para <b>${P[j]}</b> (${PE[j]}) escribes <span class="ej">${v[3][j]}</span></p>`}
+function vq(){const v=D[cur].v,i=Math.floor(Math.random()*7);window.__vt=v[3][i];
+  sec("vq").innerHTML=`<p style="margin-bottom:4px">Conjuga <b>${v[0]}</b> (${v[2]}) para: <b style="font-size:1.2rem">${P[i]}</b> <span class="mut">(${PE[i]})</span></p>${exVerb(v,i)}
+  <input type="text" id="vin" placeholder="Escribe la forma…" autocomplete="off" onkeydown="if(event.key==='Enter')chkV()">
+  <div class="row" style="margin-top:10px"><button class="btn p" onclick="chkV()">Comprobar</button><button class="btn" onclick="vq()">Otra</button></div><div class="fb" id="vfb"></div>`}
+function chkV(){const g=sec("vin").value,t=window.__vt,fb=sec("vfb");
+  if(norm(g)===norm(t)){fb.className="fb ok";fb.textContent="✓ Allinmi! ";say(t);setTimeout(vq,1400)}else{fb.className="fb bad";fb.textContent="✗ Era: "+t}}
+function practica(){const d=D[cur];
+  sec("s-prac").innerHTML=`<div class="card"><h2>❓ Practica</h2><p class="mut" style="margin-top:0">Responde <b>en voz alta</b> antes de abrir la respuesta.</p>
+  ${d.p.map(([qq,a],i)=>{const sp=a.startsWith("~"),ans=sp?a.slice(1):a;return `<details class="w" style="display:block;margin:8px 0"><summary style="cursor:pointer;font-weight:500">${i+1}. ${qq}</summary>
+   <div class="row" style="margin-top:8px;color:var(--verde);font-weight:600">${sp?"":spk(ans)} ${ans}</div></details>`}).join("")}</div>
+  <div class="card" style="background:#fbe5e2;border-color:#f3c9c4"><h2>🎙️ Rimay! — Tarea oral</h2><p style="line-height:1.6;margin:0">${d.tk}</p>
+  <p class="mut" style="margin-bottom:0">Consejo: grábate con el celular y escúchate al final del día.</p></div>`}
+
+// ---------- errores ----------
+let ERR={};
+function errLoad(){try{ERR=JSON.parse(LS.get("qu30err_"+(USER?USER.u:""))||"{}")}catch(e){ERR={}}}
+function errSave(){if(USER)LS.set("qu30err_"+USER.u,JSON.stringify(ERR))}
+function addErr(t,it,es,ans){(ERR[cur]=ERR[cur]||{})[t+"|"+it]={t,it,es,ans:ans||""};errSave()}
+function delErr(t,it){if(ERR[cur]){delete ERR[cur][t+"|"+it];errSave()}}
+const errList=()=>Object.values(ERR[cur]||{});
+const TIPO={L:["🎧","Escuchar"],W:["✍️","Escribir"],P:["🎙️","Pronunciar"],R:["🎭","Juego de roles"]};
+function endCard(title,again,next,nextLbl){const n=errList().length;
+  return `<div class="card" style="text-align:center"><h2>${title}</h2>${n?`<p class="mut">Tienes <b>${n}</b> ${n===1?"error guardado":"errores guardados"} para reforzar antes del ejercicio final.</p>`:""}
+  <div class="row" style="justify-content:center"><button class="btn" onclick="${again}()">↺ Repetir</button>${next?`<button class="btn p" onclick="openDay(${cur},'${next}')">${nextLbl} →</button>`:""}</div></div>`}
+const otherW=it=>{const o=D[cur].w.filter(w=>w[0]!==it);return o[Math.floor(Math.random()*o.length)]};
+
+// ---------- escuchar ----------
+function escuchar(){q={items:shuf([...shuf(D[cur].w).slice(0,7),...shuf(D[cur].f).slice(0,3)]),k:0,ok:0};nextL()}
+function nextL(){
+  if(q.k>=q.items.length){pane().innerHTML=endCard(`Resultado: ${q.ok}/${q.items.length}`,"escuchar","escribir","Siguiente: Escribir");return}
+  const it=q.items[q.k],pool=[...D[cur].w,...D[cur].f].filter(x=>x!==it),opts=shuf([it,...shuf(pool).slice(0,3)]);
+  pane().innerHTML=`<div class="card"><p class="mut" style="margin-bottom:4px">Pregunta ${q.k+1}/${q.items.length} · Escucha y elige el significado</p>
+  <div style="text-align:center;margin:18px 0"><button class="btn p" style="font-size:1.3rem;padding:14px 26px" onclick="say(q.items[q.k][0])">🔊 Escuchar</button> <button class="btn" onclick="say(q.items[q.k][0],1)">🐢 Lento</button></div>
+  <div class="opts">${opts.map(o=>`<button class="opt" data-r="${o===it?1:0}" onclick="ansL(this)">${o[1]}</button>`).join("")}</div><div class="fb" id="lfb"></div></div>`;
+  setTimeout(()=>say(it[0]),250)}
+function ansL(b){const it=q.items[q.k];document.querySelectorAll(".opt").forEach(o=>{o.disabled=true;if(o.dataset.r==="1")o.classList.add("ok")});
+  const fb=sec("lfb");if(b.dataset.r==="1"){q.ok++;fb.className="fb ok";fb.textContent="✓ "+it[0]}else{b.classList.add("bad");fb.className="fb bad";fb.textContent="✗ Era: "+it[0]+" = "+it[1];addErr("L",it[0],it[1],"elegiste «"+b.textContent+"»")}
+  q.k++;setTimeout(nextL,1600)}
+// ---------- escribir ----------
+function escribir(){const w=shuf(D[cur].w);q={items:shuf([...w.slice(0,6).map(x=>({m:"dict",it:x[0],es:x[1]})),...w.slice(6,8).map(x=>({m:"trad",it:x[0],es:x[1]})),...shuf(D[cur].f).slice(0,2).map(x=>({m:"dict",it:x[0],es:x[1]}))]),k:0,ok:0};nextW()}
+function nextW(){
+  if(q.k>=q.items.length){pane().innerHTML=endCard(`Resultado: ${q.ok}/${q.items.length}`,"escribir","pronunciar","Siguiente: Pronunciar");return}
+  const x=q.items[q.k];
+  pane().innerHTML=`<div class="card"><p class="mut" style="margin-bottom:4px">Ejercicio ${q.k+1}/${q.items.length} · ${x.m==="dict"?"Dictado: escucha y escribe en quechua":"Traducción: escribe en quechua"}</p>
+  ${x.m==="dict"?`<p class="hint">Pista: significa «${x.es}»</p><div style="text-align:center;margin:14px 0"><button class="btn p" style="font-size:1.2rem;padding:12px 24px" onclick="say(q.items[q.k].it)">🔊 Escuchar</button> <button class="btn" onclick="say(q.items[q.k].it,1)">🐢 Lento</button></div>`:`<div class="big">${x.es}</div>`}
+  <input type="text" id="win" placeholder="Escribe en quechua…" autocomplete="off" onkeydown="if(event.key==='Enter')chkW()">
+  <div class="row" style="margin-top:10px"><button class="btn p" id="wb" onclick="chkW()">Comprobar</button><button class="btn" onclick="hint()">Pista</button></div><div class="fb" id="wfb"></div></div>`;
+  if(x.m==="dict")setTimeout(()=>say(x.it),250)}
+function hint(){const x=q.items[q.k],f=sec("wfb");f.className="fb mut";f.textContent="Empieza con: "+x.it.slice(0,Math.ceil(x.it.length/3))+"…"}
+function chkW(){const x=q.items[q.k],g=sec("win").value,fb=sec("wfb"),b=sec("wb");
+  if(b.dataset.next){q.k++;nextW();return}
+  const a=norm(g),t=norm(x.it);
+  if(a===t){q.ok++;fb.className="fb ok";fb.textContent="✓ Allinmi! "+x.it+" = "+x.es}
+  else if(wsim(a.replace(/ /g,""),t.replace(/ /g,""))>=0.85){q.ok++;fb.className="fb ok";fb.textContent="≈ Casi perfecto. Se escribe: "+x.it}
+  else{fb.className="fb bad";fb.textContent="✗ Se escribe: "+x.it+" ("+x.es+")";addErr("W",x.it,x.es,"escribiste «"+(g.trim()||"(vacío)")+"»")}
+  say(x.it);b.textContent="Siguiente →";b.dataset.next=1}
+// ---------- pronunciar ----------
+function pronunciar(){q={items:shuf([...shuf(D[cur].w).slice(0,8),...shuf(D[cur].f).slice(0,2)]),k:0,ok:0};nextP()}
+function nextP(){
+  if(q.k>=q.items.length){pane().innerHTML=endCard(`¡Práctica terminada! ${q.ok}/${q.items.length} bien pronunciadas`,"pronunciar","final","Ir al Ejercicio final");return}
+  const x=q.items[q.k];
+  pane().innerHTML=`<div class="card" style="text-align:center"><p class="mut" style="margin-bottom:4px">${q.k+1}/${q.items.length} · 1) Escucha · 2) Grábate · 3) Compara</p>
+  <div class="big">${x[0]}</div><p class="mut">${x[1]} · <span class="pr">[${qpron(x[0])}]</span></p>
+  <div class="row" style="justify-content:center;margin-bottom:12px"><button class="btn" onclick="say(q.items[q.k][0])">🔊 Escuchar</button><button class="btn" onclick="say(q.items[q.k][0],1)">🐢 Lento</button></div>
+  <div id="pmic"></div><div id="pact" class="row" style="justify-content:center;margin-top:10px"><button class="btn sm" onclick="pNext(false)">Saltar →</button></div></div>`;
+  recBox("pmic",x[0],v=>{if(v>0){if(!x.c){x.c=1;q.ok+=v}if(v>=1)delErr("P",x[0]);else addErr("P",x[0],x[1],"te calificaste «casi»");q.k++;setTimeout(nextP,400)}
+    else{addErr("P",x[0],x[1],"te calificaste «repetir»");sec("pact").innerHTML=`<p class="hint" style="width:100%;text-align:center">Escucha el modelo en 🐢, mira el [así se lee] y grábate otra vez.</p><button class="btn p" onclick="pNext(true)">Siguiente →</button>`}});
+  setTimeout(()=>say(x[0]),300)}
+function pNext(had){const x=q.items[q.k];if(!had)addErr("P",x[0],x[1],"no se practicó");q.k++;nextP()}
+// ---------- reforzar errores ----------
+function preFinal(){const L=errList();
+  pane().innerHTML=`<div class="card"><h2>Antes del examen: corrige tus errores</h2><p class="mut" style="margin-top:0">En la práctica tuviste <b>${L.length}</b> errores. Revísalos o refuérzalos:</p>
+  <div class="sndt">${L.map(e=>`<div class="er"><span>${TIPO[e.t][0]}</span><span><b>${e.it}</b> = ${e.es}<br><small class="bad">${e.ans}</small></span><span>${spk(e.it)}</span></div>`).join("")}</div>
+  <button class="btn g" style="width:100%;margin-top:12px" onclick="reforzar()">💪 Reforzar ${L.length===1?"este error":"estos "+L.length}</button>
+  <button class="btn p" style="width:100%;margin-top:8px" onclick="final(true)">Ir al Ejercicio final →</button></div>`}
+function reforzar(){q={items:shuf(errList()),k:0,ok:0};nextRf()}
+function nextRf(){
+  if(q.k>=q.items.length){const n=errList().length;pane().innerHTML=`<div class="card" style="text-align:center"><h2>💪 Refuerzo terminado</h2><p>${n?`Te quedan <b>${n}</b> por corregir.`:"¡Corregiste todos tus errores! 🎉"}</p>
+    <div class="row" style="justify-content:center">${n?`<button class="btn" onclick="preFinal()">Ver lista</button><button class="btn g" onclick="reforzar()">💪 Reforzar otra vez</button>`:""}<button class="btn p" onclick="final(true)">Ir al Ejercicio final →</button></div></div>`;return}
+  const e=q.items[q.k],oral=e.t==="P"||e.t==="R",hd=`<p class="mut" style="margin-bottom:4px">Refuerzo ${q.k+1}/${q.items.length} · ${TIPO[e.t][0]} ${TIPO[e.t][1]}</p>`;
+  if(oral){pane().innerHTML=`<div class="card" style="text-align:center">${hd}<div class="big" style="font-size:1.6rem">${e.it}</div><p class="mut">${e.es} · <span class="pr">[${qpron(e.it)}]</span></p>
+    <div class="row" style="justify-content:center;margin-bottom:12px"><button class="btn" onclick="say(q.items[q.k].it)">🔊 Escuchar</button><button class="btn" onclick="say(q.items[q.k].it,1)">🐢 Lento</button></div><div id="rmic"></div><div id="ract" class="row" style="justify-content:center;margin-top:10px"><button class="btn sm" onclick="q.k++;nextRf()">Saltar →</button></div></div>`;
+    recBox("rmic",e.it,v=>{if(v>=1){delErr(e.t,e.it);q.k++;setTimeout(nextRf,400)}else sec("ract").innerHTML=`<button class="btn p" onclick="q.k++;nextRf()">Siguiente →</button>`});
+    setTimeout(()=>say(e.it),250);return}
+  pane().innerHTML=`<div class="card">${hd}<p class="hint">Escucha y escríbelo en quechua.</p>
+   <div style="text-align:center;margin:12px 0"><button class="btn p" onclick="say(q.items[q.k].it)">🔊 Escuchar</button> <button class="btn" onclick="say(q.items[q.k].it,1)">🐢 Lento</button></div><p class="mut" style="text-align:center">Significa: ${e.es}</p>
+   <input type="text" id="rfi" autocomplete="off" placeholder="Escribe en quechua…" onkeydown="if(event.key==='Enter')chkRf()">
+   <div class="row" style="margin-top:10px"><button class="btn p" id="rfb" onclick="chkRf()">Comprobar</button></div><div class="fb" id="rff"></div></div>`;
+  setTimeout(()=>say(e.it),250)}
+function chkRf(){const e=q.items[q.k],b=sec("rfb"),f=sec("rff");if(b.dataset.next){q.k++;nextRf();return}
+  const ok=norm(sec("rfi").value)===norm(e.it);f.className="fb "+(ok?"ok":"bad");f.textContent=ok?"✓ Corregido: "+e.it:"✗ Se escribe: "+e.it;if(ok)delErr(e.t,e.it);say(e.it);b.textContent="Siguiente →";b.dataset.next=1}
+// ---------- diálogo y juego de roles ----------
+let showTr=true,RP=null;
+function conversacion(){const c=D[cur].c;
+  sec("s-conv").innerHTML=`<div class="card"><h2>💬 Diálogo</h2>
+  <p style="margin:0 0 2px"><b>1.</b> Escucha el diálogo completo.</p><p style="margin:0 0 12px"><b>2.</b> Luego practica en el <b>Juego de roles</b>.</p>
+  <div class="row" style="margin-bottom:12px"><button class="btn p" onclick="playDialog()">▶ Reproducir diálogo</button><button class="btn" onclick="playDialog(1)">🐢 Lento</button>
+  <button class="btn" onclick="showTr=!showTr;document.querySelectorAll('#dlg .es').forEach(e=>e.style.display=showTr?'':'none');this.textContent=(showTr?'Ocultar':'Mostrar')+' traducción'">${showTr?"Ocultar":"Mostrar"} traducción</button></div>
+  <div id="dlg">${c.map(([it,es],i)=>{const Bb=i%2==1;return `<div class="w" id="cl${i}" style="margin:6px 0;${Bb?"margin-left:40px;background:#f3f8f5":"margin-right:40px"}">
+   <div><div class="mut" style="font-size:.75rem;font-weight:600">${Bb?"B":"A"}</div><div class="it">${it}</div><div class="es" style="${showTr?"":"display:none"}">${es}</div></div><span>${spk(it)}</span></div>`}).join("")}</div></div>
+  <div class="card" id="rp"></div>`;rpIntro()}
+function playDialog(slow){chain(D[cur].c.map(x=>x[0]),slow,k=>{document.querySelectorAll('[id^="cl"]').forEach(e=>e.style.outline="");const el=sec("cl"+k);if(el)el.style.outline="2px solid var(--oro)"})}
+function rpIntro(){const r=sec("rp");if(!r)return;
+  r.innerHTML=`<h2>🎭 Juego de roles</h2><p style="margin:0">La otra persona habla y, en tu turno, <b>te grabas diciendo tu frase</b> y la comparas con el modelo.</p>
+  <div class="row" style="margin-top:10px"><button class="btn g" onclick="rpStart('B')">▶ Empezar: yo soy B</button><button class="btn" onclick="rpStart('A')">Yo soy A</button></div>`}
+function rpStart(me){RP={me,k:0,ok:0,bad:0,tok:Date.now()};
+  sec("rp").innerHTML=`<div class="row" style="justify-content:space-between;margin-bottom:8px"><b>🎭 Tú eres ${me}</b><button class="btn sm" onclick="RP=null;try{speechSynthesis.cancel()}catch(e){};rpIntro()">Salir</button></div><div id="chat" class="chat"></div><div id="rpt"></div>`;rpStep()}
+function bubble(who,txt,cls){const ch=sec("chat");if(!ch)return;const d=document.createElement("div");d.className="bb "+cls;d.innerHTML=`<small>${who}</small>${txt}`;ch.appendChild(d)}
+function rpStep(){const c=D[cur].c,t=sec("rpt");if(!RP||!t)return;const tok=RP.tok,mine=i=>(RP.me==="B")===(i%2===1);
+  if(RP.k>=c.length){t.innerHTML=`<div style="text-align:center;margin-top:10px"><p><span style="color:var(--verde);font-weight:600">✓ ${RP.ok} bien</span> · <span style="color:var(--rojo);font-weight:600">✗ ${RP.bad} por mejorar</span></p>
+    <div class="row" style="justify-content:center"><button class="btn" onclick="rpStart('${RP.me}')">↺ Repetir</button><button class="btn p" onclick="rpStart('${RP.me==="B"?"A":"B"}')">Cambiar papel (yo soy ${RP.me==="B"?"A":"B"})</button></div></div>`;return}
+  const [it,es]=c[RP.k];
+  if(!mine(RP.k)){t.innerHTML=`<p class="mut" style="text-align:center">🔊 Escucha…</p>`;bubble((RP.me==="B"?"A":"B")+" 🔊",it+`<div class="es">${es}</div>`,"other");
+    let fin=false;const go=()=>{if(fin||!RP||RP.tok!==tok)return;fin=true;RP.k++;rpStep()};
+    try{speechSynthesis.cancel();const u=utt(qpron(it),rate);u.onend=()=>setTimeout(go,400);speechSynthesis.speak(u)}catch(e){}
+    setTimeout(go,3000+it.length*140);return}
+  t.innerHTML=`<div class="bb turn"><small>🎙️ TU TURNO · quieres decir «${es}»</small><div class="rd">${it}</div><div class="mut" style="font-size:.8rem"><span class="pr">[${qpron(it)}]</span> ${spk(it)}</div></div><div id="rmic2"></div><div id="ract2" class="row" style="justify-content:center;margin-top:8px"><button class="btn sm" onclick="rpSkip()">Saltar →</button></div>`;
+  recBox("rmic2",it,v=>{if(!RP||RP.tok!==tok)return;
+    if(v>0){RP.ok++;delErr("R",it);bubble("Tú "+(v>=1?"✓":"≈"),it,"me ok");RP.k++;setTimeout(rpStep,500)}
+    else{addErr("R",it,es,"te calificaste «repetir»");sec("ract2").innerHTML=`<p class="hint" style="width:100%;text-align:center">Escucha el modelo en 🐢 y grábate otra vez.</p><button class="btn sm" onclick="rpSkip()">Seguir →</button>`}})}
+function rpSkip(){const [it,es]=D[cur].c[RP.k];RP.bad++;addErr("R",it,es,"no se logró");bubble("Tú ✗",it,"me bad");RP.k++;rpStep()}
+// ---------- ejercicio final ----------
+function final(skip){
+  if(!skip&&errList().length){preFinal();return}
+  const d=D[cur],qs=[],fr=shuf(d.f.filter(x=>x[0].split(" ").length>=3));
+  fr.slice(0,3).forEach(x=>qs.push({t:"ord",it:x[0],es:x[1]}));
+  const allW=[...new Set(d.c.concat(d.f).flatMap(x=>x[0].replace(/[.,!?¿¡:]/g,"").split(" ")).filter(w=>w.length>3))];
+  const ci=shuf([0,1,2,3,4,5]),resp=ci.find(i=>i%2===1),rest=ci.filter(i=>i!==resp),dict=rest[0];
+  rest.slice(1,3).forEach(i=>{const x=d.c[i],ws=x[0].replace(/[.,!?¿¡:]/g,"").split(" ").filter(w=>w.length>2),w=ws.sort((a,b)=>b.length-a.length)[0];
+    qs.push({t:"gap",it:x[0],es:x[1],w,prev:i>0?d.c[i-1][0]:"",opts:shuf([w,...shuf(allW.filter(z=>z.toLowerCase()!==w.toLowerCase())).slice(0,3)])})});
+  qs.push({t:"verb",v:d.v,i:Math.floor(Math.random()*7)});
+  const wd=shuf(d.w)[0];qs.push({t:"trad",it:wd[0],es:wd[1]});
+  const tf=fr[3]||shuf(d.f.filter(x=>!fr.slice(0,3).includes(x)))[0]||d.f[0];
+  qs.push({t:"hard",m:"dict",it:d.c[dict][0],es:d.c[dict][1]});
+  qs.push({t:"hard",m:"trad",it:tf[0],es:tf[1]});
+  qs.push({t:"hard",m:"resp",it:d.c[resp][0],es:d.c[resp][1],prev:d.c[resp-1][0]});
+  q={items:qs,k:0,ok:0};nextF()}
+function nextF(){
+  if(q.k>=q.items.length){const pct=Math.round(q.ok/q.items.length*100);registrar(pct);const mf=motiv(pct>=70);setTimeout(()=>sayEs(mf),900);
+    pane().innerHTML=`<div class="card" style="text-align:center"><h2>🏁 Puntaje final: ${q.ok*2}/${q.items.length*2}</h2><p class="mut" style="margin-top:0">${q.ok} de ${q.items.length} respuestas correctas · ${pct}% · se aprueba con ${Math.ceil(q.items.length*0.7)*2} puntos</p>
+    <p>${pct>=70?"Allinmi! Aprobaste el día "+(cur+1)+" 🎉":"Repasa las palabras y el diálogo, y vuelve a intentarlo."}</p>${pct>=70?`<p><span class="hard" style="background:#e3f4ea;color:#0f5c3b">✅ Tu avance quedó guardado</span></p>`:""}
+    <div class="note" style="text-align:left;margin:4px 0 12px">🔊 «${mf}» <button class="spk" onclick="sayEs('${esc(mf)}')">🔁</button></div>
+    <div class="row" style="justify-content:center"><button class="btn" onclick="final(true)">Repetir</button>${pct>=70&&cur<ND-1?`<button class="btn p" onclick="openDay(${cur+1})">Día ${cur+2} →</button>`:""}</div></div>`;return}
+  const x=q.items[q.k],hd=`<div class="row" style="justify-content:space-between"><span class="mut">Pregunta ${q.k+1}/${q.items.length} · vale 2 puntos</span><span class="mut">Puntos: <b style="color:var(--ink)">${q.ok*2}</b>/${q.items.length*2}</span></div>${x.t==="hard"?`<p class="hard">⭐ Pregunta difícil</p>`:""}`;
+  const inp=`<input type="text" id="fin" autocomplete="off" placeholder="Escribe en quechua…" onkeydown="if(event.key==='Enter')chkFT()"><div class="row" style="margin-top:10px"><button class="btn p" id="fb2" onclick="chkFT()">Comprobar</button></div><div class="fb" id="ffb"></div></div>`;
+  if(x.t==="ord"){window.__lock=false;window.__built=[];window.__pool=shuf(x.it.split(" "));
+    pane().innerHTML=`<div class="card">${hd}<h2>Ordena la frase</h2><p class="hint">Recuerda: en quechua el verbo suele ir al final.</p><p class="mut">“${x.es}”</p><div id="built" style="min-height:48px;border:2px dashed var(--line);border-radius:10px;padding:8px;margin:10px 0" class="row"></div><div id="pool" class="row"></div>
+    <div class="row" style="margin-top:12px"><button class="btn p" id="fb2" onclick="chkOrd()">Comprobar</button><button class="btn" onclick="window.__built=[];window.__pool=shuf(q.items[q.k].it.split(' '));drawOrd()">↺ Reiniciar</button></div><div class="fb" id="ffb"></div></div>`;drawOrd()}
+  else if(x.t==="gap"){const line=x.it.replace(x.w,"_____");
+    pane().innerHTML=`<div class="card">${hd}<h2>Completa el diálogo</h2>${x.prev?`<div class="w" style="margin:6px 40px 6px 0"><div class="it">A: ${x.prev}</div>${spk(x.prev)}</div>`:""}
+    <div class="w" style="margin:6px 0 12px 40px;background:#f3f8f5"><div class="it">B: ${line}</div></div><p class="mut">${x.es}</p>
+    <div class="opts">${x.opts.map(o=>`<button class="opt" data-r="${o===x.w?1:0}" onclick="ansF(this)">${o}</button>`).join("")}</div><div class="fb" id="ffb"></div></div>`}
+  else if(x.t==="verb"){window.__vt=x.v[3][x.i];
+    pane().innerHTML=`<div class="card">${hd}<h2>Verbo del día</h2><p style="margin-bottom:4px">Conjuga <b>${x.v[0]}</b> (${x.v[2]}) para <b>${P[x.i]}</b> <span class="mut">(${PE[x.i]})</span></p>${exVerb(x.v,x.i)}${inp}`}
+  else if(x.t==="hard"){window.__vt=x.it;const ttl={dict:"Dictado: escribe la frase completa",trad:"Traduce la frase completa",resp:"Responde en el diálogo"}[x.m];
+    const body=x.m==="dict"?`<p class="hint">Pista: significa «${x.es}»</p><div style="text-align:center;margin:12px 0"><button class="btn p" onclick="say(window.__vt)">🔊 Escuchar</button> <button class="btn" onclick="say(window.__vt,1)">🐢 Lento</button></div>`
+     :x.m==="trad"?`<div class="big" style="font-size:1.5rem">${x.es}</div>`
+     :`<div class="w" style="margin:6px 40px 6px 0"><div><div class="mut" style="font-size:.75rem">A dice</div><div class="it">${x.prev}</div></div>${spk(x.prev)}</div><p>Tú (B) quieres decir: <b>«${x.es}»</b></p>`;
+    pane().innerHTML=`<div class="card">${hd}<h2>${ttl}</h2>${body}${inp}`;if(x.m==="dict")setTimeout(()=>say(x.it),300)}
+  else{window.__vt=x.it;pane().innerHTML=`<div class="card">${hd}<h2>Traduce al quechua</h2><div class="big">${x.es}</div>${inp}`}}
+function drawOrd(){if(window.__lock)return;sec("built").innerHTML=window.__built.map((w,i)=>`<button class="btn sm" onclick="window.__pool.push(window.__built.splice(${i},1)[0]);drawOrd()">${w}</button>`).join("");
+  sec("pool").innerHTML=window.__pool.map((w,i)=>`<button class="btn sm" onclick="window.__built.push(window.__pool.splice(${i},1)[0]);drawOrd()">${w}</button>`).join("")}
+function fNext(ok,msg,it){const fb=sec("ffb");if(ok)q.ok++;fb.className="fb "+(ok?"ok":"bad");fb.textContent=msg;say(it);q.k++;
+  const b=sec("fb2");if(b){b.textContent="Siguiente →";b.onclick=nextF}else setTimeout(nextF,1800)}
+function chkOrd(){const x=q.items[q.k],ok=norm(window.__built.join(" "))===norm(x.it);window.__lock=true;const pl=sec("pool");if(pl)pl.innerHTML="";fNext(ok,(ok?"✓ Allinmi! ":"✗ Correcto: ")+x.it,x.it)}
+function ansF(b){const x=q.items[q.k];document.querySelectorAll(".opt").forEach(o=>{o.disabled=true;if(o.dataset.r==="1")o.classList.add("ok")});if(b.dataset.r!=="1")b.classList.add("bad");
+  fNext(b.dataset.r==="1",(b.dataset.r==="1"?"✓ ":"✗ ")+x.it,x.it)}
+function chkFT(){const g=sec("fin").value,t=window.__vt,x=q.items[q.k];if(!g.trim())return;
+  if(x&&x.t==="hard"){const c=wordChips(g,t),ok=c.n/c.t>=0.8;fNext(ok,(ok?(c.n===c.t?"✓ Allinmi! ":`✓ ¡Bien! ${c.n} de ${c.t} palabras. `):"✗ Correcto: ")+t,t);const fb=sec("ffb");if(fb)fb.innerHTML+=c.html;return}
+  const ok=norm(g)===norm(t);fNext(ok,(ok?"✓ Allinmi! ":"✗ Correcto: ")+t,t)}
+
+// ---------- motivación y bienvenida ----------
+const MOT_OK=["¡Excelente! La disciplina te lleva al éxito.","¡Bien hecho! Sigue así, vas muy bien.","Un día más cerca de hablar quechua.","Lo que haces cada día te lleva a tu meta.","¡Felicitaciones! Tu esfuerzo está dando frutos.","La constancia vence al talento. ¡Sigue adelante!","Paso a paso se llega lejos. ¡Hoy diste uno más!","¡Muy bien! Estudiar todos los días marca la diferencia.","Cada clase que terminas es una victoria.","¡Lo estás logrando! No te detengas.","Hablar quechua es mantener viva nuestra historia. ¡Bravo!","¡Qué orgullo! Mañana, otra clase más.","Tu quechua mejora con cada día que estudias.","¡Gran trabajo! La práctica hace al maestro.","¡Allinmi! Hoy hiciste lo que muchos dejan para mañana."];
+const MOT_NO=["No te rindas, cada error te enseña algo.","Sigue adelante, lo vas a lograr.","Practicar es el camino: inténtalo otra vez.","Equivocarse es parte de aprender. ¡Vamos de nuevo!","Respira, repasa y vuelve a intentarlo. Tú puedes.","¡Kallpanchakuy! Ánimo, que lo vas a lograr.","Cada intento te hace más fuerte.","Un tropiezo no es una caída. ¡Otra vez!"];
+function motiv(ok){const L=ok?MOT_OK:MOT_NO,t=L[Math.floor(Math.random()*L.length)],n=nom();return n?t.replace(/^(¡?)([^,.!]+)([,.!])/,(m,a,b,c)=>a+b+", "+n+c):t}
+function welcome(){try{if(sessionStorage.getItem("qu30w"))return;sessionStorage.setItem("qu30w","1")}catch(e){}const t="Allillanchu"+(nom()?", "+nom():"")+"! Rimaykullayki.";
+  if(navigator.userActivation&&!navigator.userActivation.hasBeenActive)document.addEventListener("pointerdown",()=>setTimeout(()=>say(t),200),{once:true});else setTimeout(()=>say(t),500)}
+
+// ---------- sesión ----------
+const API="https://script.google.com/macros/s/AKfycbxyvoo5NWNi8zD8zFpU01l4Ub-xna2dP6XRXOkxdrpJuVpjJDcjYf6mTa7LxdxuDjVQZQ/exec";
+const GAS=!!(window.google&&google.script&&google.script.run);
+const GS=GAS||API.startsWith("https://");
+const LS={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},del:k=>{try{localStorage.removeItem(k)}catch(e){}}};
+const save=()=>{if(USER)LS.set("qu30_"+USER.u,JSON.stringify(done))};
+const srv=(fn,...a)=>GAS?new Promise((res,rej)=>google.script.run.withSuccessHandler(res).withFailureHandler(rej)[fn](...a))
+  :fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({fn,args:a})}).then(r=>r.json()).then(r=>{if(r&&r.error)throw new Error(r.error);return r.data});
+function showLogin(msg){view="login";
+  app.innerHTML=`<div style="display:flex;justify-content:center;padding:30px 0"><div class="card" style="width:100%;max-width:360px;padding:0;overflow:hidden">
+  <div style="height:7px;background:linear-gradient(90deg,#d62828 0 14.3%,#f77f00 14.3% 28.6%,#fcbf49 28.6% 42.9%,#fff 42.9% 57.1%,#2a9d43 57.1% 71.4%,#1d6fb8 71.4% 85.7%,#6a3d9a 85.7%)"></div>
+  <form style="padding:24px" onsubmit="event.preventDefault();doLogin()">
+   <div style="text-align:center;margin-bottom:18px"><div style="width:56px;height:56px;border-radius:50%;background:#fff3d6;display:inline-flex;align-items:center;justify-content:center;font-size:28px">🏔️</div>
+   <h2 style="margin:8px 0 2px">Quechua en 30 días</h2><p class="mut" style="margin:0">Yaykumuy! Ingresa para ver tu avance</p></div>
+   <label class="mut">Usuario</label><input type="text" id="lu" autocomplete="username" style="margin:4px 0 12px">
+   <label class="mut">Contraseña</label><div style="position:relative"><input type="password" id="lp" autocomplete="current-password" style="margin:4px 0 8px;padding-right:44px">
+   <button type="button" class="spk" style="position:absolute;right:6px;top:12px" onclick="const p=sec('lp');p.type=p.type==='password'?'text':'password'">👁️</button></div>
+   <label class="mut row" style="gap:6px;margin-bottom:14px"><input type="checkbox" id="lr" checked> Recordarme en este equipo</label>
+   <button class="btn p" id="lb" style="width:100%;padding:12px">Ingresar</button>
+   <div class="fb bad" id="lm" style="text-align:center">${msg||""}</div>
+   <p class="mut" style="text-align:center;font-size:.85rem;border-top:1px solid var(--line);padding-top:12px;margin-bottom:0">${GS?"¿Olvidaste tu contraseña? Pídela al administrador.":"Modo sin conexión: escribe cualquier usuario; el avance se guarda en este equipo."}</p>
+  </form></div></div>`;
+  setTimeout(()=>sec("lu").focus(),50)}
+async function doLogin(){const u=sec("lu").value.trim(),p=sec("lp").value,r=sec("lr").checked,m=sec("lm"),b=sec("lb");
+  if(!u||(GS&&!p)){m.textContent="Escribe tu usuario y contraseña.";return}
+  if(!GS){if(r)LS.set("qu30user",u);entrar({u,nombre:u,avance:null},null);return}
+  b.textContent="Verificando…";b.disabled=true;
+  try{const x=await srv("login",u,p);if(x&&x.ok){if(r)LS.set("qu30tk",x.token);entrar(x,x.token)}else{m.textContent=x.msg||"Usuario o contraseña incorrectos";b.textContent="Ingresar";b.disabled=false}}
+  catch(e){m.textContent="No hay conexión con el servidor. Intenta otra vez.";b.textContent="Ingresar";b.disabled=false}}
+let SQ=[],SQT=null,SQD=0,SQB=false;
+const qKey=()=>"qu30q_"+(USER?USER.u:"");
+function qLoad(){try{SQ=JSON.parse(LS.get(qKey())||"[]")}catch(e){SQ=[]}}
+function qSave(){if(USER)LS.set(qKey(),JSON.stringify(SQ))}
+const merge=a=>{if(a)Object.keys(a).forEach(k=>{if(!done[k]||a[k]>done[k])done[k]=a[k]});save()};
+function entrar(r,tk){USER={u:r.u,n:r.nombre};MAXD=GS?Math.max(1,Math.min(ND,Number(r.maxDia)||1)):ND;errLoad();TOKEN=tk;let loc={};try{loc=JSON.parse(LS.get("qu30_"+r.u)||"{}")}catch(e){}done=loc;merge(r.avance);qLoad();setTimeout(sync,1500);
+  if(!Object.keys(done).length&&!LS.get("qu30intro_"+r.u))intro();else home();welcome()}
+function logout(){clearTimeout(SQT);SQ=[];if(GS&&TOKEN)srv("logout",TOKEN).catch(()=>{});LS.del("qu30tk");LS.del("qu30user");USER=null;TOKEN=null;done={};showLogin()}
+async function start(){const tk=LS.get("qu30tk");
+  if(GS&&tk){app.innerHTML=`<p class="mut" style="text-align:center;padding:60px">Cargando…</p>`;try{const r=await srv("sesion",tk);if(r&&r.ok){entrar(r,tk);return}LS.del("qu30tk")}catch(e){app.innerHTML=`<p class="mut" style="text-align:center;padding:60px">📶 Sin conexión. Reintentando…</p>`;setTimeout(start,5000);return}}
+  if(!GS){const u=LS.get("qu30user");if(u){entrar({u,nombre:u,avance:null},null);return}}
+  showLogin()}
+function registrar(pct){if(pct>=70&&(!done[cur]||pct>done[cur]))done[cur]=pct;save();
+  if(GS&&TOKEN){SQ.push([cur+1,D[cur].t,q.ok,q.items.length]);qSave();SQD=0;sync()}}
+async function sync(){clearTimeout(SQT);SQT=null;if(!GS||!TOKEN||!SQ.length||SQB)return;SQB=true;const tk=TOKEN;
+  try{while(SQ.length&&TOKEN===tk){const r=await srv("guardarDia",tk,...SQ[0]);
+      if(r&&r.ok){SQ.shift();qSave();merge(r.avance)}
+      else if(r&&r.msg==="bloqueado"){SQ.shift();qSave()}
+      else if(r&&r.msg==="sesion"){SQB=false;toast("Tu sesión expiró. Ingresa de nuevo para terminar de guardar tu avance.");logout();return}
+      else throw 0}
+    SQD=0}
+  catch(e){SQD=Math.min(SQD+1,6);SQT=setTimeout(sync,[5,30,60,120,300,600][SQD-1]*1000)}
+  SQB=false}
+window.addEventListener("online",()=>{SQD=0;sync()});
+
+// ---------- diccionario ----------
+let DQ="";
+function dic(){view="dic";const all=[];D.forEach((d,i)=>d.w.forEach(w=>all.push([w[0],w[1],i])));
+  const L=all.filter(x=>!DQ||(x[0]+" "+x[1]).toLowerCase().includes(DQ));
+  app.innerHTML=`<button class="btn sm" onclick="home()">← Plan</button><h1>📚 Diccionario</h1><p class="sub">Todas las palabras del curso (${all.length}). Toca 🔊 para escuchar o el número para ir a ese día.</p>
+  <input type="text" placeholder="🔎 Buscar en quechua o castellano…" value="${DQ}" oninput="DQ=this.value.toLowerCase();dic();const e=document.querySelector('#app input');e.focus();e.setSelectionRange(99,99)">
+  <div class="card" style="padding:0;overflow-x:auto;margin-top:10px"><table><tr><th class="th">Quechua</th><th class="th">Castellano</th><th class="th">Día</th><th></th></tr>
+  ${L.map(x=>`<tr><td style="color:var(--ink);width:auto"><b>${x[0]}</b> <span class="pr">[${qpron(x[0])}]</span></td><td class="mut">${x[1]}</td><td><button class="btn sm" onclick="openDay(${x[2]},'aprender')">${x[2]+1}</button></td><td>${spk(x[0])}</td></tr>`).join("")}</table></div>`;scrollTo(0,0)}
+
+// ---------- Día 0 ----------
+const INTRO=[
+["🔤 Solo 3 vocales","El quechua oficial se escribe con 3 vocales: <b>a, i, u</b>. No escribimos e ni o, pero las vas a escuchar (mira la clave de la Q).",[["allin","bueno"],["inti","sol"],["uma","cabeza"]]],
+["🗣️ La Q: el sonido estrella","La <b>q</b> se dice con la garganta, más atrás que la k. Y cambia las vocales vecinas: la <b>i</b> suena «e» y la <b>u</b> suena «o». Por eso <i>qillu</i> se oye [kellu].",[["qillu","amarillo"],["urqu","cerro"],["qucha","laguna"]]],
+["💨 La H suave","La <b>h</b> no es muda como en castellano: suena como una j muy suave, solo aire.",[["hatun","grande"],["hamuy","venir"],["haqay","aquel"]]],
+["🎯 El acento: en la penúltima","La fuerza de la voz va casi siempre en la penúltima sílaba, aunque la palabra crezca: WA-si → wa-SI-cha → wa-si-CHA-pi.",[["wasi","casa"],["wasicha","casita"],["wasichapi","en la casita"]]],
+["🔊 W, Y, LL y Ñ","<b>W</b> suena como una u rápida (wasi = [uasi]). <b>Y</b> como en «yo». <b>LL</b> y <b>Ñ</b> como en castellano.",[["wawa","bebé"],["yaku","agua"],["llaqta","pueblo"],["ñuqa","yo"]]],
+["🧱 Palabras como lego","La gran clave del quechua: a una raíz se le <b>pegan pedacitos al final</b>. <i>wasi</i> (casa) → <i>wasi·y</i> (mi casa) → <i>wasi·y·pi</i> (en mi casa) → <i>wasi·y·pi·mi</i> (en mi casa, lo afirmo).",[["wasiy","mi casa"],["wasiypi","en mi casa"],["wasiymanta","desde mi casa"]]],
+["↪️ El verbo va al final","El orden es: quién + qué + verbo. <i>Ñuqa papata mikuni</i> = yo papa como (= como papa).",[["Ñuqa papata mikuni","yo como papa"],["Pay yakuta upyan","él toma agua"]]],
+["🚫 Sin artículos ni género","No hay «el, la, los». Tampoco masculino o femenino: <i>pay</i> = él o ella.",[["pay","él / ella"],["wasi","la casa / una casa"]]],
+["✅ -mi y -si: ¿cómo lo sabes?","El quechua marca cómo sabes algo: <b>-mi</b> = lo sé yo; <b>-si</b> = me lo contaron.",[["Paramuchkanmi","está lloviendo (lo veo)"],["Paramuchkansi","dicen que está lloviendo"]]],
+["👥 Dos «nosotros»","<i>ñuqanchik</i> = nosotros contigo; <i>ñuqayku</i> = nosotros sin ti.",[["ñuqanchik","nosotros (todos)"],["ñuqayku","nosotros (sin ti)"]]],
+["🤝 Respeto y cariño","A una señora se le dice <i>mamay</i> y a un señor <i>taytay</i>. Los pedacitos <b>-lla</b> y <b>-cha</b> dan cariño.",[["mamay","señora"],["taytay","señor"],["urpichay","palomita mía"]]],
+["🎧 Cómo funciona el audio","La profesora lee el quechua con una pronunciación aproximada en castellano. Mira siempre el <span class='pr'>[así se lee]</span>. En <b>Pronunciar</b> te grabas y comparas tu voz con el modelo.",[["Allillanchu?","¿estás bien?"],["Sulpayki","gracias"]]]];
+function intro(){view="tips";try{if(USER)LS.set("qu30intro_"+USER.u,"1")}catch(e){}
+  app.innerHTML=`<button class="btn sm" onclick="home()">← Plan</button><p class="eyebrow">Día 0 · Antes de empezar</p><h1 style="margin-top:4px">🧭 Cómo suena y cómo funciona el quechua</h1>
+  <p class="sub">No necesitas saber ni una palabra. Estas 12 claves te dan el mapa de todo el curso. Escucha cada ejemplo 🔊, repítelo 3 veces y fíjate en su [así se lee].</p>
+  <div class="card note"><b>Cómo funciona cada día:</b> 1) Sonido · 2) Palabras · 3) Gramática paso a paso · 4) Verbo del día · 5) Diálogo y juego de roles · 6) Práctica · 7) Ejercicios con nota. En <b>Pronunciar</b> y en el juego de roles te grabas con el 🎙️ y comparas tu voz con la de la profesora.</div>
+  ${INTRO.map(([t,x,ej])=>`<div class="card"><h2>${t}</h2><p style="line-height:1.6;margin-top:0">${cz(x)}</p><div class="vocab">${ej.map(([w,es])=>`<div class="w"><div><div class="it">${w}</div><div class="es">${es}</div><div class="pr">[${qpron(w)}]</div></div><span style="white-space:nowrap">${spk(w)} ${spkS(w)}</span></div>`).join("")}</div></div>`).join("")}
+  <div class="row" style="justify-content:center;margin:20px 0"><button class="btn p" onclick="openDay(0)">▶ Empezar el Día 1</button></div>`;scrollTo(0,0)}
+
+// ---------- cultura y trucos ----------
+const TIPS=[
+{t:"🗣️ Pronunciación que sí importa",i:[["La <b>q</b> sale de la garganta y vuelve «e» a la i y «o» a la u: <i>qillu</i> [kellu], <i>urqu</i> [orko].","qillu, urqu"],["La <b>h</b> suena como una j suave: <i>hatun</i> [jatun].","hatun"],["El acento va en la <b>penúltima</b> sílaba, siempre.","wasi, wasicha, wasichapi"],["Los sufijos se dicen <b>pegados</b>, sin pausa: <i>wasiykipi</i>.","wasiykipi"]]},
+{t:"⚠️ Errores típicos",i:[["Poner el verbo al inicio. ✓ <i>Papata mikuni</i>, no «mikuni papata».","Papata mikuni"],["Olvidar el -chu al negar. ✓ <i>Manam yachanichu</i>.","Manam yachanichu"],["Confundir <b>mana</b> (no es) con <b>ama</b> (no hagas). ✓ <i>Ama waqaychu</i>.","Ama waqaychu"],["Poner plural después de un número. ✓ <i>kimsa wasi</i>.","kimsa wasi"],["Confundir ñuqanchik (contigo) y ñuqayku (sin ti).","ñuqanchik, ñuqayku"]]},
+{t:"💬 Frases que te salvan",i:[["<b>Allillanchu?</b> = ¿estás bien? (hola)","Allillanchu?"],["<b>Sulpayki</b> = gracias","Sulpayki"],["<b>Manam yachanichu</b> = no sé","Manam yachanichu"],["<b>Yapamanta rimaykuway</b> = repítame, por favor","Yapamanta rimaykuway"],["<b>Pisillatam rimani</b> = hablo un poquito","Pisillatam rimani"],["<b>Tupananchikkama</b> = hasta vernos","Tupananchikkama"]]},
+{t:"🌄 Cultura andina",i:[["<b>Ayni:</b> ayuda mutua. Hoy te ayudo, mañana tú me ayudas.","ayni"],["<b>Minka:</b> trabajo comunal para obras de todos.","minka"],["<b>Pachamama:</b> la madre tierra, a quien se agradece.","Pachamama"],["<b>Apu:</b> los cerros protectores de cada pueblo.","apu"],["<b>Ama suwa, ama llulla, ama qilla:</b> no robes, no mientas, no seas ocioso.","Ama suwa, ama llulla, ama qilla"]]},
+{t:"🧠 Trucos de estudio",i:[["Aprende los sufijos como piezas de lego: escríbelos con colores en tu cuaderno.",""],["Habla con personas mayores que sepan quechua: se alegran mucho y te corrigen con cariño.",""],["Escucha radio y huaynos en quechua, aunque no entiendas todo.",""],["15 minutos diarios valen más que 2 horas el domingo.",""],["Grábate y compárate con la profesora: es el mejor espejo.",""]]}];
+function tips(){view="tips";
+  app.innerHTML=`<button class="btn sm" onclick="home()">← Plan</button><h1>🌄 Cultura y trucos</h1><p class="sub">Lo que de verdad ayuda a aprender quechua desde cero.</p>
+  ${TIPS.map(s=>`<div class="card"><h2>${s.t}</h2>${s.i.map(([tx,au])=>`<div class="w" style="margin:6px 0;align-items:flex-start"><div style="line-height:1.55">${tx}</div>${au?`<span>${spk(au)}</span>`:""}</div>`).join("")}</div>`).join("")}`;scrollTo(0,0)}
+
+// ---------- repaso ----------
+function repaso(){view="repaso";const dias=Object.keys(done).map(Number),src=dias.length?dias:[...Array(nextDay()+1).keys()];
+  q={items:shuf(src.flatMap(i=>D[i].w.concat(D[i].f.slice(0,2)))).slice(0,15),k:0,ok:0,again:[]};nextR()}
+function nextR(){
+  if(q.k>=q.items.length&&q.again.length){q.items=q.items.concat(q.again);q.again=[]}
+  if(q.k>=q.items.length){app.innerHTML=`<button class="btn sm" onclick="home()">← Plan</button><div class="card" style="text-align:center"><h2>🧠 Repaso terminado</h2><p>Recordaste ${q.ok} tarjetas a la primera.</p><button class="btn p" onclick="repaso()">Otro repaso</button></div>`;return}
+  const x=q.items[q.k];
+  app.innerHTML=`<button class="btn sm" onclick="home()">← Plan</button><h1>🧠 Repaso rápido</h1><p class="sub">Tarjetas de los días que ya aprobaste. Tarjeta ${q.k+1}/${q.items.length}</p>
+  <div class="card" style="text-align:center;min-height:240px"><div class="big">${x[0]}</div><p class="pr">[${qpron(x[0])}]</p><div>${spk(x[0])} ${spkS(x[0])}</div>
+  <div style="margin-top:16px"><button class="btn p" onclick="this.style.display='none';sec('back').style.display='block'">Ver significado</button>
+  <div id="back" style="display:none"><p style="font-size:1.3rem">${x[1]}</p><div class="row" style="justify-content:center"><button class="btn" onclick="q.again.push(q.items[q.k]);q.k++;nextR()">🔁 Repasar otra vez</button><button class="btn g" onclick="q.ok++;q.k++;nextR()">✓ Lo sabía</button></div></div></div></div>`;
+  setTimeout(()=>say(x[0]),200)}
+
+// ---------- navegación ----------
+document.addEventListener("focusin",e=>{if(e.target.matches&&e.target.matches('input[type=text]'))document.body.classList.add("typing")});
+document.addEventListener("focusout",e=>{if(e.target.matches&&e.target.matches('input[type=text]'))setTimeout(()=>{if(!(document.activeElement&&document.activeElement.matches&&document.activeElement.matches('input[type=text]')))document.body.classList.remove("typing")},150)});
+let LEAVING=false;
+function exitAsk(){if(document.querySelector(".modal.exit"))return;const d=document.createElement("div");d.className="modal exit";
+  d.innerHTML=`<div class="card" style="text-align:center"><div style="font-size:2rem">🚪</div><h2 style="margin:6px 0">¿Deseas salir del aplicativo?</h2><p class="mut">Tu avance aprobado ya está guardado.</p><div class="row" style="justify-content:center"><button class="btn" onclick="this.closest('.modal').remove()">No, quedarme</button><button class="btn p" onclick="exitYes()">Sí, salir</button></div></div>`;document.body.append(d)}
+function exitYes(){LEAVING=true;document.querySelectorAll(".modal.exit").forEach(m=>m.remove());history.back();setTimeout(()=>{if(document.visibilityState==="visible"){LEAVING=false;try{history.pushState({it:1},"")}catch(e){}toast("Ya puedes cerrar esta pestaña.")}},700)}
+try{history.pushState({it:1},"")}catch(e){}
+window.addEventListener("popstate",()=>{if(LEAVING)return;try{history.pushState({it:1},"")}catch(e){}
+  document.querySelectorAll(".modal:not(.exit)").forEach(m=>m.remove());
+  if(["day","tips","repaso","dic"].includes(view)){try{speechSynthesis.cancel()}catch(e){}home()}else exitAsk()});
+window.addEventListener("beforeunload",e=>{if(USER&&!LEAVING){e.preventDefault();e.returnValue=""}});
+start();
+</script>
+</body>
+</html>
