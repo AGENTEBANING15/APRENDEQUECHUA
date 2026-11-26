@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" translate="no">
 <head>
 <meta charset="UTF-8">
+<meta name="google" content="notranslate">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Quechua en 30 días</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -615,23 +616,39 @@ const cz=s=>String(s).replace(/[A-Za-zñÑáéíóúÁÉÍÓÚ¡¿?!.\-]*·[A-Za
 
 // ---------- voz de mujer ----------
 let done={},USER=null,TOKEN=null;
-let rate=(()=>{try{return Math.min(1,Math.max(0.5,+localStorage.getItem("qu30rate")||0.8))}catch(e){return 0.8}})();
-let voice=null,VOICES=[];
-const FEM=/paulina|m[oó]nica|helena|elvira|dalia|camila|sabina|laura|paloma|lupe|elena|marisol|valentina|ximena|catalina|salom|luc[ií]a|carmen|isabel|estrella|francisca|renata|google espa/i;
-const MAS=/jorge|pablo|diego|ra[uú]l|[aá]lvaro|carlos|enrique|juan|andr[eé]s|gonzalo|tom[aá]s|jos[eé]|alex|mateo|federico|gerardo|male/i;
-function vScore(v){let s=0;if(FEM.test(v.name))s+=50;if(MAS.test(v.name))s-=60;if(/natural|online/i.test(v.name))s+=20;if(/google/i.test(v.name))s+=10;if(/es[-_](pe|us|mx|419|co)/i.test(v.lang))s+=5;return s}
-function pickVoice(){try{VOICES=speechSynthesis.getVoices().filter(v=>v.lang&&/^es/i.test(v.lang)).sort((a,b)=>vScore(b)-vScore(a));let sv=null;try{sv=localStorage.getItem("qu30voice")}catch(e){}
-  voice=VOICES.find(v=>v.name===sv)||VOICES[0]||null;const s=document.getElementById("vsel");if(s)s.innerHTML=vOpts()}catch(e){}}
-const vOpts=()=>VOICES.map((v,i)=>`<option value="${i}"${v===voice?" selected":""}>${v.name}${i===0?" · recomendada":""}</option>`).join("")||"<option>Voz del sistema</option>";
+let rate=(()=>{try{return Math.min(1,Math.max(0.5,+localStorage.getItem("qu30rate")||0.75))}catch(e){return 0.75}})();
+let voice=null,VOICES=[],NALL=0,VWARN=false;
+const FEM=/paulina|m[oó]nica|helena|elvira|dalia|camila|sabina|laura|paloma|lupe|elena|marisol|valentina|ximena|catalina|salom|luc[ií]a|carmen|isabel|estrella|francisca|renata|sof[ií]a|esperanza|female|mujer|google espa/i;
+const MAS=/jorge|pablo|diego|ra[uú]l|[aá]lvaro|carlos|enrique|juan|andr[eé]s|gonzalo|tom[aá]s|jos[eé]|alex|mateo|federico|gerardo|alonso|\bmale|hombre/i;
+function vScore(v){let s=0;if(FEM.test(v.name))s+=50;if(MAS.test(v.name))s-=60;if(/natural|online|neural/i.test(v.name))s+=20;if(/google/i.test(v.name))s+=10;
+  if(/es[-_]pe/i.test(v.lang))s+=8;else if(/es[-_](us|mx|419|co)/i.test(v.lang))s+=6;else if(/es[-_]es/i.test(v.lang))s+=2;return s}
+function pickVoice(){try{const all=speechSynthesis.getVoices()||[];NALL=all.length;VOICES=all.filter(v=>v.lang&&/^es/i.test(v.lang)).sort((a,b)=>vScore(b)-vScore(a));
+  let sv=null;try{sv=localStorage.getItem("qu30voice")}catch(e){}voice=VOICES.find(v=>v.name===sv)||VOICES[0]||null;
+  const s=document.getElementById("vsel");if(s)s.innerHTML=vOpts()}catch(e){}}
+const vOpts=()=>VOICES.map((v,i)=>`<option value="${i}"${v===voice?" selected":""}>${v.name}${i===0?" · recomendada":""}</option>`).join("")||"<option>Español del sistema</option>";
 try{pickVoice();speechSynthesis.onvoiceschanged=pickVoice}catch(e){}
+(function retry(n){if(VOICES.length||n>20)return;setTimeout(()=>{pickVoice();retry(n+1)},250)})(0);
 function setVoice(i){voice=VOICES[+i]||null;try{localStorage.setItem("qu30voice",voice?voice.name:"")}catch(e){}say("Allillanchu! Rimaykullayki.")}
 function setRate(v){rate=+v;try{localStorage.setItem("qu30rate",rate)}catch(e){}const o=document.getElementById("rout");if(o)o.textContent=rate.toFixed(2)}
-function utt(t,r){const u=new SpeechSynthesisUtterance(t);u.lang=voice?voice.lang:"es-PE";if(voice)u.voice=voice;u.rate=r;u.pitch=voice&&FEM.test(voice.name)?1:1.15;return u}
-function speak(t,r){try{speechSynthesis.cancel();speechSynthesis.speak(utt(t,r))}catch(e){toast("Tu navegador no permite audio aquí.")}}
+function utt(t,r){const u=new SpeechSynthesisUtterance(t);if(voice){u.voice=voice;u.lang=String(voice.lang).replace("_","-")}else u.lang="es-US";
+  u.rate=r;u.pitch=voice&&FEM.test(voice.name)?1:1.12;return u}
+function sinEs(){if(VWARN||VOICES.length||!NALL)return;VWARN=true;
+  toast("Tu equipo no tiene voz en español, por eso el audio suena raro.<br><br><b>En el celular:</b> Ajustes → Administración general → Texto a voz → Servicios de voz de Google → Idioma: <b>Español (Estados Unidos)</b>.")}
+let AU=null,TTSOK=true;
+function callar(){try{speechSynthesis.cancel()}catch(e){}if(AU){try{AU.onended=AU.onerror=null;AU.pause()}catch(e){}AU=null}}
+function hablarSys(t,r,fin){try{if(!voice)pickVoice();sinEs();const u=utt(t,r);if(fin)u.onend=fin;setTimeout(()=>{try{speechSynthesis.speak(u)}catch(e){}},60)}catch(e){if(fin)fin()}}
+function hablar(t,r,fin){callar();
+  if(TTSOK&&navigator.onLine!==false&&t.length<190){const a=new Audio("https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=es&q="+encodeURIComponent(t));AU=a;
+    try{a.defaultPlaybackRate=a.playbackRate=Math.max(0.5,Math.min(1,r));a.preservesPitch=true}catch(e){}
+    a.onended=()=>{if(AU===a)AU=null;if(fin)fin()};
+    a.onerror=()=>{if(AU!==a)return;AU=null;TTSOK=false;hablarSys(t,r,fin)};
+    a.play().catch(()=>{if(AU!==a)return;AU=null;hablarSys(t,r,fin)});return}
+  hablarSys(t,r,fin)}
+function speak(t,r){hablar(t,r)}
 function say(t,slow){speak(qpron(t),slow?0.55:rate)}
 function sayEs(t){speak(t,0.95)}
-function chain(list,slow,cb){let k=0;try{speechSynthesis.cancel()}catch(e){}
-  const nx=()=>{if(cb)cb(k);if(k>=list.length)return;const u=utt(qpron(list[k]),slow?0.55:rate);u.onend=()=>setTimeout(nx,700);k++;try{speechSynthesis.speak(u)}catch(e){}};nx()}
+function chain(list,slow,cb){let k=0;callar();
+  const nx=()=>{if(cb)cb(k);if(k>=list.length)return;const t=qpron(list[k]);k++;hablar(t,slow?0.55:rate,()=>setTimeout(nx,700))};nx()}
 const esc=s=>String(s).replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/"/g,"&quot;");
 const spk=(t,ic="🔊")=>`<button class="spk" title="Escuchar" onclick="say('${esc(String(t).replace(/<[^>]+>/g,""))}')">${ic}</button>`;
 const spkS=t=>`<button class="spk" title="Lento" onclick="say('${esc(t)}',1)">🐢</button>`;
@@ -660,7 +677,7 @@ function recBox(id,text,cb){RC={text,cb};const b=sec(id);if(!b)return;
   if(!canRec())rateUI()}
 async function recToggle(){if(MR&&MR.state==="recording"){MR.stop();return}
   let st;try{st=await navigator.mediaDevices.getUserMedia({audio:true})}catch(e){toast("No pude usar el micrófono. Revisa el permiso del navegador (el candado junto a la dirección de la página).");return}
-  try{speechSynthesis.cancel()}catch(e){}
+  callar();
   const ch=[],rec=new MediaRecorder(st);MR=rec;rec.ondataavailable=e=>{if(e.data&&e.data.size)ch.push(e.data)};
   rec.onstop=()=>{st.getTracks().forEach(t=>t.stop());if(MYURL)URL.revokeObjectURL(MYURL);MYURL=URL.createObjectURL(new Blob(ch,{type:rec.mimeType||"audio/webm"}));MR=null;
     const b=sec("rb");if(b){b.className="micb";b.textContent="🎙️ Grabarme otra vez"}rateUI();playMine()};
@@ -870,7 +887,7 @@ function rpStep(){const c=D[cur].c,t=sec("rpt");if(!RP||!t)return;const tok=RP.t
   const [it,es]=c[RP.k];
   if(!mine(RP.k)){t.innerHTML=`<p class="mut" style="text-align:center">🔊 Escucha…</p>`;bubble((RP.me==="B"?"A":"B")+" 🔊",it+`<div class="es">${es}</div>`,"other");
     let fin=false;const go=()=>{if(fin||!RP||RP.tok!==tok)return;fin=true;RP.k++;rpStep()};
-    try{speechSynthesis.cancel();const u=utt(qpron(it),rate);u.onend=()=>setTimeout(go,400);speechSynthesis.speak(u)}catch(e){}
+    hablar(qpron(it),rate,()=>setTimeout(go,400));
     setTimeout(go,3000+it.length*140);return}
   t.innerHTML=`<div class="bb turn"><small>🎙️ TU TURNO · quieres decir «${es}»</small><div class="rd">${it}</div><div class="mut" style="font-size:.8rem"><span class="pr">[${qpron(it)}]</span> ${spk(it)}</div></div><div id="rmic2"></div><div id="ract2" class="row" style="justify-content:center;margin-top:8px"><button class="btn sm" onclick="rpSkip()">Saltar →</button></div>`;
   recBox("rmic2",it,v=>{if(!RP||RP.tok!==tok)return;
