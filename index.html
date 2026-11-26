@@ -645,10 +645,11 @@ function hablar(t,r,fin){callar();
     a.play().catch(()=>{if(AU!==a)return;AU=null;hablarSys(t,r,fin)});return}
   hablarSys(t,r,fin)}
 function speak(t,r){hablar(t,r)}
-function say(t,slow){speak(qpron(t),slow?0.55:rate)}
+const qtts=t=>qpron(t).replace(/ll/g,"y").replace(/L[lL]/g,"Y");
+function say(t,slow){speak(qtts(t),slow?0.55:rate)}
 function sayEs(t){speak(t,0.95)}
 function chain(list,slow,cb){let k=0;callar();
-  const nx=()=>{if(cb)cb(k);if(k>=list.length)return;const t=qpron(list[k]);k++;hablar(t,slow?0.55:rate,()=>setTimeout(nx,700))};nx()}
+  const nx=()=>{if(cb)cb(k);if(k>=list.length)return;const t=qtts(list[k]);k++;hablar(t,slow?0.55:rate,()=>setTimeout(nx,700))};nx()}
 const esc=s=>String(s).replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/"/g,"&quot;");
 const spk=(t,ic="🔊")=>`<button class="spk" title="Escuchar" onclick="say('${esc(String(t).replace(/<[^>]+>/g,""))}')">${ic}</button>`;
 const spkS=t=>`<button class="spk" title="Lento" onclick="say('${esc(t)}',1)">🐢</button>`;
@@ -887,7 +888,7 @@ function rpStep(){const c=D[cur].c,t=sec("rpt");if(!RP||!t)return;const tok=RP.t
   const [it,es]=c[RP.k];
   if(!mine(RP.k)){t.innerHTML=`<p class="mut" style="text-align:center">🔊 Escucha…</p>`;bubble((RP.me==="B"?"A":"B")+" 🔊",it+`<div class="es">${es}</div>`,"other");
     let fin=false;const go=()=>{if(fin||!RP||RP.tok!==tok)return;fin=true;RP.k++;rpStep()};
-    hablar(qpron(it),rate,()=>setTimeout(go,400));
+    hablar(qtts(it),rate,()=>setTimeout(go,400));
     setTimeout(go,3000+it.length*140);return}
   t.innerHTML=`<div class="bb turn"><small>🎙️ TU TURNO · quieres decir «${es}»</small><div class="rd">${it}</div><div class="mut" style="font-size:.8rem"><span class="pr">[${qpron(it)}]</span> ${spk(it)}</div></div><div id="rmic2"></div><div id="ract2" class="row" style="justify-content:center;margin-top:8px"><button class="btn sm" onclick="rpSkip()">Saltar →</button></div>`;
   recBox("rmic2",it,v=>{if(!RP||RP.tok!==tok)return;
