@@ -107,6 +107,26 @@ body.typing .fab,body.typing .idx{display:none!important}
 .rd{font-size:1.35rem;font-weight:600;color:var(--ink);margin:4px 0}
 .modal{position:fixed;inset:0;background:#0006;display:flex;align-items:center;justify-content:center;z-index:30;padding:16px}
 .modal .card{max-width:400px;text-align:center}
+.qu{color:var(--b);font-weight:600}
+.wkcard{display:flex;gap:10px;align-items:flex-end}
+.wkbb{background:#f3f8f5;border:1px solid #9fd3b6;border-radius:16px 16px 16px 4px;padding:10px 12px;line-height:1.5;flex:1;min-height:60px}
+.wk{cursor:pointer;flex:0 0 auto;overflow:visible;transition:transform .2s;-webkit-tap-highlight-color:transparent}
+.wk .bob{animation:wkbob 2.6s ease-in-out infinite}@keyframes wkbob{50%{transform:translateY(-3px)}}
+.wk .eye{animation:wkbl 4s infinite;transform-origin:center;transform-box:fill-box}@keyframes wkbl{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+.wk .earL{transform-origin:46px 44px;transform-box:view-box;transition:transform .3s}.wk .earR{transform-origin:84px 44px;transform-box:view-box;transition:transform .3s}
+.wk.wk-wig .earL{animation:wkwl .5s 2}.wk.wk-wig .earR{animation:wkwr .5s 2}@keyframes wkwl{50%{transform:rotate(-18deg)}}@keyframes wkwr{50%{transform:rotate(18deg)}}
+.wk.wk-jump{animation:wkjp .6s 2}@keyframes wkjp{40%{transform:translateY(-16px)}}
+.wk.wk-sad .earL{transform:rotate(-35deg)}.wk.wk-sad .earR{transform:rotate(35deg)}
+.wk .m,.wk .hap,.wk .tear{display:none}.wk .m-smile{display:inline}
+.wk.wk-talk .m-smile{display:none}.wk.wk-talk .m-talk{display:inline;animation:wktk .25s infinite alternate}
+.wk .m-talk{transform-origin:65px 82px;transform-box:view-box}@keyframes wktk{to{transform:scaleY(.3)}}
+.wk.wk-happy .m-smile,.wk.wk-sad .m-smile,.wk.wk-happy .m-talk,.wk.wk-sad .m-talk{display:none}
+.wk.wk-happy .m-open,.wk.wk-sad .m-sad,.wk.wk-happy .hap,.wk.wk-sad .tear{display:inline}.wk.wk-happy .eye{display:none}
+.wkmini{position:fixed;left:10px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:19;display:flex;align-items:flex-end;gap:4px;pointer-events:none;max-width:calc(100% - 90px)}
+.wkmini .wk{pointer-events:auto}
+.wkmini .wkbb{font-size:.88rem;min-height:0;opacity:0;transform:translateY(6px);transition:.3s;box-shadow:0 3px 10px #0002}
+.wkmini.show .wkbb{opacity:1;transform:none}
+body.typing .wkmini{display:none!important}
 @media(max-width:560px){.opts{grid-template-columns:1fr}h1{font-size:1.6rem}}
 </style>
 </head>
@@ -688,7 +708,7 @@ function playMine(){if(MYURL)try{new Audio(MYURL).play()}catch(e){}}
 function rateUI(){const r=sec("rr");if(!r||!RC)return;
   r.innerHTML=`${canRec()?`<div class="row" style="justify-content:center"><button class="btn" onclick="playMine()">▶ Mi voz</button><button class="btn" onclick="say(RC.text)">🔊 Modelo</button><button class="btn" onclick="say(RC.text,1)">🐢 Lento</button></div>`:`<div class="row" style="justify-content:center"><button class="btn" onclick="say(RC.text)">🔊 Modelo</button><button class="btn" onclick="say(RC.text,1)">🐢 Lento</button></div>`}
   <p class="hint" style="text-align:center;margin:10px 0 6px">Compara tu voz con el modelo. ¿Cómo te salió?</p><div class="ev"><button class="ok" onclick="rateIt(1)">✓ Igual</button><button class="mid" onclick="rateIt(0.5)">≈ Casi</button><button class="bad" onclick="rateIt(0)">✗ Repetir</button></div>`}
-function rateIt(v){if(RC&&RC.cb)RC.cb(v)}
+function rateIt(v){wkReact(v>=1?true:v>0?"mid":false);if(RC&&RC.cb)RC.cb(v)}
 
 // ---------- inicio ----------
 const nom=()=>USER&&USER.n&&!/^\d+$/.test(USER.n)?USER.n.split(" ")[0]:"";
@@ -697,6 +717,7 @@ let MAXD=30;
 function home(){view="home";const n=Object.keys(done).length;
   let h=`<div class="row" style="justify-content:space-between"><span class="mut">Allillanchu, <b style="color:var(--ink)">${nom()||(USER?USER.n:"")}</b>! 👋</span><button class="btn sm" onclick="logout()">⎋ Cerrar sesión</button></div>
   <h1>🏔️ Quechua en 30 días</h1><p class="sub">Runa simi desde cero: quechua sureño (Chanka, Ayacucho), explicado paso a paso en castellano, con audio, ejercicios y práctica de pronunciación.</p>
+  ${wkCard("wkA",110)}
   <div class="card"><div class="row" style="justify-content:space-between"><span class="score">Progreso: ${n}/${ND} días</span><span class="mut">🗣️ Voz de la profesora</span></div>
   <div class="bar" style="margin-top:10px"><i style="width:${n/ND*100}%"></i></div>
   <div class="row" style="margin-top:12px"><select id="vsel" onchange="setVoice(this.value)" style="flex:1;min-width:180px">${vOpts()}</select><button class="btn sm" onclick="say('Allillanchu! Rimaykullayki.')">🔊 Probar</button></div>
@@ -716,7 +737,7 @@ function home(){view="home";const n=Object.keys(done).length;
   <li><b>🎧 ✍️ 🎙️ Ejercicios (10 min):</b> Escuchar, Escribir y Pronunciar.</li>
   <li><b>🏁 Ejercicio final:</b> con 70% o más el día queda aprobado.</li></ol>
   <p class="mut" style="margin-bottom:0">La voz lee el quechua con una pronunciación aproximada en castellano. Fíjate siempre en el <span class="pr">[así se lee]</span> y en las notas de sonido de cada día.</p></details>`;
-  app.innerHTML=h;scrollTo(0,0)}
+  app.innerHTML=h;scrollTo(0,0);wkShow("wkA",wkHolaTxt())}
 function lockMsg(i){const d=document.createElement("div");d.className="modal";d.innerHTML=`<div class="card" style="text-align:center"><div style="font-size:2.2rem">🔒</div><h2 style="margin:6px 0">No tienes acceso al Día ${i+1}</h2><p class="mut">Comunícate con el administrador para que habilite la siguiente clase.</p><button class="btn p" style="width:100%" onclick="this.closest('.modal').remove()">Entendido</button></div>`;document.body.append(d)}
 
 // ---------- día ----------
@@ -735,6 +756,7 @@ function renderDay(){const d=D[cur],L=lvlOf(cur);
    <span class="row">${cur>0?`<button class="btn sm" onclick="openDay(${cur-1})">‹ Día ${cur}</button>`:""}${cur<ND-1?`<button class="btn sm" onclick="openDay(${cur+1})">Día ${cur+2} ›</button>`:""}</span></div>
    <p class="eyebrow"><span class="dot" style="display:inline-block;background:${L[1]}"></span> Día ${cur+1} de ${ND} · ${L[0]}</p>
    <h1 style="margin-top:4px">${d.t}</h1><p class="sub">🎯 <b>Objetivo:</b> ${d.g}</p>
+   ${wkCard("wkD",90)}<div class="wkmini" id="wkM">${wkSVG("wkMs",62)}<div class="wkbb" id="wkMb"></div></div>
    <div id="idx" class="idx" hidden>${SECS.map((s,i)=>`<button onclick="idxGo('${s[0]}')">${i+1} · ${s[2]}</button>`).join("")}<button onclick="idxGo('s-ex')">7 · Ejercicios</button><button class="up" onclick="idxGo()">↑ Volver arriba</button></div>
    <button id="fab" class="fab" aria-label="Índice" onclick="idxToggle()">☰</button>
    ${SECS.map((s,i)=>`<section class="blk"><h3 class="sec">${i+1} · <i>${s[1]}</i> <small>${s[2]}</small></h3><div id="${s[0]}"></div></section>`).join("")}
@@ -745,7 +767,7 @@ function renderDay(){const d=D[cur],L=lvlOf(cur);
    <div class="card row" style="justify-content:space-between;margin-top:20px"><span>${done[cur]?"✅ Día aprobado con "+done[cur]+"%":"Aprueba el ejercicio final (70% o más) para completar el día."}</span>
    ${done[cur]?"":`<button class="btn g" onclick="openDay(${cur},'final')">🏁 Ir al ejercicio final</button>`}</div>
    <div class="row" style="justify-content:space-between">${cur>0?`<button class="btn" onclick="openDay(${cur-1})">← Día ${cur}</button>`:"<span></span>"}${cur<ND-1?`<button class="btn p" onclick="openDay(${cur+1})">Día ${cur+2} →</button>`:""}</div>`;
-  SECS.forEach(s=>s[3]())}
+  SECS.forEach(s=>s[3]());wkDia()}
 const pane=()=>sec("pane");
 function sonido(){const s=D[cur].s;let prev=null;
   sec("s-sonido").innerHTML=`<div class="card"><p class="mut" style="margin-top:0">${s.i}</p>
@@ -779,7 +801,7 @@ function vq(){const v=D[cur].v,i=Math.floor(Math.random()*7);window.__vt=v[3][i]
   <input type="text" id="vin" placeholder="Escribe la forma…" autocomplete="off" onkeydown="if(event.key==='Enter')chkV()">
   <div class="row" style="margin-top:10px"><button class="btn p" onclick="chkV()">Comprobar</button><button class="btn" onclick="vq()">Otra</button></div><div class="fb" id="vfb"></div>`}
 function chkV(){const g=sec("vin").value,t=window.__vt,fb=sec("vfb");
-  if(norm(g)===norm(t)){fb.className="fb ok";fb.textContent="✓ Allinmi! ";say(t);setTimeout(vq,1400)}else{fb.className="fb bad";fb.textContent="✗ Era: "+t}}
+  if(norm(g)===norm(t)){fb.className="fb ok";fb.textContent="✓ Allinmi! ";wkReact(true);say(t);setTimeout(vq,1400)}else{fb.className="fb bad";fb.textContent="✗ Era: "+t;wkReact(false)}}
 function practica(){const d=D[cur];
   sec("s-prac").innerHTML=`<div class="card"><h2>❓ Practica</h2><p class="mut" style="margin-top:0">Responde <b>en voz alta</b> antes de abrir la respuesta.</p>
   ${d.p.map(([qq,a],i)=>{const sp=a.startsWith("~"),ans=sp?a.slice(1):a;return `<details class="w" style="display:block;margin:8px 0"><summary style="cursor:pointer;font-weight:500">${i+1}. ${qq}</summary>
@@ -811,7 +833,7 @@ function nextL(){
   setTimeout(()=>say(it[0]),250)}
 function ansL(b){const it=q.items[q.k];document.querySelectorAll(".opt").forEach(o=>{o.disabled=true;if(o.dataset.r==="1")o.classList.add("ok")});
   const fb=sec("lfb");if(b.dataset.r==="1"){q.ok++;fb.className="fb ok";fb.textContent="✓ "+it[0]}else{b.classList.add("bad");fb.className="fb bad";fb.textContent="✗ Era: "+it[0]+" = "+it[1];addErr("L",it[0],it[1],"elegiste «"+b.textContent+"»")}
-  q.k++;setTimeout(nextL,1600)}
+  wkReact(b.dataset.r==="1");q.k++;setTimeout(nextL,1600)}
 // ---------- escribir ----------
 function escribir(){const w=shuf(D[cur].w);q={items:shuf([...w.slice(0,6).map(x=>({m:"dict",it:x[0],es:x[1]})),...w.slice(6,8).map(x=>({m:"trad",it:x[0],es:x[1]})),...shuf(D[cur].f).slice(0,2).map(x=>({m:"dict",it:x[0],es:x[1]}))]),k:0,ok:0};nextW()}
 function nextW(){
@@ -829,7 +851,7 @@ function chkW(){const x=q.items[q.k],g=sec("win").value,fb=sec("wfb"),b=sec("wb"
   if(a===t){q.ok++;fb.className="fb ok";fb.textContent="✓ Allinmi! "+x.it+" = "+x.es}
   else if(wsim(a.replace(/ /g,""),t.replace(/ /g,""))>=0.85){q.ok++;fb.className="fb ok";fb.textContent="≈ Casi perfecto. Se escribe: "+x.it}
   else{fb.className="fb bad";fb.textContent="✗ Se escribe: "+x.it+" ("+x.es+")";addErr("W",x.it,x.es,"escribiste «"+(g.trim()||"(vacío)")+"»")}
-  say(x.it);b.textContent="Siguiente →";b.dataset.next=1}
+  wkReact(fb.classList.contains("ok")?(a===t?true:"mid"):false);say(x.it);b.textContent="Siguiente →";b.dataset.next=1}
 // ---------- pronunciar ----------
 function pronunciar(){q={items:shuf([...shuf(D[cur].w).slice(0,8),...shuf(D[cur].f).slice(0,2)]),k:0,ok:0};nextP()}
 function nextP(){
@@ -864,7 +886,7 @@ function nextRf(){
    <div class="row" style="margin-top:10px"><button class="btn p" id="rfb" onclick="chkRf()">Comprobar</button></div><div class="fb" id="rff"></div></div>`;
   setTimeout(()=>say(e.it),250)}
 function chkRf(){const e=q.items[q.k],b=sec("rfb"),f=sec("rff");if(b.dataset.next){q.k++;nextRf();return}
-  const ok=norm(sec("rfi").value)===norm(e.it);f.className="fb "+(ok?"ok":"bad");f.textContent=ok?"✓ Corregido: "+e.it:"✗ Se escribe: "+e.it;if(ok)delErr(e.t,e.it);say(e.it);b.textContent="Siguiente →";b.dataset.next=1}
+  const ok=norm(sec("rfi").value)===norm(e.it);wkReact(ok);f.className="fb "+(ok?"ok":"bad");f.textContent=ok?"✓ Corregido: "+e.it:"✗ Se escribe: "+e.it;if(ok)delErr(e.t,e.it);say(e.it);b.textContent="Siguiente →";b.dataset.next=1}
 // ---------- diálogo y juego de roles ----------
 let showTr=true,RP=null;
 function conversacion(){const c=D[cur].c;
@@ -912,7 +934,7 @@ function final(skip){
   qs.push({t:"hard",m:"resp",it:d.c[resp][0],es:d.c[resp][1],prev:d.c[resp-1][0]});
   q={items:qs,k:0,ok:0};nextF()}
 function nextF(){
-  if(q.k>=q.items.length){const pct=Math.round(q.ok/q.items.length*100);registrar(pct);const mf=motiv(pct>=70);setTimeout(()=>sayEs(mf),900);
+  if(q.k>=q.items.length){const pct=Math.round(q.ok/q.items.length*100);registrar(pct);const mf=motiv(pct>=70);setTimeout(()=>wkReact(pct>=70,pct>=70?`${Q("Allinmi!")} ¡Aprobaste el día, ${amig()}! Estoy muy orgulloso de ti.`:`¡No te rindas! Repasamos juntos y lo intentas otra vez.`,6000),300);setTimeout(()=>sayEs(mf),900);
     pane().innerHTML=`<div class="card" style="text-align:center"><h2>🏁 Puntaje final: ${q.ok*2}/${q.items.length*2}</h2><p class="mut" style="margin-top:0">${q.ok} de ${q.items.length} respuestas correctas · ${pct}% · se aprueba con ${Math.ceil(q.items.length*0.7)*2} puntos</p>
     <p>${pct>=70?"Allinmi! Aprobaste el día "+(cur+1)+" 🎉":"Repasa las palabras y el diálogo, y vuelve a intentarlo."}</p>${pct>=70?`<p><span class="hard" style="background:#e3f4ea;color:#0f5c3b">✅ Tu avance quedó guardado</span></p>`:""}
     <div class="note" style="text-align:left;margin:4px 0 12px">🔊 «${mf}» <button class="spk" onclick="sayEs('${esc(mf)}')">🔁</button></div>
@@ -936,7 +958,7 @@ function nextF(){
   else{window.__vt=x.it;pane().innerHTML=`<div class="card">${hd}<h2>Traduce al quechua</h2><div class="big">${x.es}</div>${inp}`}}
 function drawOrd(){if(window.__lock)return;sec("built").innerHTML=window.__built.map((w,i)=>`<button class="btn sm" onclick="window.__pool.push(window.__built.splice(${i},1)[0]);drawOrd()">${w}</button>`).join("");
   sec("pool").innerHTML=window.__pool.map((w,i)=>`<button class="btn sm" onclick="window.__built.push(window.__pool.splice(${i},1)[0]);drawOrd()">${w}</button>`).join("")}
-function fNext(ok,msg,it){const fb=sec("ffb");if(ok)q.ok++;fb.className="fb "+(ok?"ok":"bad");fb.textContent=msg;say(it);q.k++;
+function fNext(ok,msg,it){const fb=sec("ffb");if(ok)q.ok++;wkReact(ok);fb.className="fb "+(ok?"ok":"bad");fb.textContent=msg;say(it);q.k++;
   const b=sec("fb2");if(b){b.textContent="Siguiente →";b.onclick=nextF}else setTimeout(nextF,1800)}
 function chkOrd(){const x=q.items[q.k],ok=norm(window.__built.join(" "))===norm(x.it);window.__lock=true;const pl=sec("pool");if(pl)pl.innerHTML="";fNext(ok,(ok?"✓ Allinmi! ":"✗ Correcto: ")+x.it,x.it)}
 function ansF(b){const x=q.items[q.k];document.querySelectorAll(".opt").forEach(o=>{o.disabled=true;if(o.dataset.r==="1")o.classList.add("ok")});if(b.dataset.r!=="1")b.classList.add("bad");
@@ -945,12 +967,53 @@ function chkFT(){const g=sec("fin").value,t=window.__vt,x=q.items[q.k];if(!g.tri
   if(x&&x.t==="hard"){const c=wordChips(g,t),ok=c.n/c.t>=0.8;fNext(ok,(ok?(c.n===c.t?"✓ Allinmi! ":`✓ ¡Bien! ${c.n} de ${c.t} palabras. `):"✗ Correcto: ")+t,t);const fb=sec("ffb");if(fb)fb.innerHTML+=c.html;return}
   const ok=norm(g)===norm(t);fNext(ok,(ok?"✓ Allinmi! ":"✗ Correcto: ")+t,t)}
 
+
+// ---------- Wiki, la vicuñita ----------
+const wkSVG=(id,w)=>`<svg id="${id}" class="wk" viewBox="0 0 130 170" width="${w}" height="${Math.round(w*170/130)}" role="img" aria-label="Wiki, la vicuñita" onclick="wkPoke(this)"><g class="bob">
+<ellipse cx="65" cy="162" rx="40" ry="5" fill="#000" opacity=".08"/><ellipse cx="70" cy="132" rx="40" ry="22" fill="#c98a4b"/>
+<rect x="40" y="140" width="9" height="22" rx="4.5" fill="#b5763b"/><rect x="88" y="140" width="9" height="22" rx="4.5" fill="#b5763b"/>
+<path d="M50 70 Q46 115 56 140 L76 140 Q82 110 80 70 Z" fill="#c98a4b"/><path d="M56 92 Q52 118 60 140 L72 140 Q76 116 74 92 Q65 100 56 92 Z" fill="#fff8ee"/>
+<path d="M58 100 q3 4 0 8 q3 4 0 8 M70 100 q-3 4 0 8 q-3 4 0 8" stroke="#eadfcd" stroke-width="1.5" fill="none"/>
+<path class="earL" d="M46 44 Q34 20 42 12 Q52 24 54 40 Z" fill="#c98a4b"/><path class="earL" d="M46 40 Q40 24 44 18 Q50 28 51 38 Z" fill="#f0c9a3"/>
+<path class="earR" d="M84 44 Q96 20 88 12 Q78 24 76 40 Z" fill="#c98a4b"/><path class="earR" d="M84 40 Q90 24 86 18 Q80 28 79 38 Z" fill="#f0c9a3"/>
+<ellipse cx="65" cy="58" rx="26" ry="24" fill="#d79a5a"/><ellipse cx="65" cy="76" rx="15" ry="11" fill="#fff8ee"/>
+<path d="M41 46 Q65 14 89 46 Q65 38 41 46 Z" fill="#c8372d"/><path d="M41 46 Q65 38 89 46 L89 50 Q65 42 41 50 Z" fill="#d99a1e"/>
+<path d="M45 44 l5 -5 l5 5 l5 -5 l5 5 l5 -5 l5 5 l5 -5 l5 5" stroke="#0f7b4f" stroke-width="2" fill="none"/>
+<path d="M42 48 L38 64" stroke="#c8372d" stroke-width="3"/><circle cx="38" cy="66" r="3" fill="#d99a1e"/><path d="M88 48 L92 64" stroke="#c8372d" stroke-width="3"/><circle cx="92" cy="66" r="3" fill="#d99a1e"/><circle cx="65" cy="20" r="5" fill="#d99a1e"/>
+<g class="eye"><ellipse cx="55" cy="58" rx="6" ry="7" fill="#1f2421"/><circle cx="57" cy="55.5" r="2.2" fill="#fff"/></g><g class="eye"><ellipse cx="75" cy="58" rx="6" ry="7" fill="#1f2421"/><circle cx="77" cy="55.5" r="2.2" fill="#fff"/></g>
+<path d="M49 51 l-3 -2 M51 50 l-1 -3 M81 51 l3 -2 M79 50 l1 -3" stroke="#1f2421" stroke-width="1.3"/>
+<g class="hap"><path d="M49 59 Q55 52 61 59" stroke="#1f2421" stroke-width="2.8" fill="none" stroke-linecap="round"/><path d="M69 59 Q75 52 81 59" stroke="#1f2421" stroke-width="2.8" fill="none" stroke-linecap="round"/><path d="M18 30 l3 6 6 1 -5 4 2 6 -6 -3 -6 3 2 -6 -5 -4 6 -1Z M108 22 l2 4 4 1 -3 3 1 4 -4 -2 -4 2 1 -4 -3 -3 4 -1Z" fill="#d99a1e"/></g>
+<ellipse cx="46" cy="70" rx="5" ry="3" fill="#f0a39a"/><ellipse cx="84" cy="70" rx="5" ry="3" fill="#f0a39a"/><ellipse cx="62" cy="72" rx="1.5" ry="1" fill="#6b4a2e"/><ellipse cx="68" cy="72" rx="1.5" ry="1" fill="#6b4a2e"/>
+<path class="m m-smile" d="M58 79 Q65 86 72 79" stroke="#1f2421" stroke-width="2.2" fill="none" stroke-linecap="round"/><ellipse class="m m-talk" cx="65" cy="82" rx="5" ry="4" fill="#7a2a22"/>
+<path class="m m-open" d="M57 78 Q65 92 73 78 Z" fill="#7a2a22"/><path class="m m-sad" d="M58 84 Q65 78 72 84" stroke="#1f2421" stroke-width="2.2" fill="none" stroke-linecap="round"/><path class="tear" d="M81 64 q3 6 0 8 q-3 -2 0 -8Z" fill="#85B7EB"/></g></svg>`;
+const wkCard=(id,w)=>`<div class="card wkcard">${wkSVG(id,w)}<div class="wkbb"></div></div>`;
+const amig=()=>{const n=(nom()||"").toLowerCase();return /a$/.test(n)&&!/^(joshua|luca|nicola)$/.test(n)?"amiga":"amigo"};
+const Q=t=>`<span class="qu">${t}</span>`;
+const WKP=[`¡Ji ji, me haces cosquillas! Reír en quechua es ${Q("asiy")}.`,`Las vicuñas vivimos en la puna, muy alto en los Andes. ${Q("Punapim tiyani")}: vivo en la puna.`,`¿Sabías que mi lana es de las más finas del mundo?`,`Repite conmigo: ${Q("sulpayki")}. ¡Significa gracias!`,`${Q("Kallpanchakuy!")} ¡Ánimo, cada día aprendes más!`,`Mi nombre viene de ${Q("wikuña")}, que es vicuña en quechua.`,`Para saludar no decimos hola: preguntamos ${Q("Allillanchu?")}, ¿estás bien?`,`Si algo no te sale, toca la tortuga 🐢 y escúchalo despacito.`];
+const WKOK=[`${Q("Allinmi!")} ¡Muy bien!`,`¡Eso es, {a}!`,`${Q("Ancha allin!")} ¡Excelente!`,`¡Bravo! Vas muy bien.`,`¡Sí! Lo hiciste perfecto.`];
+const WKMID=[`¡Casi! Ya falta poquito.`,`¡Bien! Repítelo una vez más.`];
+const WKNO=[`¡Casi! Escucha otra vez y vuelve a intentarlo.`,`No te preocupes, equivocarse es aprender.`,`${Q("Kallpanchakuy!")} ¡Ánimo, tú puedes!`];
+const WK_INTRO=`¡Hola! Antes de empezar te cuento los secretos del quechua. Toca 🔊 en cada ejemplo y repite conmigo.`;
+const wkPick=L=>L[Math.floor(Math.random()*L.length)].replace("{a}",amig());
+function wkPlain(h){return String(h).replace(/<span class="qu">(.*?)<\/span>/g,(m,x)=>qtts(x)).replace(/<[^>]+>/g,"").replace(/[🔊🐢🎉]/gu,"").replace(/\s+/g," ").trim()}
+function wkSay(h){const p=wkPlain(h).match(/[^.!?]+[.!?]*/g)||[];let k=0;const nx=()=>{while(k<p.length&&!p[k].trim())k++;if(k<p.length)hablar(p[k++].trim(),0.95,()=>setTimeout(nx,150))};nx()}
+function wkType(el,h){if(!el)return;clearTimeout(el._t);let i=0;const go=()=>{if(i>=h.length){el.innerHTML=h;return}if(h[i]==="<")i=h.indexOf(">",i)+1;else i++;el.innerHTML=h.slice(0,i);el._t=setTimeout(go,26)};go()}
+const WKC=["wk-talk","wk-happy","wk-sad","wk-jump","wk-wig"];
+function wkMood(s,c,ms){if(!s)return;s.classList.remove(...WKC);void s.getBoundingClientRect();c.split(" ").forEach(x=>x&&s.classList.add(x));clearTimeout(s._t);s._t=setTimeout(()=>s.classList.remove(...WKC),ms)}
+function wkShow(id,h,voz,sp){const s=sec(id);if(!s)return;wkType(s.parentNode.querySelector(".wkbb"),h);wkMood(s,"wk-talk wk-wig",Math.max(1800,wkPlain(h).length*60));if(voz)wkSay(sp||h)}
+function wkPoke(s){const box=s.parentNode;if(box.id==="wkM"){box.classList.add("show");clearTimeout(box._t);box._t=setTimeout(()=>box.classList.remove("show"),6000)}wkShow(s.id,wkPick(WKP),true)}
+function wkReact(st,msg,ms){const s=sec("wkMs"),box=sec("wkM");if(!s||!box)return;ms=ms||2600;
+  wkType(sec("wkMb"),msg||wkPick(st===true?WKOK:st==="mid"?WKMID:WKNO));wkMood(s,st===true?"wk-happy wk-jump":st==="mid"?"wk-talk wk-wig":"wk-sad",ms);
+  box.classList.add("show");clearTimeout(box._t);box._t=setTimeout(()=>box.classList.remove("show"),ms+300)}
+const wkHolaTxt=()=>{const n=nom()||(USER?USER.n:""),k=Object.keys(done).length;return `${Q("Allillanchu")}${n?", "+n:""}! Soy <b>Wiki</b>, la vicuñita, y seré tu ${amig()} en esta aventura para aprender quechua. `+(k?`Ya aprobaste ${k} ${k===1?"día":"días"}. ¡Sigamos con el Día ${nextDay()+1}!`:`¡Tócame o empieza el Día 0 conmigo!`)};
+function wkDia(){const d=D[cur],g=d.g.charAt(0).toLowerCase()+d.g.slice(1);wkShow("wkD",`Hoy hablaremos de <b>${d.t}</b>. Vamos a ${g} ¡Escucha y repite conmigo!`,true,`Hoy vamos a ${g} ¡Escucha y repite conmigo!`)}
+
 // ---------- motivación y bienvenida ----------
 const MOT_OK=["¡Excelente! La disciplina te lleva al éxito.","¡Bien hecho! Sigue así, vas muy bien.","Un día más cerca de hablar quechua.","Lo que haces cada día te lleva a tu meta.","¡Felicitaciones! Tu esfuerzo está dando frutos.","La constancia vence al talento. ¡Sigue adelante!","Paso a paso se llega lejos. ¡Hoy diste uno más!","¡Muy bien! Estudiar todos los días marca la diferencia.","Cada clase que terminas es una victoria.","¡Lo estás logrando! No te detengas.","Hablar quechua es mantener viva nuestra historia. ¡Bravo!","¡Qué orgullo! Mañana, otra clase más.","Tu quechua mejora con cada día que estudias.","¡Gran trabajo! La práctica hace al maestro.","¡Allinmi! Hoy hiciste lo que muchos dejan para mañana."];
 const MOT_NO=["No te rindas, cada error te enseña algo.","Sigue adelante, lo vas a lograr.","Practicar es el camino: inténtalo otra vez.","Equivocarse es parte de aprender. ¡Vamos de nuevo!","Respira, repasa y vuelve a intentarlo. Tú puedes.","¡Kallpanchakuy! Ánimo, que lo vas a lograr.","Cada intento te hace más fuerte.","Un tropiezo no es una caída. ¡Otra vez!"];
 function motiv(ok){const L=ok?MOT_OK:MOT_NO,t=L[Math.floor(Math.random()*L.length)],n=nom();return n?t.replace(/^(¡?)([^,.!]+)([,.!])/,(m,a,b,c)=>a+b+", "+n+c):t}
-function welcome(){try{if(sessionStorage.getItem("qu30w"))return;sessionStorage.setItem("qu30w","1")}catch(e){}const t="Allillanchu"+(nom()?", "+nom():"")+"! Rimaykullayki.";
-  if(navigator.userActivation&&!navigator.userActivation.hasBeenActive)document.addEventListener("pointerdown",()=>setTimeout(()=>say(t),200),{once:true});else setTimeout(()=>say(t),500)}
+function welcome(){try{if(sessionStorage.getItem("qu30w"))return;sessionStorage.setItem("qu30w","1")}catch(e){}const go=()=>{const s=sec("wkA")||sec("wkI");if(s)wkMood(s,"wk-talk wk-wig",6000);wkSay(wkHolaTxt())};
+  if(navigator.userActivation&&!navigator.userActivation.hasBeenActive)document.addEventListener("pointerdown",()=>setTimeout(go,200),{once:true});else setTimeout(go,500)}
 
 // ---------- sesión ----------
 const API="https://script.google.com/macros/s/AKfycbxyvoo5NWNi8zD8zFpU01l4Ub-xna2dP6XRXOkxdrpJuVpjJDcjYf6mTa7LxdxuDjVQZQ/exec";
@@ -1032,9 +1095,10 @@ const INTRO=[
 function intro(){view="tips";try{if(USER)LS.set("qu30intro_"+USER.u,"1")}catch(e){}
   app.innerHTML=`<button class="btn sm" onclick="home()">← Plan</button><p class="eyebrow">Día 0 · Antes de empezar</p><h1 style="margin-top:4px">🧭 Cómo suena y cómo funciona el quechua</h1>
   <p class="sub">No necesitas saber ni una palabra. Estas 12 claves te dan el mapa de todo el curso. Escucha cada ejemplo 🔊, repítelo 3 veces y fíjate en su [así se lee].</p>
+  ${wkCard("wkI",90)}
   <div class="card note"><b>Cómo funciona cada día:</b> 1) Sonido · 2) Palabras · 3) Gramática paso a paso · 4) Verbo del día · 5) Diálogo y juego de roles · 6) Práctica · 7) Ejercicios con nota. En <b>Pronunciar</b> y en el juego de roles te grabas con el 🎙️ y comparas tu voz con la de la profesora.</div>
   ${INTRO.map(([t,x,ej])=>`<div class="card"><h2>${t}</h2><p style="line-height:1.6;margin-top:0">${cz(x)}</p><div class="vocab">${ej.map(([w,es])=>`<div class="w"><div><div class="it">${w}</div><div class="es">${es}</div><div class="pr">[${qpron(w)}]</div></div><span style="white-space:nowrap">${spk(w)} ${spkS(w)}</span></div>`).join("")}</div></div>`).join("")}
-  <div class="row" style="justify-content:center;margin:20px 0"><button class="btn p" onclick="openDay(0)">▶ Empezar el Día 1</button></div>`;scrollTo(0,0)}
+  <div class="row" style="justify-content:center;margin:20px 0"><button class="btn p" onclick="openDay(0)">▶ Empezar el Día 1</button></div>`;scrollTo(0,0);wkShow("wkI",WK_INTRO)}
 
 // ---------- cultura y trucos ----------
 const TIPS=[
