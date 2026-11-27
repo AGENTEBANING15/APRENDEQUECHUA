@@ -108,7 +108,8 @@ body.typing .fab,body.typing .idx{display:none!important}
 .modal{position:fixed;inset:0;background:#0006;display:flex;align-items:center;justify-content:center;z-index:30;padding:16px}
 .modal .card{max-width:400px;text-align:center}
 .qu{color:var(--b);font-weight:600}
-.wkcard{display:flex;gap:10px;align-items:flex-end}
+.wkcard{display:flex;gap:10px;align-items:flex-end;position:relative}
+.wkcard .wkbb{padding-right:44px}.wkre{position:absolute;top:22px;right:24px}
 .wkbb{background:#f3f8f5;border:1px solid #9fd3b6;border-radius:16px 16px 16px 4px;padding:10px 12px;line-height:1.5;flex:1;min-height:60px}
 .wk{cursor:pointer;flex:0 0 auto;overflow:visible;transition:transform .2s;-webkit-tap-highlight-color:transparent}
 .wk .bob{animation:wkbob 2.6s ease-in-out infinite}@keyframes wkbob{50%{transform:translateY(-3px)}}
@@ -737,7 +738,7 @@ function home(){view="home";const n=Object.keys(done).length;
   <li><b>🎧 ✍️ 🎙️ Ejercicios (10 min):</b> Escuchar, Escribir y Pronunciar.</li>
   <li><b>🏁 Ejercicio final:</b> con 70% o más el día queda aprobado.</li></ol>
   <p class="mut" style="margin-bottom:0">La voz lee el quechua con una pronunciación aproximada en castellano. Fíjate siempre en el <span class="pr">[así se lee]</span> y en las notas de sonido de cada día.</p></details>`;
-  app.innerHTML=h;scrollTo(0,0);wkShow("wkA",wkHolaTxt())}
+  app.innerHTML=h;scrollTo(0,0);wkShow("wkA",wkHolaTxt(),!!(navigator.userActivation&&navigator.userActivation.hasBeenActive))}
 function lockMsg(i){const d=document.createElement("div");d.className="modal";d.innerHTML=`<div class="card" style="text-align:center"><div style="font-size:2.2rem">🔒</div><h2 style="margin:6px 0">No tienes acceso al Día ${i+1}</h2><p class="mut">Comunícate con el administrador para que habilite la siguiente clase.</p><button class="btn p" style="width:100%" onclick="this.closest('.modal').remove()">Entendido</button></div>`;document.body.append(d)}
 
 // ---------- día ----------
@@ -986,7 +987,8 @@ const wkSVG=(id,w)=>`<svg id="${id}" class="wk" viewBox="0 0 130 170" width="${w
 <ellipse cx="46" cy="70" rx="5" ry="3" fill="#f0a39a"/><ellipse cx="84" cy="70" rx="5" ry="3" fill="#f0a39a"/><ellipse cx="62" cy="72" rx="1.5" ry="1" fill="#6b4a2e"/><ellipse cx="68" cy="72" rx="1.5" ry="1" fill="#6b4a2e"/>
 <path class="m m-smile" d="M58 79 Q65 86 72 79" stroke="#1f2421" stroke-width="2.2" fill="none" stroke-linecap="round"/><ellipse class="m m-talk" cx="65" cy="82" rx="5" ry="4" fill="#7a2a22"/>
 <path class="m m-open" d="M57 78 Q65 92 73 78 Z" fill="#7a2a22"/><path class="m m-sad" d="M58 84 Q65 78 72 84" stroke="#1f2421" stroke-width="2.2" fill="none" stroke-linecap="round"/><path class="tear" d="M81 64 q3 6 0 8 q-3 -2 0 -8Z" fill="#85B7EB"/></g></svg>`;
-const wkCard=(id,w)=>`<div class="card wkcard">${wkSVG(id,w)}<div class="wkbb"></div></div>`;
+const wkCard=(id,w)=>`<div class="card wkcard">${wkSVG(id,w)}<div class="wkbb"></div><button class="spk wkre" title="Escuchar a Wiki" onclick="wkRe(this)">🔊</button></div>`;
+function wkRe(btn){const c=btn.parentNode,b=c.querySelector(".wkbb"),v=c.querySelector(".wk");if(b&&b._h){wkMood(v,"wk-talk wk-wig",Math.max(1800,wkPlain(b._h).length*60));wkSay(b._h)}}
 const amig=()=>{const n=(nom()||"").toLowerCase();return /a$/.test(n)&&!/^(joshua|luca|nicola)$/.test(n)?"amiga":"amigo"};
 const Q=t=>`<span class="qu">${t}</span>`;
 const WKP=[`¡Ji ji, me haces cosquillas! Reír en quechua es ${Q("asiy")}.`,`Las vicuñas vivimos en la puna, muy alto en los Andes. ${Q("Punapim tiyani")}: vivo en la puna.`,`¿Sabías que mi lana es de las más finas del mundo?`,`Repite conmigo: ${Q("sulpayki")}. ¡Significa gracias!`,`${Q("Kallpanchakuy!")} ¡Ánimo, cada día aprendes más!`,`Mi nombre viene de ${Q("wikuña")}, que es vicuña en quechua.`,`Para saludar no decimos hola: preguntamos ${Q("Allillanchu?")}, ¿estás bien?`,`Si algo no te sale, toca la tortuga 🐢 y escúchalo despacito.`];
@@ -1000,7 +1002,7 @@ function wkSay(h){const p=wkPlain(h).match(/[^.!?]+[.!?]*/g)||[];let k=0;const n
 function wkType(el,h){if(!el)return;clearTimeout(el._t);let i=0;const go=()=>{if(i>=h.length){el.innerHTML=h;return}if(h[i]==="<")i=h.indexOf(">",i)+1;else i++;el.innerHTML=h.slice(0,i);el._t=setTimeout(go,26)};go()}
 const WKC=["wk-talk","wk-happy","wk-sad","wk-jump","wk-wig"];
 function wkMood(s,c,ms){if(!s)return;s.classList.remove(...WKC);void s.getBoundingClientRect();c.split(" ").forEach(x=>x&&s.classList.add(x));clearTimeout(s._t);s._t=setTimeout(()=>s.classList.remove(...WKC),ms)}
-function wkShow(id,h,voz,sp){const s=sec(id);if(!s)return;wkType(s.parentNode.querySelector(".wkbb"),h);wkMood(s,"wk-talk wk-wig",Math.max(1800,wkPlain(h).length*60));if(voz)wkSay(sp||h)}
+function wkShow(id,h,voz,sp){const s=sec(id);if(!s)return;const bb=s.parentNode.querySelector(".wkbb");if(bb)bb._h=sp||h;wkType(bb,h);wkMood(s,"wk-talk wk-wig",Math.max(1800,wkPlain(h).length*60));if(voz)wkSay(sp||h)}
 function wkPoke(s){const box=s.parentNode;if(box.id==="wkM"){box.classList.add("show");clearTimeout(box._t);box._t=setTimeout(()=>box.classList.remove("show"),6000)}wkShow(s.id,wkPick(WKP),true)}
 function wkReact(st,msg,ms){const s=sec("wkMs"),box=sec("wkM");if(!s||!box)return;ms=ms||2600;
   wkType(sec("wkMb"),msg||wkPick(st===true?WKOK:st==="mid"?WKMID:WKNO));wkMood(s,st===true?"wk-happy wk-jump":st==="mid"?"wk-talk wk-wig":"wk-sad",ms);
@@ -1012,8 +1014,9 @@ function wkDia(){const d=D[cur],g=d.g.charAt(0).toLowerCase()+d.g.slice(1);wkSho
 const MOT_OK=["¡Excelente! La disciplina te lleva al éxito.","¡Bien hecho! Sigue así, vas muy bien.","Un día más cerca de hablar quechua.","Lo que haces cada día te lleva a tu meta.","¡Felicitaciones! Tu esfuerzo está dando frutos.","La constancia vence al talento. ¡Sigue adelante!","Paso a paso se llega lejos. ¡Hoy diste uno más!","¡Muy bien! Estudiar todos los días marca la diferencia.","Cada clase que terminas es una victoria.","¡Lo estás logrando! No te detengas.","Hablar quechua es mantener viva nuestra historia. ¡Bravo!","¡Qué orgullo! Mañana, otra clase más.","Tu quechua mejora con cada día que estudias.","¡Gran trabajo! La práctica hace al maestro.","¡Allinmi! Hoy hiciste lo que muchos dejan para mañana."];
 const MOT_NO=["No te rindas, cada error te enseña algo.","Sigue adelante, lo vas a lograr.","Practicar es el camino: inténtalo otra vez.","Equivocarse es parte de aprender. ¡Vamos de nuevo!","Respira, repasa y vuelve a intentarlo. Tú puedes.","¡Kallpanchakuy! Ánimo, que lo vas a lograr.","Cada intento te hace más fuerte.","Un tropiezo no es una caída. ¡Otra vez!"];
 function motiv(ok){const L=ok?MOT_OK:MOT_NO,t=L[Math.floor(Math.random()*L.length)],n=nom();return n?t.replace(/^(¡?)([^,.!]+)([,.!])/,(m,a,b,c)=>a+b+", "+n+c):t}
-function welcome(){try{if(sessionStorage.getItem("qu30w"))return;sessionStorage.setItem("qu30w","1")}catch(e){}const go=()=>{const s=sec("wkA")||sec("wkI");if(s)wkMood(s,"wk-talk wk-wig",6000);wkSay(wkHolaTxt())};
-  if(navigator.userActivation&&!navigator.userActivation.hasBeenActive)document.addEventListener("pointerdown",()=>setTimeout(go,200),{once:true});else setTimeout(go,500)}
+function welcome(){if(navigator.userActivation&&navigator.userActivation.hasBeenActive)return;
+  const go=()=>{if(view==="home"&&sec("wkA"))wkShow("wkA",wkHolaTxt(),true)};
+  document.addEventListener("pointerdown",e=>{if(e.target.closest&&e.target.closest("button,a,input,select,label,.day,.wk"))return;setTimeout(go,150)},{once:true})}
 
 // ---------- sesión ----------
 const API="https://script.google.com/macros/s/AKfycbxyvoo5NWNi8zD8zFpU01l4Ub-xna2dP6XRXOkxdrpJuVpjJDcjYf6mTa7LxdxuDjVQZQ/exec";
