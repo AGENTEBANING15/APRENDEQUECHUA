@@ -757,7 +757,7 @@ function renderDay(){const d=D[cur],L=lvlOf(cur);
    <span class="row">${cur>0?`<button class="btn sm" onclick="openDay(${cur-1})">‹ Día ${cur}</button>`:""}${cur<ND-1?`<button class="btn sm" onclick="openDay(${cur+1})">Día ${cur+2} ›</button>`:""}</span></div>
    <p class="eyebrow"><span class="dot" style="display:inline-block;background:${L[1]}"></span> Día ${cur+1} de ${ND} · ${L[0]}</p>
    <h1 style="margin-top:4px">${d.t}</h1><p class="sub">🎯 <b>Objetivo:</b> ${d.g}</p>
-   ${wkCard("wkD",90)}<div class="wkmini" id="wkM">${wkSVG("wkMs",62)}<div class="wkbb" id="wkMb"></div></div>
+   ${wkCard("wkD",90)}
    <div id="idx" class="idx" hidden>${SECS.map((s,i)=>`<button onclick="idxGo('${s[0]}')">${i+1} · ${s[2]}</button>`).join("")}<button onclick="idxGo('s-ex')">7 · Ejercicios</button><button class="up" onclick="idxGo()">↑ Volver arriba</button></div>
    <button id="fab" class="fab" aria-label="Índice" onclick="idxToggle()">☰</button>
    ${SECS.map((s,i)=>`<section class="blk"><h3 class="sec">${i+1} · <i>${s[1]}</i> <small>${s[2]}</small></h3><div id="${s[0]}"></div></section>`).join("")}
@@ -765,10 +765,11 @@ function renderDay(){const d=D[cur],L=lvlOf(cur);
    <p class="mut" style="margin-top:0">Elige un ejercicio: se abre aquí mismo. Con 70% o más en el <b>Ejercicio final</b> el día queda aprobado.</p>
    <div class="row">${EXS.map(([k,l])=>`<button class="tab" data-ex="${k}" onclick="openDay(${cur},'${k}')">${l}</button>`).join("")}</div>
    <div id="pane" style="margin-top:10px"></div></section>
+   ${wkCard("wkF",90)}
    <div class="card row" style="justify-content:space-between;margin-top:20px"><span>${done[cur]?"✅ Día aprobado con "+done[cur]+"%":"Aprueba el ejercicio final (70% o más) para completar el día."}</span>
    ${done[cur]?"":`<button class="btn g" onclick="openDay(${cur},'final')">🏁 Ir al ejercicio final</button>`}</div>
    <div class="row" style="justify-content:space-between">${cur>0?`<button class="btn" onclick="openDay(${cur-1})">← Día ${cur}</button>`:"<span></span>"}${cur<ND-1?`<button class="btn p" onclick="openDay(${cur+1})">Día ${cur+2} →</button>`:""}</div>`;
-  SECS.forEach(s=>s[3]());wkDia()}
+  SECS.forEach(s=>s[3]());wkDia();wkShow("wkF",wkFinTxt())}
 const pane=()=>sec("pane");
 function sonido(){const s=D[cur].s;let prev=null;
   sec("s-sonido").innerHTML=`<div class="card"><p class="mut" style="margin-top:0">${s.i}</p>
@@ -935,7 +936,7 @@ function final(skip){
   qs.push({t:"hard",m:"resp",it:d.c[resp][0],es:d.c[resp][1],prev:d.c[resp-1][0]});
   q={items:qs,k:0,ok:0};nextF()}
 function nextF(){
-  if(q.k>=q.items.length){const pct=Math.round(q.ok/q.items.length*100);registrar(pct);const mf=motiv(pct>=70);setTimeout(()=>wkReact(pct>=70,pct>=70?`${Q("Allinmi!")} ¡Aprobaste el día, ${amig()}! Estoy muy orgulloso de ti.`:`¡No te rindas! Repasamos juntos y lo intentas otra vez.`,6000),300);setTimeout(()=>sayEs(mf),900);
+  if(q.k>=q.items.length){const pct=Math.round(q.ok/q.items.length*100);registrar(pct);const mf=motiv(pct>=70);setTimeout(()=>{if(pct>=70){wkShow("wkF",wkFinTxt(),true);const f=sec("wkF");if(f)f.scrollIntoView({behavior:"smooth",block:"center"})}else sayEs(mf)},900);
     pane().innerHTML=`<div class="card" style="text-align:center"><h2>🏁 Puntaje final: ${q.ok*2}/${q.items.length*2}</h2><p class="mut" style="margin-top:0">${q.ok} de ${q.items.length} respuestas correctas · ${pct}% · se aprueba con ${Math.ceil(q.items.length*0.7)*2} puntos</p>
     <p>${pct>=70?"Allinmi! Aprobaste el día "+(cur+1)+" 🎉":"Repasa las palabras y el diálogo, y vuelve a intentarlo."}</p>${pct>=70?`<p><span class="hard" style="background:#e3f4ea;color:#0f5c3b">✅ Tu avance quedó guardado</span></p>`:""}
     <div class="note" style="text-align:left;margin:4px 0 12px">🔊 «${mf}» <button class="spk" onclick="sayEs('${esc(mf)}')">🔁</button></div>
@@ -995,7 +996,7 @@ const WKP=[`¡Ji ji, me haces cosquillas! Reír en quechua es ${Q("asiy")}.`,`La
 const WKOK=[`${Q("Allinmi!")} ¡Muy bien!`,`¡Eso es, {a}!`,`${Q("Ancha allin!")} ¡Excelente!`,`¡Bravo! Vas muy bien.`,`¡Sí! Lo hiciste perfecto.`];
 const WKMID=[`¡Casi! Ya falta poquito.`,`¡Bien! Repítelo una vez más.`];
 const WKNO=[`¡Casi! Escucha otra vez y vuelve a intentarlo.`,`No te preocupes, equivocarse es aprender.`,`${Q("Kallpanchakuy!")} ¡Ánimo, tú puedes!`];
-const WK_INTRO=`¡Hola! Antes de empezar te cuento los secretos del quechua. Toca 🔊 en cada ejemplo y repite conmigo.`;
+const WK_INTRO=`¡Hola! Antes de empezar te cuento los secretos del quechua. Toca 🔊 en cada ejemplo y repítelo en voz alta.`;
 const wkPick=L=>L[Math.floor(Math.random()*L.length)].replace("{a}",amig());
 function wkPlain(h){return String(h).replace(/<span class="qu">(.*?)<\/span>/g,(m,x)=>qtts(x)).replace(/<[^>]+>/g,"").replace(/[🔊🐢🎉]/gu,"").replace(/\s+/g," ").trim()}
 function wkSay(h){const p=wkPlain(h).match(/[^.!?]+[.!?]*/g)||[];let k=0;const nx=()=>{while(k<p.length&&!p[k].trim())k++;if(k<p.length)hablar(p[k++].trim(),0.95,()=>setTimeout(nx,150))};nx()}
@@ -1008,7 +1009,9 @@ function wkReact(st,msg,ms){const s=sec("wkMs"),box=sec("wkM");if(!s||!box)retur
   wkType(sec("wkMb"),msg||wkPick(st===true?WKOK:st==="mid"?WKMID:WKNO));wkMood(s,st===true?"wk-happy wk-jump":st==="mid"?"wk-talk wk-wig":"wk-sad",ms);
   box.classList.add("show");clearTimeout(box._t);box._t=setTimeout(()=>box.classList.remove("show"),ms+300)}
 const wkHolaTxt=()=>{const n=nom()||(USER?USER.n:""),k=Object.keys(done).length;return `${Q("Allillanchu")}${n?", "+n:""}! Soy <b>Wiki</b>, la vicuñita, y seré tu ${amig()} en esta aventura para aprender quechua. `+(k?`Ya aprobaste ${k} ${k===1?"día":"días"}. ¡Sigamos con el Día ${nextDay()+1}!`:`¡Tócame o empieza el Día 0 conmigo!`)};
-function wkDia(){const d=D[cur],g=d.g.charAt(0).toLowerCase()+d.g.slice(1);wkShow("wkD",`Hoy hablaremos de <b>${d.t}</b>. Vamos a ${g} ¡Escucha y repite conmigo!`,true,`Hoy vamos a ${g} ¡Escucha y repite conmigo!`)}
+function wkDia(){const d=D[cur],g=d.g.charAt(0).toLowerCase()+d.g.slice(1);wkShow("wkD",`Hoy hablaremos de <b>${d.t}</b>. Vamos a ${g}`,true,`Hoy vamos a ${g}`)}
+function wkFinTxt(){const d=D[cur],ok=!!done[cur],ph=d.f.slice(0,3).map(([q,e])=>`${Q(q.replace(/[.]$/,""))}, que significa «${e.replace(/\s*\(.*?\)/g,"").replace(/[.]$/,"")}»`).join("; "),nx=cur<ND-1?`Día ${cur+2}`:null;
+  return (ok?`${Q("Allinmi!")} ¡Aprobaste el Día ${cur+1}! `:`¡Llegaste al final de la clase! `)+`Hoy aprendiste: ${ph}. `+(nx?(ok?`Ahora avanza a la siguiente clase: el ${nx}.`:`Aprueba el ejercicio final y avanza al ${nx}.`):`¡Terminaste el curso, ${amig()}! ${Q("Kallpanchakuy!")}`)}
 
 // ---------- motivación y bienvenida ----------
 const MOT_OK=["¡Excelente! La disciplina te lleva al éxito.","¡Bien hecho! Sigue así, vas muy bien.","Un día más cerca de hablar quechua.","Lo que haces cada día te lleva a tu meta.","¡Felicitaciones! Tu esfuerzo está dando frutos.","La constancia vence al talento. ¡Sigue adelante!","Paso a paso se llega lejos. ¡Hoy diste uno más!","¡Muy bien! Estudiar todos los días marca la diferencia.","Cada clase que terminas es una victoria.","¡Lo estás logrando! No te detengas.","Hablar quechua es mantener viva nuestra historia. ¡Bravo!","¡Qué orgullo! Mañana, otra clase más.","Tu quechua mejora con cada día que estudias.","¡Gran trabajo! La práctica hace al maestro.","¡Allinmi! Hoy hiciste lo que muchos dejan para mañana."];
